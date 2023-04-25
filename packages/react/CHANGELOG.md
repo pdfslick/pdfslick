@@ -1,5 +1,13 @@
 # @pdfslick/react
 
+## 1.1.1
+
+### Patch Changes
+
+- Add readme to npm packages
+- Updated dependencies
+  - @pdfslick/core@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
