@@ -6,7 +6,9 @@
 <div align="center">
 View and Interact with PDFs in React and SolidJS apps
 <br><br>
+
 [Getting Started](https://pdfslick.dev/docs) | [Examples](https://pdfslick.dev/examples)
+
 <br><br>
 </div>
 
