@@ -1,0 +1,69 @@
+{
+  "name": "@pdfslick/solid",
+  "version": "1.1.0",
+  "source": "./index.tsx",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
+  "description": "PDFSlick SolidJS — view and interact with PDF documents in your SolidJS apps.",
+  "keywords": [
+    "pdf",
+    "pdf.js",
+    "solidjs",
+    "solid",
+    "pdfslick"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pdfslick/pdfslick.git",
+    "directory": "packages/solid"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "build": "rollup -c --environment NODE_ENV:production && tsc --emitDeclarationOnly && cp ../core/dist/pdf_viewer.css ./dist && cp ../../README.md ./dist",
+    "dev": "concurrently \"rollup -c -w\" \"wait-on ./dist && cp ../core/dist/pdf_viewer.css ./dist\""
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.21.4",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@types/babel__core": "^7.20.0",
+    "babel-preset-solid": "^1.7.3",
+    "concurrently": "^8.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "merge-anything": "^5.1.4",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-preset-solid": "^2.0.1",
+    "solid-js": "^1.6.15",
+    "solid-refresh": "^0.5.2",
+    "tsconfig": "*",
+    "typescript": "^4.9.5",
+    "wait-on": "^7.0.1"
+  },
+  "peerDependencies": {
+    "solid-js": ">=1.5.0"
+  },
+  "dependencies": {
+    "@pdfslick/core": "*",
+    "@solid-primitives/resize-observer": "^2.0.15",
+    "zustand": "^4.3.6"
+  },
+  "rollup": {
+    "globals": {
+      "zustand": "zustand",
+      "@pdfslick/core": "PDFSlickCore",
+      "@solid-primitives/resize-observer": "SolidResizeObserver"
+    },
+    "name": "PDFSlickSolid"
+  }
+}

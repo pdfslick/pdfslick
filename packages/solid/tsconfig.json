@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsxImportSource": "solid-js",
+    "outDir": "dist",
+    "target": "es6",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2015"],
+    "module": "ESNext",
+    "jsx": "preserve"
+  },
+  "extends": "tsconfig/core.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"]
+}

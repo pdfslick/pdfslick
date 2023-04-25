@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "extends": "tsconfig/core.json",
+  "include": [".", "node_modules/pdfjs-dist/build/pdf.worker"],
+  "exclude": ["dist", "build", "node_modules"]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "@pdfslick/core",
+  "version": "1.1.0",
+  "source": "./index.ts",
+  "main": "dist/umd/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "description": "PDFSlick — view and interact with PDF documents in your React and SolidJS apps.",
+  "keywords": [
+    "pdf",
+    "pdf.js",
+    "react",
+    "solidjs",
+    "solid",
+    "pdfslick"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pdfslick/pdfslick.git",
+    "directory": "packages/core"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"npm run css-watch\"",
+    "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && npm run css && cp ../../README.md ./dist",
+    "css": "postcss styles/pdf_viewer.css --config ./postcss.config.cjs --dir dist",
+    "css-watch": "npm run css -- --watch"
+  },
+  "dependencies": {
+    "pdfjs-dist": "3.5.141",
+    "zustand": "^4.3.6"
+  },
+  "devDependencies": {
+    "@pdfslick/rollup-config": "*",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "postcss": "^8.4.21",
+    "postcss-cli": "^10.1.0",
+    "postcss-inline-svg": "^6.0.0",
+    "react": "^18.2.0",
+    "tsconfig": "*",
+    "typescript": "^4.9.5"
+  },
+  "rollup": {
+    "globals": {
+      "zustand": "zustand",
+      "pdfjs-dist": "pdfjsLib"
+    },
+    "name": "PDFSlickCore"
+  }
+}

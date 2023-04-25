@@ -1,0 +1,33 @@
+{
+  "name": "pdfslick",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "config/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "changeset": "changeset",
+    "version-packages": "turbo run build lint && changeset version",
+    "publish-packages": "changeset publish"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "eslint-config-custom": "*",
+    "prettier": "latest",
+    "turbo": "^1.9.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.1",
+    "rollup": "^3.20.2"
+  },
+  "packageManager": "npm@8.19.3"
+}

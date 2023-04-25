@@ -1,0 +1,35 @@
+{
+  "name": "solidweb",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@kobalte/tailwindcss": "^0.5.0",
+    "@types/d3-drag": "^3.0.2",
+    "@types/d3-selection": "^3.0.5",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1",
+    "vite-plugin-solid": "^2.5.0"
+  },
+  "dependencies": {
+    "@kobalte/core": "^0.8.1",
+    "@pdfslick/solid": "*",
+    "@solid-primitives/resize-observer": "^2.0.13",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "d3-drag": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "solid-icons": "^1.0.4",
+    "solid-js": "^1.6.10"
+  }
+}

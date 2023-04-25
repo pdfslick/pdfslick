@@ -1,0 +1,59 @@
+{
+  "name": "@pdfslick/react",
+  "version": "1.1.0",
+  "source": "./index.tsx",
+  "main": "dist/umd/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "description": "PDFSlick React — view and interact with PDF documents in your React apps.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pdfslick/pdfslick.git",
+    "directory": "packages/react"
+  },
+  "keywords": [
+    "pdf",
+    "pdf.js",
+    "react",
+    "pdfslick"
+  ],
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"wait-on ./dist && cp ../core/dist/pdf_viewer.css ./dist\"",
+    "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && cp ../core/dist/pdf_viewer.css ./dist && cp ../core/dist/pdf_viewer.css ./dist && cp ../../README.md ./dist"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.22",
+    "concurrently": "^8.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "react": "^18.2.0",
+    "tsconfig": "*",
+    "typescript": "^4.9.5",
+    "wait-on": "^7.0.1"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "dependencies": {
+    "@pdfslick/core": "*",
+    "react-use": "^17.4.0",
+    "zustand": "^4.3.6"
+  },
+  "rollup": {
+    "globals": {
+      "zustand": "zustand",
+      "@pdfslick/core": "PDFSlickCore",
+      "react-use": "ReactUse"
+    },
+    "name": "PDFSlickReact"
+  }
+}
