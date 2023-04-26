@@ -12,7 +12,10 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
+      - name: Clean Install
+        run: npm ci
+      - name: Build
+        run: npm run build
       - run: npm run publish-packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

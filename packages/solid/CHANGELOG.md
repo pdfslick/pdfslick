@@ -1,5 +1,13 @@
 # @pdfslick/solid
 
+## 1.1.3
+
+### Patch Changes
+
+- Add readme to npm packages
+- Updated dependencies
+  - @pdfslick/core@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes
