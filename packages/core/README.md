@@ -90,7 +90,7 @@ const PDFViewerComponent = ({ pdfFilePath }: PDFViewerComponent) => {
 export default PDFViewerComponent;
 ```
 
-Provided with the PDF Document path and PDFSLick options object, the `usePDFSlick()` hook returns an object consisting (among the other things) of:
+Provided with the PDF Document path and PDFSlick options object, the `usePDFSlick()` hook returns an object consisting (among the other things) of:
 - `PDFSlickViewer` is the PDF Viewer component used for viewing the PDF document
 - `viewerRef` is the `ref` callback that is provided as a prop to the `<PDFSlickViewer />` component
 - `usePDFSlickStore` enables using PDFSlick store within your React components

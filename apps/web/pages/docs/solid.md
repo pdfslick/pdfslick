@@ -48,4 +48,4 @@ import "@pdfslick/solid/dist/pdf_viewer.css"
 ```
 {% /callout %}
 
-You can take a look at [the code for this example](https://github.com/pdfslick/pdfslick/tree/main/apps/solidweb/src/examples/PDFViewerApp) in the repo, and [the React examples](https://github.com/pdfslick/pdfslick/tree/main/apps/web/examples) which amy also be helpful.
+You can take a look at [the code for this example](https://github.com/pdfslick/pdfslick/tree/main/apps/solidweb/src/examples/PDFViewerApp) in the repo, and [the React examples](https://github.com/pdfslick/pdfslick/tree/main/apps/web/examples) which may also be helpful.
