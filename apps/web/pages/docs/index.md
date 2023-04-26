@@ -29,7 +29,7 @@ Depending on your needs, at this you might find it useful to continue with learn
 ## PDFSlick core package
 
 {% callout type="warning" title="Note on PDFSlick Core Package" %}
-As mentioned above, the core package is intented for use in Vanilla JS apps or in other JS libraries other than React and SolidJS. If interested in using PDFSlick in your React and SolidJS apps jump to their respective sections. ####LINKS
+As mentioned above, the core package is intented for use in Vanilla JS apps or in other JS libraries other than React and SolidJS. If interested in using PDFSlick in your [React](/docs/react) and [SolidJS](/docs/solid) apps jump to their respective sections.
 {% /callout %}
 
 To install PDFSlick core package run:
@@ -75,7 +75,7 @@ export function loadPdf(url: string = "/Path_to_the_PDF_Document.pdf") {
 
 As you can see above, the store gives us a neat ability to access PDF viewer's properties like, for example here, the current zoom level — via `store.getState().scaleValue`.
 
-Assuming we have prepared our app with the appropriate buttons and other markup (####LINKS) we can create a toolbar and utilise the store to provide functionality for navigating through the PDF pages, changing the scale level etc.
+Assuming we have prepared our app with the appropriate [HTML buttons and other markup](https://github.com/pdfslick/pdfslick/blob/main/apps/vanillajs/index.html) we can create a toolbar and utilise the store to provide functionality for navigating through the PDF pages, changing the scale level etc.
 
 ```ts
 import { create } from "@pdfslick/core";
@@ -122,7 +122,7 @@ export function setNavigation(store: ReturnType<typeof create>) {
 }
 ```
 
-A complete example of using PDFSlick core package in a Vanilla JS app is available at ####LINKS
+Take a look at a complete example of using [PDFSlick core package in a Vanilla JS app](https://github.com/pdfslick/pdfslick/tree/main/apps/vanillajs/src).
 
 Going through the docs sections on React or SolidJS, as well as the examples there, might be also useful to learn more about the PDFSlick core.
 

@@ -50,5 +50,5 @@ Provided with the PDF Document path and options object, the `usePDFSlick()` hook
 PDFSlick provides a CSS file containing styles that are required in order for it to function properly. This file needs to be imported once, somewhere in your app (`index.tsx`, `App.tsx` etc.)
 {% /callout %}
 
-You can find this example at #####LINKS, as well as other examples
+You can take a look at the code of [this and other examples](https://github.com/pdfslick/pdfslick/tree/main/apps/web/examples) available in the repo.
 
