@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 1.1.5
+
+### Patch Changes
+
+- Add credits where credits due
+
 ## 1.1.4
 
 ### Patch Changes
