@@ -121,7 +121,7 @@ export default function Fab({ pdfSwitchable = true }: FabProps) {
                       "your files open directly in browser, they don't touch our servers at all"
                     }
                   >
-                    * your files open directly in browser, they don't touch our servers at all
+                    {"* your files open directly in browser, they don't touch our servers at all"}
                   </div>
                 </div>
               )}
