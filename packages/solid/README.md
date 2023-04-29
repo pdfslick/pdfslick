@@ -85,3 +85,6 @@ Provided with the PDF Document path and options object, the `usePDFSlick()` hook
 
 [More on using PDFSlick with Solid](https://pdfslick.dev/docs/solid) | [Checkout the SolidJS Examples](./apps/solidweb/src/examples)
 
+## Thanks
+- [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
+- [VS Code Icons](https://github.com/microsoft/vscode-codicons) for the icons used throughout the examples
