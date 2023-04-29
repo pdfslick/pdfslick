@@ -92,3 +92,7 @@ Provided with the PDF Document path and PDFSlick options object, the `usePDFSlic
 <br>
 
 [More on using PDFSlick with React](https://pdfslick.dev/docs/react) | [Checkout the React Examples](./apps/web/examples)
+
+## Thanks
+- [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
+- [VS Code Icons](https://github.com/microsoft/vscode-codicons) for the icons used throughout the examples

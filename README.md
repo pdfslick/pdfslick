@@ -178,3 +178,7 @@ Depending on your needs, at this you might find it useful to continue with learn
 <br>
 
 [Learn more about PDFSlick](https://pdfslick.dev) | [Checkout the Examples](https://pdfslick.dev/examples)
+
+## Thanks
+- [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
+- [VS Code Icons](https://github.com/microsoft/vscode-codicons) for the icons used throughout the examples
