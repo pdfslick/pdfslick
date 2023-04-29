@@ -53,9 +53,9 @@ export default function Examples() {
               </Link>
             ))}
           </div>
-
-          <Footer />
         </div>
+
+        <Footer />
       </div>
     </div>
   );
