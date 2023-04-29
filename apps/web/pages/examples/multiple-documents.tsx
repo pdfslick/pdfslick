@@ -20,7 +20,7 @@ export default function Web() {
       <div className="absolute inset-0 w-full h-full flex divide-x divide-slate-200">
         <div className="w-full h-full relative">
           <MultipleDocuments />
-          <Fab />
+          <Fab pdfSwitchable={false} />
         </div>
       </div>
     </>

@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Fab from "../../components/Fab";
 
 const ThumbnailsLayout = dynamic(
   () => import("../../examples/ThumbnailsLayout"),
@@ -23,6 +24,7 @@ export default function ThumbnailsLayoutPage() {
       <div className="absolute inset-0 w-full h-full flex divide-x divide-slate-200">
         <div className="w-full h-full relative">
           <ThumbnailsLayout {...{ pdfFilePath }} />
+          <Fab />
         </div>
       </div>
     </>
