@@ -46,7 +46,7 @@
   "dependencies": {
     "@pdfslick/core": "*",
     "react-use": "^17.4.0",
-    "zustand": "^4.3.6"
+    "zustand": "^4.3.8"
   },
   "rollup": {
     "globals": {

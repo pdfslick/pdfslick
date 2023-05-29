@@ -34,8 +34,8 @@
     "css-watch": "npm run css -- --watch"
   },
   "dependencies": {
-    "pdfjs-dist": "3.5.141",
-    "zustand": "^4.3.6"
+    "pdfjs-dist": "^3.7.107",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@pdfslick/rollup-config": "*",
