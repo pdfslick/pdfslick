@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+/** @typedef {import("./event_utils").EventBus} EventBus */
 /** @typedef {import("./interfaces").IL10n} IL10n */
 /** @typedef {import("./interfaces").IPDFLinkService} IPDFLinkService */
 /** @typedef {import("./interfaces").IRenderableView} IRenderableView */
@@ -21,18 +22,17 @@
 
 import { OutputScale, RenderingStates } from "./ui_utils";
 import { RenderingCancelledException, PDFPageProxy, PageViewport } from "pdfjs-dist";
-import { PDFViewer, PDFPageView } from "pdfjs-dist/web/pdf_viewer";
+import { PDFViewer, PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";
 
 const DRAW_UPSCALE_FACTOR = 2; // See comment in `PDFThumbnailView.draw` below.
 const MAX_NUM_SCALING_STEPS = 3;
-const THUMBNAIL_CANVAS_BORDER_WIDTH = 1; // px
-const THUMBNAIL_WIDTH = 125; // px
 
 /**
  * @typedef {Object} PDFThumbnailViewOptions
  * @property {HTMLDivElement} container - The viewer element.
+ * @property {EventBus} eventBus - The application event bus.
  * @property {number} id - The thumbnail's unique ID (normally its number).
  * @property {PageViewport} defaultViewport - The page viewport.
  * @property {Promise<OptionalContentConfig>} [optionalContentConfigPromise] -
@@ -83,6 +83,7 @@ class TempImageFactory {
  */
 class PDFThumbnailView {
   container: HTMLElement;
+  eventBus: EventBus;
   id: number;
   viewport: PageViewport;
   optionalContentConfigPromise: any;
@@ -121,6 +122,7 @@ class PDFThumbnailView {
    */
   constructor({
     container,
+    eventBus,
     id,
     defaultViewport,
     optionalContentConfigPromise,
@@ -130,8 +132,9 @@ class PDFThumbnailView {
     pageColors,
     store,
     thumbnailWidth
-  }: { id: any, container: HTMLElement, defaultViewport: any, store: StoreApi<PDFSlickState>, thumbnailWidth: number } & Partial<Omit<PDFViewer, "container">>) {
+  }: { id: any, container: HTMLElement, eventBus: EventBus, defaultViewport: any, store: StoreApi<PDFSlickState>, thumbnailWidth: number } & Partial<Omit<PDFViewer, "container">>) {
     this.container = container
+    this.eventBus = eventBus;
     this.id = id;
     this.renderingId = "thumbnail" + id;
     this.pageLabel = null;
@@ -194,7 +197,7 @@ class PDFThumbnailView {
     this.scale = this.canvasWidth / pageWidth;
 
     this.div.removeAttribute("data-loaded");
-    this.loaded = false;    
+    this.loaded = false;
 
     if (this.canvas) {
       // Zeroing the width and height causes Firefox to release graphics
@@ -352,12 +355,11 @@ class PDFThumbnailView {
       canvas.width = 0;
       canvas.height = 0;
 
-      // Only trigger cleanup, once rendering has finished, when the current
-      // pageView is *not* cached on the `BaseViewer`-instance.
-      const pageCached = this.linkService.isPageCached(this.id);
-      if (!pageCached) {
-        this.pdfPage?.cleanup();
-      }
+      this.eventBus.dispatch("thumbnailrendered", {
+        source: this,
+        pageNumber: this.id,
+        pdfPage: this.pdfPage,
+      });
     });
 
     return resultPromise;

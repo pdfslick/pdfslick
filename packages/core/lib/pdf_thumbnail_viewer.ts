@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+/** @typedef {import("./event_utils").EventBus} EventBus */
 /** @typedef {import("../src/display/api").PDFDocumentProxy} PDFDocumentProxy */
 /** @typedef {import("./interfaces").IL10n} IL10n */
 /** @typedef {import("./interfaces").IPDFLinkService} IPDFLinkService */
@@ -27,6 +28,7 @@ import {
   watchScroll,
 } from "./ui_utils";
 import { PDFThumbnailView, TempImageFactory } from "./pdf_thumbnail_view";
+import { EventBus } from "pdfjs-dist/web/pdf_viewer";
 import { PDFDocumentProxy } from "pdfjs-dist";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";
@@ -51,6 +53,7 @@ const THUMBNAIL_SELECTED_CLASS = "selected";
  */
 class PDFThumbnailViewer {
   container: HTMLElement;
+  eventBus: EventBus;
   linkService: any;
   renderingQueue: any;
   l10n: any;
@@ -70,8 +73,9 @@ class PDFThumbnailViewer {
   /**
    * @param {PDFThumbnailViewerOptions} options
    */
-  constructor({ container, linkService, renderingQueue, l10n, pageColors, store, thumbnailWidth }: {
+  constructor({ container, eventBus, linkService, renderingQueue, l10n, pageColors, store, thumbnailWidth }: {
     container: HTMLDivElement,
+    eventBus: EventBus,
     linkService: any,
     renderingQueue: any,
     l10n: any,
@@ -80,6 +84,7 @@ class PDFThumbnailViewer {
     thumbnailWidth: number
   }) {
     this.container = container;
+    this.eventBus = eventBus;
     this.linkService = linkService;
     this.renderingQueue = renderingQueue;
     this.l10n = l10n;
@@ -249,6 +254,7 @@ class PDFThumbnailViewer {
         for (let pageNum = 1; pageNum <= pagesCount; ++pageNum) {
           const thumbnail = new PDFThumbnailView({
             container: this.container,
+            eventBus: this.eventBus,
             id: pageNum,
             defaultViewport: viewport.clone(),
             optionalContentConfigPromise,
