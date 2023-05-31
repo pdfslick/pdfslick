@@ -7,8 +7,16 @@
 View and Interact with PDF documents in React and SolidJS apps
 <br><br>
 
-[Getting Started](https://pdfslick.dev/docs) | [Examples](https://pdfslick.dev/examples)
+[![Actions Status](https://github.com/pdfslick/pdfslick/actions/workflows/publish_site.yml/badge.svg)](https://github.com/pdfslick/pdfslick/actions)
+[![GitHub release](https://img.shields.io/github/release/pdfslick/pdfslick.svg)](https://github.com/pdfslick/pdfslick/)
+[![npm version](https://img.shields.io/npm/v/@pdfslick/core.svg)](https://www.npmjs.com/package/@pdfslick/core)
+[![npm](https://img.shields.io/npm/dt/@pdfslick/core.svg)](https://www.npmjs.com/package/@pdfslick/core)
+<!-- [![npm](https://img.shields.io/npm/dt/@pdfslick/react.svg)](https://www.npmjs.com/package/@pdfslick/react)
+[![npm](https://img.shields.io/npm/dt/@pdfslick/solid.svg)](https://www.npmjs.com/package/@pdfslick/solid) -->
 
+<br>
+
+[Getting Started](https://pdfslick.dev/docs) | [Examples](https://pdfslick.dev/examples)
 <br><br>
 </div>
 
