@@ -1,5 +1,16 @@
 # @pdfslick/react
 
+## 1.2.0
+
+### Minor Changes
+
+- Update pdf.js and other dependencies to their latest versions
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@1.2.0
+
 ## 1.1.5
 
 ### Patch Changes

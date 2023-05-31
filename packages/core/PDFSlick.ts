@@ -166,6 +166,7 @@ export class PDFSlick {
     if (thumbs) {
       this.thumbnailViewer = new PDFThumbnailViewer({
         container: thumbs,
+        eventBus,
         linkService,
         renderingQueue,
         l10n: this.l10n,
@@ -407,11 +408,11 @@ export class PDFSlick {
       const data = await this.document!.getData();
       const blob = new Blob([data], { type: "application/pdf" });
 
-      await this.downloadManager?.download(blob, url, filename);
+      await this.downloadManager?.download(blob, url, filename, {});
     } catch (reason) {
       // When the PDF document isn't ready, or the PDF file is still
       // downloading, simply download using the URL.
-      await this.downloadManager?.downloadUrl(url, filename);
+      await this.downloadManager?.downloadUrl(url, filename, {});
     }
   }
 
@@ -428,7 +429,7 @@ export class PDFSlick {
       const data = await this.document!.saveDocument();
       const blob = new Blob([data], { type: "application/pdf" });
 
-      await this.downloadManager?.download(blob, url, filename);
+      await this.downloadManager?.download(blob, url, filename, {});
     } catch (reason: any) {
       // When the PDF document isn't ready, or the PDF file is still
       // downloading, simply fallback to a "regular" download.
