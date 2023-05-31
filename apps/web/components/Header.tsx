@@ -35,8 +35,12 @@ export const navigation: TDocsNavigation[] = [
         href: "/docs/react-view-documents",
       },
       {
-        title: "React API reference",
-        href: "/docs/react-api-reference",
+        title: "usePDFSlick()",
+        href: "/docs/react-use-pdf-slick",
+      },
+      {
+        title: "usePDFSlickStore()",
+        href: "/docs/react-use-pdf-slick-store",
       },
     ],
   },
@@ -44,10 +48,6 @@ export const navigation: TDocsNavigation[] = [
     title: "Solid",
     links: [
       { title: "Use with SolidJS", href: "/docs/solid" },
-      {
-        title: "Solid API reference",
-        href: "/docs/solid-api-reference",
-      },
     ],
   },
 ];
