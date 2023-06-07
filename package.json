@@ -20,7 +20,7 @@
     "concurrently": "^8.0.1",
     "eslint-config-custom": "*",
     "prettier": "latest",
-    "turbo": "^1.10.0"
+    "turbo": "^1.10.2"
   },
   "engines": {
     "node": ">=14.0.0"
