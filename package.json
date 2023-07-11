@@ -17,17 +17,17 @@
     "publish-packages": "changeset publish"
   },
   "devDependencies": {
-    "concurrently": "^8.0.1",
+    "concurrently": "^8.2.0",
     "eslint-config-custom": "*",
     "prettier": "latest",
-    "turbo": "^1.10.2"
+    "turbo": "^1.10.7"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.1",
-    "rollup": "^3.20.2"
+    "@changesets/cli": "^2.26.2",
+    "rollup": "^3.26.2"
   },
-  "packageManager": "npm@8.19.3"
+  "packageManager": "npm@9.8.0"
 }

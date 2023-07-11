@@ -34,16 +34,16 @@
     "css-watch": "npm run css -- --watch"
   },
   "dependencies": {
-    "pdfjs-dist": "^3.7.107",
-    "zustand": "^4.3.8"
+    "pdfjs-dist": "^3.8.162",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@pdfslick/rollup-config": "*",
     "autoprefixer": "^10.4.14",
-    "concurrently": "^8.0.1",
+    "concurrently": "^8.2.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.25",
     "postcss-cli": "^10.1.0",
     "postcss-inline-svg": "^6.0.0",
     "react": "^18.2.0",
