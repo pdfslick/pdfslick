@@ -76,7 +76,7 @@ export default function Fab({ pdfSwitchable = true }: FabProps) {
                   {pdfDocsList.map((doc) => (
                     <Menu.Item key={doc.title}>
                       {({ active }) => (
-                        <Link
+                        <a
                           href={`${router.pathname}?pdf=${doc.url}`}
                           title={doc.title}
                           className={clsx(
@@ -89,7 +89,7 @@ export default function Fab({ pdfSwitchable = true }: FabProps) {
                         >
                           <VscIndent className="w-4 h-4 shrink-0" />
                           <span className="truncate block">{doc.title}</span>
-                        </Link>
+                        </a>
                       )}
                     </Menu.Item>
                   ))}

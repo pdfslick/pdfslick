@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/solid",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "source": "./index.tsx",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -31,21 +31,21 @@
     "dev": "concurrently \"rollup -c -w\" \"wait-on ./dist && cp ../core/dist/pdf_viewer.css ./dist\""
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@babel/preset-typescript": "^7.21.4",
+    "@babel/core": "^7.22.8",
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-typescript": "^7.22.5",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.1",
-    "@types/babel__core": "^7.20.0",
-    "babel-preset-solid": "^1.7.3",
-    "concurrently": "^8.0.1",
+    "@types/babel__core": "^7.20.1",
+    "babel-preset-solid": "^1.7.7",
+    "concurrently": "^8.2.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
-    "merge-anything": "^5.1.4",
+    "merge-anything": "^5.1.7",
     "rollup-plugin-cleaner": "^1.0.0",
     "rollup-preset-solid": "^2.0.1",
-    "solid-js": "^1.6.15",
-    "solid-refresh": "^0.5.2",
+    "solid-js": "^1.7.7",
+    "solid-refresh": "^0.5.3",
     "tsconfig": "*",
     "typescript": "^4.9.5",
     "wait-on": "^7.0.1"
@@ -55,8 +55,8 @@
   },
   "dependencies": {
     "@pdfslick/core": "*",
-    "@solid-primitives/resize-observer": "^2.0.15",
-    "zustand": "^4.3.8"
+    "@solid-primitives/resize-observer": "^2.0.18",
+    "zustand": "^4.3.9"
   },
   "rollup": {
     "globals": {
