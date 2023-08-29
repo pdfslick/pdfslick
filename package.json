@@ -14,13 +14,15 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-packages": "turbo run build lint && changeset version",
-    "publish-packages": "changeset publish"
+    "publish-packages": "changeset publish",
+    "update-deps": "ncu -ws -i"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",
     "eslint-config-custom": "*",
+    "npm-check-updates": "^16.13.2",
     "prettier": "latest",
-    "turbo": "^1.10.7"
+    "turbo": "^1.10.13"
   },
   "engines": {
     "node": ">=14.0.0"

@@ -641,7 +641,8 @@ export class PDFSlick {
   }
 
   setAnnotationEditorMode(annotationEditorMode: number) {
-    this.viewer.annotationEditorMode = annotationEditorMode
+    // @ts-ignore: agr updated to { mode: number, editId: null } see: https://github.com/mozilla/pdf.js/commit/5c5f9af803187d616703c19987eca5d7d39d9420
+    this.viewer.annotationEditorMode = { mode: annotationEditorMode }
     this.store.setState({ annotationEditorMode });
   }
 
