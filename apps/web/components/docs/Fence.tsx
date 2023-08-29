@@ -1,13 +1,12 @@
-import { Fragment } from 'react'
-import Highlight, { defaultProps } from 'prism-react-renderer'
+import { Fragment } from "react";
+import { Highlight, themes } from "prism-react-renderer";
 
 export function Fence({ children, language }: any) {
   return (
     <Highlight
-      {...defaultProps}
       code={children.trimEnd()}
       language={language}
-      theme={undefined}
+      theme={themes.dracula}
     >
       {({ className, style, tokens, getTokenProps }) => (
         <pre className={className} style={style}>
@@ -19,12 +18,12 @@ export function Fence({ children, language }: any) {
                   .map((token, tokenIndex) => (
                     <span key={tokenIndex} {...getTokenProps({ token })} />
                   ))}
-                {'\n'}
+                {"\n"}
               </Fragment>
             ))}
           </code>
         </pre>
       )}
     </Highlight>
-  )
+  );
 }
