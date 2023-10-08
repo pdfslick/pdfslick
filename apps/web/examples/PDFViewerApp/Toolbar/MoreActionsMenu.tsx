@@ -22,7 +22,11 @@ import {
   VscExport,
   VscPlay,
 } from "react-icons/vsc";
-import { ScrollMode, SpreadMode, type TUsePDFSlickStore } from "@pdfslick/react";
+import {
+  ScrollMode,
+  SpreadMode,
+  type TUsePDFSlickStore,
+} from "@pdfslick/react";
 import { shallow } from "zustand/shallow";
 import clsx from "clsx";
 import DocumentInfoModal from "./DocumentInfoModal";
@@ -308,7 +312,9 @@ const MoreActionsMenu = ({ usePDFSlickStore }: MoreActionsMenuProps) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => pdfSlick?.setScrollMode(ScrollMode.HORIZONTAL)}
+                    onClick={() =>
+                      pdfSlick?.setScrollMode(ScrollMode.HORIZONTAL)
+                    }
                     className={clsx(
                       "w-full items-center flex space-x-2 box-border text-left px-2 py-1.5 text-xs disabled:opacity-50",
                       {

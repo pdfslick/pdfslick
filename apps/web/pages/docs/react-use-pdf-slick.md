@@ -21,9 +21,10 @@ const {
 
 ### Parametars
 
-* `pdfFilePath` Path to the PDF document
+- `pdfFilePath` Path to the PDF document
 
-* `options` Additional options
+- `options` Additional options
+
 ```ts
 {
     textLayerMode?: number,
@@ -61,4 +62,5 @@ The hook returns the following object:
   PDFSlickThumbnails: typeof PDFSlickThumbnails;
 }
 ```
+
 where `<PDFSlickViewer />` and `<PDFSlickThumbnails />` are the PDF viewer and thumbnails components respectively, and `usePDFSlickStore` is the hook that gives access to PDFSlick store.

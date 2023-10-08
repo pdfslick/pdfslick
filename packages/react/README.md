@@ -3,6 +3,7 @@
 ![readme-header](https://pdfslick.dev/pdfslick_logo.svg)
 
 <br><br>
+
 <div align="center">
 View and Interact with PDF documents in React apps
 <br><br>
@@ -10,9 +11,11 @@ View and Interact with PDF documents in React apps
 [Getting Started](https://pdfslick.dev/docs) | [Examples](https://pdfslick.dev/examples)
 
 <br><br>
+
 </div>
 
 ---
+
 <br>
 
 PDFSlick for React is a library which enables viewing of and interaction with PDF documents in React apps.
@@ -21,6 +24,7 @@ It's build on top of Mozilla's [PDF.js](https://github.com/mozilla/pdf.js), and 
 ## Getting started with PDFSlick for React
 
 To get started with React run:
+
 ```shell
 npm install @pdfslick/react
 # yarn add @pdfslick/react
@@ -28,6 +32,7 @@ npm install @pdfslick/react
 ```
 
 You can start using PDFSlick with the `usePDFSlick()` hook, like with the following basic example:
+
 ```jsx
 import { usePDFSlick } from "@pdfslick/react";
 import PDFNavigation from "./yourcomponents/PDFNavigation";
@@ -39,13 +44,16 @@ import PDFNavigation from "./yourcomponents/PDFNavigation";
 import "@pdfslick/react/dist/pdf_viewer.css";
 
 type PDFViewerComponentProps = {
-  pdfFilePath: string;
+  pdfFilePath: string,
 };
 
 const PDFViewerComponent = ({ pdfFilePath }: PDFViewerComponent) => {
-  const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(pdfFilePath, {
-    scaleValue: "page-fit"
-  });
+  const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(
+    pdfFilePath,
+    {
+      scaleValue: "page-fit",
+    }
+  );
 
   /*
    Access the store with `usePDFSlickStore()` hook — you can pass is
@@ -85,6 +93,7 @@ export default PDFViewerComponent;
 ```
 
 Provided with the PDF Document path and PDFSlick options object, the `usePDFSlick()` hook returns an object consisting (among the other things) of:
+
 - `PDFSlickViewer` is the PDF Viewer component used for viewing the PDF document
 - `viewerRef` is the `ref` callback that is provided as a prop to the `<PDFSlickViewer />` component
 - `usePDFSlickStore` enables using PDFSlick store within your React components
@@ -94,5 +103,6 @@ Provided with the PDF Document path and PDFSlick options object, the `usePDFSlic
 [More on using PDFSlick with React](https://pdfslick.dev/docs/react) | [Checkout the React Examples](./apps/web/examples)
 
 ## Thanks
+
 - [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
 - [VS Code Icons](https://github.com/microsoft/vscode-codicons) for the icons used throughout the examples

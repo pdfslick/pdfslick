@@ -1,4 +1,10 @@
-import { createEffect, createSignal, type Accessor, type JSX, onCleanup } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  type Accessor,
+  type JSX,
+  onCleanup,
+} from "solid-js";
 import {
   VsChevronDown,
   VsChevronUp,
@@ -35,7 +41,10 @@ const Toolbar = ({
     1
   );
 
-  const handleOpenPdfFile: JSX.ChangeEventHandlerUnion<HTMLInputElement, Event> = (e) => {
+  const handleOpenPdfFile: JSX.ChangeEventHandlerUnion<
+    HTMLInputElement,
+    Event
+  > = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const url = URL.createObjectURL(file);

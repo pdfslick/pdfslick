@@ -10,10 +10,8 @@ type HorizontalThumbsProps = {
 export default function HorizontalThumbs({
   pdfFilePath,
 }: HorizontalThumbsProps) {
-  const { viewerRef, thumbsRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(
-    pdfFilePath,
-    { thumbnailWidth: 75, scaleValue: "page-fit" }
-  );
+  const { viewerRef, thumbsRef, usePDFSlickStore, PDFSlickViewer } =
+    usePDFSlick(pdfFilePath, { thumbnailWidth: 75, scaleValue: "page-fit" });
 
   return (
     <div className="absolute inset-0 bg-slate-200/70 flex flex-col pdfSlick">

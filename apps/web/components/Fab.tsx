@@ -27,7 +27,7 @@ export default function Fab({ pdfSwitchable = true }: FabProps) {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const url = URL.createObjectURL(file);
-      router.push(`${router.pathname}?pdf=${url}`)
+      router.push(`${router.pathname}?pdf=${url}`);
     }
   }
 
@@ -121,7 +121,9 @@ export default function Fab({ pdfSwitchable = true }: FabProps) {
                       "your files open directly in browser, they don't touch our servers at all"
                     }
                   >
-                    {"* your files open directly in browser, they don't touch our servers at all"}
+                    {
+                      "* your files open directly in browser, they don't touch our servers at all"
+                    }
                   </div>
                 </div>
               )}

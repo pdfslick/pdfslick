@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { Dialog } from '@headlessui/react'
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Dialog } from "@headlessui/react";
 
-import { TDocsNavigation } from '../Header'
+import { TDocsNavigation } from "../Header";
 
-import { Navigation } from './Navigation'
+import { Navigation } from "./Navigation";
 
 function MenuIcon(props: any) {
   return (
@@ -19,7 +19,7 @@ function MenuIcon(props: any) {
     >
       <path d="M4 7h16M4 12h16M4 17h16" />
     </svg>
-  )
+  );
 }
 
 function CloseIcon(props: any) {
@@ -34,28 +34,32 @@ function CloseIcon(props: any) {
     >
       <path d="M5 5l14 14M19 5l-14 14" />
     </svg>
-  )
+  );
 }
 
-export function MobileNavigation({ navigation }: { navigation: TDocsNavigation[]}) {
-  let router = useRouter()
-  let [isOpen, setIsOpen] = useState(false)
+export function MobileNavigation({
+  navigation,
+}: {
+  navigation: TDocsNavigation[];
+}) {
+  let router = useRouter();
+  let [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) return;
 
     function onRouteChange() {
-      setIsOpen(false)
+      setIsOpen(false);
     }
 
-    router.events.on('routeChangeComplete', onRouteChange)
-    router.events.on('routeChangeError', onRouteChange)
+    router.events.on("routeChangeComplete", onRouteChange);
+    router.events.on("routeChangeError", onRouteChange);
 
     return () => {
-      router.events.off('routeChangeComplete', onRouteChange)
-      router.events.off('routeChangeError', onRouteChange)
-    }
-  }, [router, isOpen])
+      router.events.off("routeChangeComplete", onRouteChange);
+      router.events.off("routeChangeError", onRouteChange);
+    };
+  }, [router, isOpen]);
 
   return (
     <>
@@ -90,5 +94,5 @@ export function MobileNavigation({ navigation }: { navigation: TDocsNavigation[]
         </Dialog.Panel>
       </Dialog>
     </>
-  )
+  );
 }

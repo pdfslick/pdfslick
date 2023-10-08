@@ -1,4 +1,4 @@
-import { DarkMode, Gradient, LightMode, type IconsProps } from '../Icon'
+import { DarkMode, Gradient, LightMode, type IconsProps } from "../Icon";
 
 export function LightbulbIcon({ id, color }: IconsProps) {
   return (
@@ -42,5 +42,5 @@ export function LightbulbIcon({ id, color }: IconsProps) {
         />
       </DarkMode>
     </>
-  )
+  );
 }

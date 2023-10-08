@@ -21,7 +21,11 @@
 /** @typedef {import("./pdf_rendering_queue").PDFRenderingQueue} PDFRenderingQueue */
 
 import { OutputScale, RenderingStates } from "./ui_utils";
-import { RenderingCancelledException, PDFPageProxy, PageViewport } from "pdfjs-dist";
+import {
+  RenderingCancelledException,
+  PDFPageProxy,
+  PageViewport,
+} from "pdfjs-dist";
 import { PDFViewer, PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";
@@ -50,7 +54,8 @@ class TempImageFactory {
   static #tempCanvas: HTMLCanvasElement | null = null;
 
   static getCanvas(width: number, height: number) {
-    const tempCanvas = (this.#tempCanvas ||= document.createElement("canvas")) as HTMLCanvasElement;
+    const tempCanvas = (this.#tempCanvas ||=
+      document.createElement("canvas")) as HTMLCanvasElement;
     tempCanvas.width = width;
     tempCanvas.height = height;
 
@@ -131,9 +136,16 @@ class PDFThumbnailView {
     l10n,
     pageColors,
     store,
-    thumbnailWidth
-  }: { id: any, container: HTMLElement, eventBus: EventBus, defaultViewport: any, store: StoreApi<PDFSlickState>, thumbnailWidth: number } & Partial<Omit<PDFViewer, "container">>) {
-    this.container = container
+    thumbnailWidth,
+  }: {
+    id: any;
+    container: HTMLElement;
+    eventBus: EventBus;
+    defaultViewport: any;
+    store: StoreApi<PDFSlickState>;
+    thumbnailWidth: number;
+  } & Partial<Omit<PDFViewer, "container">>) {
+    this.container = container;
     this.eventBus = eventBus;
     this.id = id;
     this.renderingId = "thumbnail" + id;
@@ -166,8 +178,8 @@ class PDFThumbnailView {
 
     this.l10n = l10n;
 
-    this.canvas = null
-    this.src = null
+    this.canvas = null;
+    this.src = null;
 
     const div = document.createElement("div");
     div.className = "thumbnail pdfSlickThumbHolder";
@@ -263,12 +275,11 @@ class PDFThumbnailView {
 
     this.src = reducedCanvas.toDataURL();
 
-
     this.div.setAttribute("data-loaded", "true");
     this.loaded = true;
 
     // this.store.getState()._setThumbnail(this.id, this.src)
-    this.store.getState()._setThumbnailView(this.id, this)
+    this.store.getState()._setThumbnailView(this.id, this);
 
     // Zeroing the width and height causes Firefox to release graphics
     // resources immediately, which can greatly reduce memory consumption.

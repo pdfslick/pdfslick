@@ -11,7 +11,9 @@ type PDFNavigationProps = {
   usePDFSlickStore: TUsePDFSlickStore;
 };
 
-export default function PDFNavigation({ usePDFSlickStore }: PDFNavigationProps) {
+export default function PDFNavigation({
+  usePDFSlickStore,
+}: PDFNavigationProps) {
   const pageNumber = usePDFSlickStore((s) => s.pageNumber);
   const numPages = usePDFSlickStore((s) => s.numPages);
   const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);

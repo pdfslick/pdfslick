@@ -11,8 +11,7 @@ const PDFViewerApp = dynamic(() => import("../../examples/PDFViewerApp"), {
 
 export default function PDFViewerAppPage() {
   const router = useRouter();
-  const pdfFilePath =
-    (router.query.pdf as string) ?? "/pdfs/p4450.pdf";
+  const pdfFilePath = (router.query.pdf as string) ?? "/pdfs/p4450.pdf";
   return (
     <>
       <Head>

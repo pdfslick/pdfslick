@@ -21,7 +21,8 @@ export default function Examples() {
             Get Inspired
           </h1>
           <p className="mt-4 text-lg text-slate-600">
-          Embrace PDFs in your app — draw inspirations and insights through the examples.
+            Embrace PDFs in your app — draw inspirations and insights through
+            the examples.
           </p>
         </div>
         <div className="mx-auto overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">

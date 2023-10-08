@@ -6,7 +6,7 @@ import {
   AnnotationMode,
   PDFDocumentProxy,
   version,
-  PDFDateString
+  PDFDateString,
 } from "pdfjs-dist";
 import {
   EventBus,
@@ -16,16 +16,30 @@ import {
   DownloadManager,
   PDFFindController,
   PDFPageView,
-  PDFSinglePageViewer
+  PDFSinglePageViewer,
 } from "pdfjs-dist/web/pdf_viewer";
 
-import type { TEventBusEvent, PDFSlickInputArgs, PDFSlickState, TEventBusName, TEventBusOptions, TEventBusListener, TPDFDocumentOutline, TPDFDocumentAttachments } from "./types";
+import type {
+  TEventBusEvent,
+  PDFSlickInputArgs,
+  PDFSlickState,
+  TEventBusName,
+  TEventBusOptions,
+  TEventBusListener,
+  TPDFDocumentOutline,
+  TPDFDocumentAttachments,
+} from "./types";
 
-import { PDFThumbnailViewer, PDFRenderingQueue, PDFPrintServiceFactory, PDFPresentationMode } from "./lib";
+import {
+  PDFThumbnailViewer,
+  PDFRenderingQueue,
+  PDFPrintServiceFactory,
+  PDFPresentationMode,
+} from "./lib";
 import { PDFRenderingQueue as TPDFRenderingQueue } from "pdfjs-dist/types/web/pdf_page_view";
 import { PDFThumbnailViewer as TPDFThumbnailViewer } from "pdfjs-dist/types/web/pdf_thumbnail_viewer";
 
-import { StoreApi } from 'zustand/vanilla'
+import { StoreApi } from "zustand/vanilla";
 import { create as createStore } from "./store";
 import {
   TextLayerMode,
@@ -33,7 +47,7 @@ import {
   isPortraitOrientation,
   isValidSpreadMode,
   isValidScrollMode,
-  isValidRotation
+  isValidRotation,
 } from "./lib/ui_utils";
 
 GlobalWorkerOptions.workerSrc = `//cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.js`;
@@ -47,7 +61,11 @@ const METRIC_PAGE_NAMES = {
   "210x297": "A4",
 };
 
-function getPageName(size: { width: number, height: number }, isPortrait: boolean, pageNames: Record<string, string>) {
+function getPageName(
+  size: { width: number; height: number },
+  isPortrait: boolean,
+  pageNames: Record<string, string>
+) {
   const width = isPortrait ? size.width : size.height;
   const height = isPortrait ? size.height : size.width;
 
@@ -81,7 +99,7 @@ export class PDFSlick {
   removePageBorders: boolean;
   enablePrintAutoRotate: boolean;
   useOnlyCssZoom: boolean;
-  pageColors: { background: any, foreground: any } | null;
+  pageColors: { background: any; foreground: any } | null;
   textLayerMode: number;
   maxCanvasPixels: number;
   printResolution: number;
@@ -92,18 +110,20 @@ export class PDFSlick {
     viewer,
     thumbs,
     store = createStore(),
-    options
+    options,
   }: PDFSlickInputArgs) {
-    this.#container = container
-    this.#viewerContainer = viewer
-    this.#thumbsContainer = thumbs
+    this.#container = container;
+    this.#viewerContainer = viewer;
+    this.#thumbsContainer = thumbs;
 
     this.l10n = options?.l10n ?? NullL10n;
     this.downloadManager = new DownloadManager();
 
     this.textLayerMode = options?.textLayerMode ?? TextLayerMode.ENABLE;
-    this.#annotationMode = options?.annotationMode ?? AnnotationMode.ENABLE_FORMS;
-    this.#annotationEditorMode = options?.annotationEditorMode ?? AnnotationEditorType.NONE;
+    this.#annotationMode =
+      options?.annotationMode ?? AnnotationMode.ENABLE_FORMS;
+    this.#annotationEditorMode =
+      options?.annotationEditorMode ?? AnnotationEditorType.NONE;
     this.removePageBorders = options?.removePageBorders ?? false;
     this.singlePageViewer = options?.singlePageViewer ?? false;
     this.enablePrintAutoRotate = options?.enablePrintAutoRotate ?? false;
@@ -128,25 +148,26 @@ export class PDFSlick {
       this.pageColors = null;
     }
 
-    this.l10n = NullL10n
-    this.store = store
+    this.l10n = NullL10n;
+    this.store = store;
 
-    const renderingQueue = new PDFRenderingQueue() as unknown as TPDFRenderingQueue;
+    const renderingQueue =
+      new PDFRenderingQueue() as unknown as TPDFRenderingQueue;
     renderingQueue.onIdle = this._cleanup.bind(this);
-    renderingQueue.isThumbnailViewEnabled = true
-    this.#renderingQueue = renderingQueue
+    renderingQueue.isThumbnailViewEnabled = true;
+    this.#renderingQueue = renderingQueue;
 
     const eventBus = new EventBus();
     const linkService = new PDFLinkService({
       eventBus,
       externalLinkTarget: 2,
       externalLinkRel: "noopener noreferrer nofollow",
-      ignoreDestinationZoom: false
+      ignoreDestinationZoom: false,
     });
 
     const viewerOptions = {
       container,
-      ...viewer && { viewer },
+      ...(viewer && { viewer }),
       eventBus,
       linkService,
       renderingQueue,
@@ -157,11 +178,13 @@ export class PDFSlick {
       annotationEditorMode: this.#annotationEditorMode,
       removePageBorders: this.removePageBorders,
       imageResourcesPath: "/images/",
-      useOnlyCssZoom: this.useOnlyCssZoom
-    }
+      useOnlyCssZoom: this.useOnlyCssZoom,
+    };
 
-    const pdfViewer = this.singlePageViewer ? new PDFSinglePageViewer(viewerOptions) : new PDFViewer(viewerOptions);
-    renderingQueue.setViewer(pdfViewer)
+    const pdfViewer = this.singlePageViewer
+      ? new PDFSinglePageViewer(viewerOptions)
+      : new PDFViewer(viewerOptions);
+    renderingQueue.setViewer(pdfViewer);
 
     if (thumbs) {
       this.thumbnailViewer = new PDFThumbnailViewer({
@@ -172,9 +195,11 @@ export class PDFSlick {
         l10n: this.l10n,
         pageColors: this.pageColors,
         store: store,
-        thumbnailWidth: this.thumbnailWidth
-      })
-      renderingQueue.setThumbnailViewer(this.thumbnailViewer as unknown as TPDFThumbnailViewer)
+        thumbnailWidth: this.thumbnailWidth,
+      });
+      renderingQueue.setThumbnailViewer(
+        this.thumbnailViewer as unknown as TPDFThumbnailViewer
+      );
     }
 
     if (document.fullscreenEnabled) {
@@ -185,10 +210,10 @@ export class PDFSlick {
       });
     }
 
-    this.eventBus = eventBus
-    this.linkService = linkService
-    this.viewer = pdfViewer
-    this.linkService.setViewer(pdfViewer)
+    this.eventBus = eventBus;
+    this.linkService = linkService;
+    this.viewer = pdfViewer;
+    this.linkService.setViewer(pdfViewer);
 
     const scaleValue = options?.scaleValue ?? "auto";
     this.store.setState({ scaleValue });
@@ -197,21 +222,22 @@ export class PDFSlick {
   async loadDocument(url: string | URL, options?: { filename?: string }) {
     if (this.url) {
       try {
-        URL.revokeObjectURL(this.url.toString())
-      } catch (err) { }
+        URL.revokeObjectURL(this.url.toString());
+      } catch (err) {}
     }
 
     this.document?.destroy();
     this.viewer?.cleanup();
 
-    this.url = url.toString()
+    this.url = url.toString();
 
-    const filename = options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
-    this.filename = filename
+    const filename =
+      options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
+    this.filename = filename;
 
     const pdfDocument = await getDocument({ url }).promise;
 
-    this.document = pdfDocument
+    this.document = pdfDocument;
     this.viewer.setDocument(this.document);
     this.linkService.setDocument(this.document);
 
@@ -219,33 +245,34 @@ export class PDFSlick {
       this.thumbnailViewer?.setDocument(pdfDocument);
     }
 
-    this.#initInternalEventListeners()
-    await this.#initializePageLabels()
+    this.#initInternalEventListeners();
+    await this.#initializePageLabels();
 
     this.store.setState({
       filename,
       numPages: pdfDocument.numPages,
       pageNumber: 1,
       isDocumentLoaded: true,
-      url: url.toString()
-    })
+      url: url.toString(),
+    });
 
-    const rawAttachments = await pdfDocument.getAttachments() as TPDFDocumentAttachments;
+    const rawAttachments =
+      (await pdfDocument.getAttachments()) as TPDFDocumentAttachments;
     const attachments = new Map(
       Object.keys(rawAttachments ?? {})
         .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-        .map((key) => ([key, rawAttachments[key]]))
-    )
-    this.store.setState({ attachments })
+        .map((key) => [key, rawAttachments[key]])
+    );
+    this.store.setState({ attachments });
 
-    await this.#parseDocumentInfo()
+    await this.#parseDocumentInfo();
 
-    this.forceRendering()
+    this.forceRendering();
   }
 
   async #initializePageLabels() {
     const pdfDocument = this.document!;
-    const labels = await pdfDocument.getPageLabels() ?? [];
+    const labels = (await pdfDocument.getPageLabels()) ?? [];
 
     const numLabels = labels.length;
     // Ignore page labels that correspond to standard page numbering,
@@ -272,10 +299,12 @@ export class PDFSlick {
   }
 
   async #parseDocumentInfo() {
-    const { info, contentLength } = await this.document!.getMetadata() as any
-    const pageSize = await this.document!.getPage(this.store.getState().pageNumber).then(pdfPage => {
+    const { info, contentLength } = (await this.document!.getMetadata()) as any;
+    const pageSize = await this.document!.getPage(
+      this.store.getState().pageNumber
+    ).then((pdfPage) => {
       return this.#parsePageSize(getPageSizeInches(pdfPage), 0);
-    })
+    });
 
     this.store.setState({
       filesize: contentLength,
@@ -290,10 +319,13 @@ export class PDFSlick {
       modificationDate: PDFDateString.toDateObject(info.ModDate),
       isLinearized: info.IsLinearized,
       pageSize,
-    })
+    });
   }
 
-  async #parsePageSize(pageSizeInches: { width: number, height: number }, pagesRotation: number) {
+  async #parsePageSize(
+    pageSizeInches: { width: number; height: number },
+    pagesRotation: number
+  ) {
     if (!pageSizeInches) {
       return undefined;
     }
@@ -357,20 +389,22 @@ export class PDFSlick {
       }
     }
 
-    const _isNonMetricLocale = true
+    const _isNonMetricLocale = true;
 
     const [{ width, height }, unit, name, orientation] = await Promise.all([
       _isNonMetricLocale ? sizeInches : sizeMillimeters,
       this.l10n.get(
-        `document_properties_page_size_unit_${_isNonMetricLocale ? "inches" : "millimeters"
+        `document_properties_page_size_unit_${
+          _isNonMetricLocale ? "inches" : "millimeters"
         }`
       ),
       rawName &&
+        this.l10n.get(
+          `document_properties_page_size_name_${rawName.toLowerCase()}`
+        ),
       this.l10n.get(
-        `document_properties_page_size_name_${rawName.toLowerCase()}`
-      ),
-      this.l10n.get(
-        `document_properties_page_size_orientation_${isPortrait ? "portrait" : "landscape"
+        `document_properties_page_size_orientation_${
+          isPortrait ? "portrait" : "landscape"
         }`
       ),
     ]);
@@ -381,7 +415,7 @@ export class PDFSlick {
       unit,
       name,
       orientation,
-    }
+    };
   }
 
   forceRendering(isThumbnailViewEnabled: boolean = true) {
@@ -392,16 +426,20 @@ export class PDFSlick {
   }
 
   gotoPage(pageNumber: number) {
-    this.linkService.goToPage(pageNumber)
+    this.linkService.goToPage(pageNumber);
   }
 
-  openOrDownloadData(element: HTMLElement, content: Uint8Array, filename: string) {
+  openOrDownloadData(
+    element: HTMLElement,
+    content: Uint8Array,
+    filename: string
+  ) {
     this.downloadManager?.openOrDownloadData(element, content, filename);
   }
 
   async download() {
-    const url = this.url
-    const { filename } = this
+    const url = this.url;
+    const { filename } = this;
     try {
       // this._ensureDownloadComplete();
 
@@ -421,8 +459,8 @@ export class PDFSlick {
     // this._saveInProgress = true;
     // await this.pdfScriptingManager.dispatchWillSave();
 
-    const url = this.url
-    const { filename } = this
+    const url = this.url;
+    const { filename } = this;
     try {
       // this._ensureDownloadComplete();
 
@@ -449,7 +487,7 @@ export class PDFSlick {
   }
 
   downloadOrSave() {
-    const { annotationStorage } = this.document ?? {}
+    const { annotationStorage } = this.document ?? {};
     if (annotationStorage && annotationStorage.size > 0) {
       this.save();
     } else {
@@ -488,7 +526,7 @@ export class PDFSlick {
     // The beforePrint is a sync method and we need to know layout before
     // returning from this method. Ensure that we can get sizes of the pages.
     if (!this.viewer.pageViewsReady) {
-      this.l10n.get("printing_not_ready").then(msg => {
+      this.l10n.get("printing_not_ready").then((msg) => {
         // eslint-disable-next-line no-alert
         window.alert(msg);
       });
@@ -497,8 +535,9 @@ export class PDFSlick {
 
     const pagesOverview = this.viewer.getPagesOverview();
     const printContainer = document.getElementById("printContainer")!;
-    const printResolution = this.printResolution
-    const optionalContentConfigPromise = this.viewer.optionalContentConfigPromise;
+    const printResolution = this.printResolution;
+    const optionalContentConfigPromise =
+      this.viewer.optionalContentConfigPromise;
 
     const printService = PDFPrintServiceFactory.instance.createPrintService(
       this.document!,
@@ -568,21 +607,27 @@ export class PDFSlick {
 
     window.onbeforeprint = (e) => {
       this.eventBus.dispatch("beforeprint", { source: window });
-    }
+    };
 
     window.onafterprint = (e) => {
       this.eventBus.dispatch("afterprint", { source: window });
-    }
+    };
   }
 
   async #onDocumentReady({ source }: TEventBusEvent) {
-    const documentOutline = (await this.document?.getOutline() as unknown) as TPDFDocumentOutline;
+    const documentOutline =
+      (await this.document?.getOutline()) as unknown as TPDFDocumentOutline;
 
-    const scaleValue = this.store.getState().scaleValue
+    const scaleValue = this.store.getState().scaleValue;
     // source._setScale(scaleValue, {}); // page-fit, page-actual, auto, page-width
     source.currentScale = 1;
     source.currentScaleValue = "auto";
-    this.store.setState({ documentOutline, pageNumber: 1, scaleValue, pagesReady: true })
+    this.store.setState({
+      documentOutline,
+      pageNumber: 1,
+      scaleValue,
+      pagesReady: true,
+    });
   }
 
   #onRotationChanging({ pagesRotation, pageNumber }: TEventBusEvent) {
@@ -605,13 +650,13 @@ export class PDFSlick {
   }
 
   #onScaleChanging({ scale, presetValue: scaleValue }: TEventBusEvent) {
-    this.store.setState({ scale, scaleValue })
-    this.viewer.update()
+    this.store.setState({ scale, scaleValue });
+    this.viewer.update();
   }
 
   #onPageChanging({ pageNumber }: TEventBusEvent) {
     this.thumbnailViewer?.scrollThumbnailIntoView(pageNumber);
-    this.store.setState({ pageNumber })
+    this.store.setState({ pageNumber });
   }
 
   #onPageRendered({ pageNumber, error }: TEventBusEvent) {
@@ -637,19 +682,24 @@ export class PDFSlick {
     } catch (reason) {
       console.error("Unable to perform cleanup", reason);
     }
-
   }
 
   setAnnotationEditorMode(annotationEditorMode: number) {
     // @ts-ignore: agr updated to { mode: number, editId: null } see: https://github.com/mozilla/pdf.js/commit/5c5f9af803187d616703c19987eca5d7d39d9420
-    this.viewer.annotationEditorMode = { mode: annotationEditorMode }
+    this.viewer.annotationEditorMode = { mode: annotationEditorMode };
     this.store.setState({ annotationEditorMode });
   }
 
-  setAnnotationEditorParams(annotationEditorParams: { type: number, value: any } | { type: number, value: any }[]) {
-    const pairs = Array.isArray(annotationEditorParams) ? annotationEditorParams : [annotationEditorParams]
+  setAnnotationEditorParams(
+    annotationEditorParams:
+      | { type: number; value: any }
+      | { type: number; value: any }[]
+  ) {
+    const pairs = Array.isArray(annotationEditorParams)
+      ? annotationEditorParams
+      : [annotationEditorParams];
     for (const params of pairs) {
-      this.viewer.annotationEditorParams = params
+      this.viewer.annotationEditorParams = params;
     }
   }
 
@@ -675,10 +725,15 @@ export class PDFSlick {
 
   getPagesOverview() {
     try {
-      const pagesOverview = this.viewer?.getPagesOverview() as { width: number, height: number, rotation: number }[] ?? []
-      return pagesOverview
+      const pagesOverview =
+        (this.viewer?.getPagesOverview() as {
+          width: number;
+          height: number;
+          rotation: number;
+        }[]) ?? [];
+      return pagesOverview;
     } catch (reason) {
-      return []
+      return [];
     }
   }
 
@@ -686,14 +741,14 @@ export class PDFSlick {
    * Zoom In
    */
   increaseScale() {
-    this.viewer.increaseScale()
+    this.viewer.increaseScale();
   }
 
   /**
    * Zoom out
    */
   decreaseScale() {
-    this.viewer.decreaseScale()
+    this.viewer.decreaseScale();
   }
 
   /**
@@ -704,14 +759,14 @@ export class PDFSlick {
   }
 
   /**
-   * Set viewer's scale to a number value 
+   * Set viewer's scale to a number value
    */
   set currentScale(val: number) {
     this.viewer.currentScale = val;
   }
 
   getPageView(ix: number) {
-    return this.viewer.getPageView(ix) as PDFPageView
+    return this.viewer.getPageView(ix) as PDFPageView;
   }
 
   /**
@@ -720,8 +775,12 @@ export class PDFSlick {
    * @param listener TEventBusListener
    * @param options TEventBusOptions
    */
-  on(eventName: TEventBusName, listener: TEventBusListener, options?: TEventBusOptions) {
-    this.eventBus.on(eventName, listener, options)
+  on(
+    eventName: TEventBusName,
+    listener: TEventBusListener,
+    options?: TEventBusOptions
+  ) {
+    this.eventBus.on(eventName, listener, options);
   }
 
   /**
@@ -730,8 +789,12 @@ export class PDFSlick {
    * @param listener TEventBusListener
    * @param options TEventBusOptions
    */
-  off(eventName: TEventBusName, listener: TEventBusListener, options?: TEventBusOptions) {
-    this.eventBus.off(eventName, listener, options)
+  off(
+    eventName: TEventBusName,
+    listener: TEventBusListener,
+    options?: TEventBusOptions
+  ) {
+    this.eventBus.off(eventName, listener, options);
   }
 
   /**
@@ -740,7 +803,6 @@ export class PDFSlick {
    * @param data Object
    */
   dispatch(eventName: TEventBusName, data: Object) {
-    this.eventBus.dispatch(eventName, data)
+    this.eventBus.dispatch(eventName, data);
   }
 }
-

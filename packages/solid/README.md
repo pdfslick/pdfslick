@@ -3,6 +3,7 @@
 ![readme-header](https://pdfslick.dev/pdfslick_logo.svg)
 
 <br><br>
+
 <div align="center">
 View and Interact with PDF documents in SolidJS apps
 <br><br>
@@ -10,9 +11,11 @@ View and Interact with PDF documents in SolidJS apps
 [Getting Started](https://pdfslick.dev/docs) | [Examples](https://pdfslick.dev/examples)
 
 <br><br>
+
 </div>
 
 ---
+
 <br>
 
 PDFSlick for Solid is a library which enables viewing of and interaction with PDF documents in SolidJS apps.
@@ -21,6 +24,7 @@ It's build on top of Mozilla's [PDF.js](https://github.com/mozilla/pdf.js), and 
 ## Getting started with PDFSlick for SolidJS
 
 To get started with PDFSlick for SolidJS run:
+
 ```shell
 npm install @pdfslick/solid
 # yarn add @pdfslick/solid
@@ -28,6 +32,7 @@ npm install @pdfslick/solid
 ```
 
 You can start using PDFSlick with the `usePDFSlick()` hook, like with the following basic example:
+
 ```jsx
 import { Component, createSignal } from "solid-js";
 import { usePDFSlick } from "@pdfslick/solid";
@@ -40,12 +45,17 @@ import PDFNavigation from "./yourcomponents/PDFNavigation";
 import "@pdfslick/solid/dist/pdf_viewer.css";
 
 type PDFViewerComponentProps = {
-  pdfFilePath: string;
+  pdfFilePath: string,
 };
 
-const PDFViewerComponent: Component<PDFViewerComponentProps> = ({ pdfFilePath }) => {
-  const { viewerRef, pdfSlickStore: store, PDFSlickViewer } =
-    usePDFSlick(pdfFilePath);
+const PDFViewerComponent: Component<PDFViewerComponentProps> = ({
+  pdfFilePath,
+}) => {
+  const {
+    viewerRef,
+    pdfSlickStore: store,
+    PDFSlickViewer,
+  } = usePDFSlick(pdfFilePath);
 
   return (
     <div class="absolute inset-0 flex flex-col pdfSlick">
@@ -77,6 +87,7 @@ export default PDFViewerComponent;
 ```
 
 Provided with the PDF Document path and options object, the `usePDFSlick()` hook returns an object consisting (among the other things) of:
+
 - `PDFSlickViewer` is the PDF Viewer component used for viewing the PDF document
 - `viewerRef` is the `ref` callback that is provided as a prop to the `<PDFSlickViewer />` component
 - `pdfSlickStore` is the PDFSlick store
@@ -86,5 +97,6 @@ Provided with the PDF Document path and options object, the `usePDFSlick()` hook
 [More on using PDFSlick with Solid](https://pdfslick.dev/docs/solid) | [Checkout the SolidJS Examples](./apps/solidweb/src/examples)
 
 ## Thanks
+
 - [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
 - [VS Code Icons](https://github.com/microsoft/vscode-codicons) for the icons used throughout the examples

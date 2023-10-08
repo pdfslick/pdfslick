@@ -14,22 +14,22 @@
     "@kobalte/tailwindcss": "^0.8.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.6",
-    "@types/d3-drag": "^3.0.3",
-    "@types/d3-selection": "^3.0.6",
-    "autoprefixer": "^10.4.15",
-    "postcss": "^8.4.28",
+    "@types/d3-drag": "^3.0.4",
+    "@types/d3-selection": "^3.0.7",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9",
+    "vite": "^4.4.11",
     "vite-plugin-solid": "^2.7.0"
   },
   "dependencies": {
     "@kobalte/core": "^0.11.0",
     "@pdfslick/solid": "*",
-    "@solid-primitives/resize-observer": "^2.0.21",
+    "@solid-primitives/resize-observer": "^2.0.22",
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
-    "solid-icons": "^1.0.11",
-    "solid-js": "^1.7.11"
+    "solid-icons": "^1.0.12",
+    "solid-js": "^1.7.12"
   }
 }

@@ -28,7 +28,7 @@ export type PDFSlickThumbnailsContainerProps = {
   thumbsRef: (instance: HTMLElement) => void;
   store: PDFSlickState;
   class?: string;
-  classList?: Record<string, boolean>
+  classList?: Record<string, boolean>;
 };
 
 export function PDFSlickThumbnails(props: PDFSlickThumbnailsContainerProps) {

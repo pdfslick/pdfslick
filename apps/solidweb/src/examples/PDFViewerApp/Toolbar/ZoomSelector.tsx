@@ -65,7 +65,9 @@ const ZoomSelector = ({ store }: TZoomSelectorProps) => {
           <span class="sr-only">Open zoom options</span>
           <div class="flex px-1 w-full">
             <span
-              class={`flex-1 px-1 ${store.pdfSlick ? "opacity-100" : "opacity-0"}`}
+              class={`flex-1 px-1 ${
+                store.pdfSlick ? "opacity-100" : "opacity-0"
+              }`}
             >
               {store.scaleValue && presets.has(store.scaleValue)
                 ? presets.get(store.scaleValue)

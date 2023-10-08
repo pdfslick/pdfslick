@@ -8,10 +8,13 @@ type PDFViewerAppProps = {
 };
 
 const SimplePDFViewer = ({ pdfFilePath }: PDFViewerAppProps) => {
-  const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(pdfFilePath, {
-    singlePageViewer: true,
-    scaleValue: "page-fit"
-  });
+  const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(
+    pdfFilePath,
+    {
+      singlePageViewer: true,
+      scaleValue: "page-fit",
+    }
+  );
 
   return (
     <div className="absolute inset-0 bg-slate-200/70 pdfSlick">

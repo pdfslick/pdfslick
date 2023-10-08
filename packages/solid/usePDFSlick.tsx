@@ -82,7 +82,7 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
         options,
       });
       setPdfSlick(pdfSlick);
-      zustandStore.setState({ pdfSlick })
+      zustandStore.setState({ pdfSlick });
 
       pdfSlick.loadDocument(url, options).then(() => setIsDocumentLoaded(true));
     }
@@ -95,6 +95,6 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
     pdfSlick,
     pdfSlickStore,
     PDFSlickViewer,
-    PDFSlickThumbnails
+    PDFSlickThumbnails,
   };
 };

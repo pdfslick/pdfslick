@@ -1,6 +1,10 @@
 import { FC } from "react";
 import clsx from "clsx";
-import { PDFSlick, type TPDFDocumentOutline, type TUsePDFSlickStore } from "@pdfslick/react";
+import {
+  PDFSlick,
+  type TPDFDocumentOutline,
+  type TUsePDFSlickStore,
+} from "@pdfslick/react";
 import { VscTriangleRight } from "react-icons/vsc";
 
 type OutlineProps = {
@@ -60,7 +64,9 @@ const Outline = ({ usePDFSlickStore, show }: OutlineProps) => {
   const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
 
   return (
-    <div className={clsx("overflow-auto absolute inset-0", { invisible: !show })}>
+    <div
+      className={clsx("overflow-auto absolute inset-0", { invisible: !show })}
+    >
       <div className="p-2 pl-0.5 text-slate-700 text-sm">
         {renderOutlineItems({ outline: documentOutline, pdfSlick })}
       </div>

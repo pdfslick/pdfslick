@@ -14,7 +14,7 @@ type RIPOptions = {
   minCoordVal: number;
   maxCoordVal: number;
   isIntCoord?: boolean;
-}
+};
 
 export class RIP {
   numOfPoints: number;
@@ -39,9 +39,17 @@ export class RIP {
     const points = [];
     const pointSet = new Set();
     for (let i = 0; i < this.numOfPoints; ) {
-      const x = this.getRandomNum(this.minCoordVal, this.maxCoordVal, this.isIntCoord);
-      const y = this.getRandomNum(this.minCoordVal, this.maxCoordVal, this.isIntCoord);
-      const key = x + '-' + y;
+      const x = this.getRandomNum(
+        this.minCoordVal,
+        this.maxCoordVal,
+        this.isIntCoord
+      );
+      const y = this.getRandomNum(
+        this.minCoordVal,
+        this.maxCoordVal,
+        this.isIntCoord
+      );
+      const key = x + "-" + y;
       if (!pointSet.has(key)) {
         pointSet.add(key);
         points.push(new Point(x, y));
@@ -67,10 +75,16 @@ export class RIP {
     let i = 2;
     let j = this.numOfPoints - 1;
     while (i <= j) {
-      while (i < this.numOfPoints && this.isToLeftOrOnLine(firstPoint, secondPoint, points[i])) {
+      while (
+        i < this.numOfPoints &&
+        this.isToLeftOrOnLine(firstPoint, secondPoint, points[i])
+      ) {
         i++;
       }
-      while (j > 1 && !this.isToLeftOrOnLine(firstPoint, secondPoint, points[j])) {
+      while (
+        j > 1 &&
+        !this.isToLeftOrOnLine(firstPoint, secondPoint, points[j])
+      ) {
         j--;
       }
       if (i <= j) {
@@ -89,19 +103,34 @@ export class RIP {
       const rp = this.getRandomNum(l + 1, r - l - 1, true);
       const firstPoint = points[l];
       const secondPoint = r === this.numOfPoints ? points[0] : points[r];
-      const randomStartPoint = this.getRandomPointOnSegment(firstPoint, secondPoint);
+      const randomStartPoint = this.getRandomPointOnSegment(
+        firstPoint,
+        secondPoint
+      );
       const randomEndPoint = points[rp];
       this.swapPoints(points, l + 1, rp);
 
       let i = l + 2;
       let j = r - 1;
-      const isToLeft = this.isToLeftOrOnLine(randomStartPoint, randomEndPoint, points[l]);
+      const isToLeft = this.isToLeftOrOnLine(
+        randomStartPoint,
+        randomEndPoint,
+        points[l]
+      );
 
       while (i <= j) {
-        while (i < r && this.isToLeftOrOnLine(randomStartPoint, randomEndPoint, points[i]) === isToLeft) {
+        while (
+          i < r &&
+          this.isToLeftOrOnLine(randomStartPoint, randomEndPoint, points[i]) ===
+            isToLeft
+        ) {
           i++;
         }
-        while (j > l + 1 && this.isToLeftOrOnLine(randomStartPoint, randomEndPoint, points[j]) !== isToLeft) {
+        while (
+          j > l + 1 &&
+          this.isToLeftOrOnLine(randomStartPoint, randomEndPoint, points[j]) !==
+            isToLeft
+        ) {
           j--;
         }
         if (i <= j) {
@@ -127,7 +156,10 @@ export class RIP {
   }
 
   isLeft(start: Point, end: Point, point: Point) {
-    return (end.x - start.x) * (point.y - start.y) - (end.y - start.y) * (point.x - start.x);
+    return (
+      (end.x - start.x) * (point.y - start.y) -
+      (end.y - start.y) * (point.x - start.x)
+    );
   }
 
   getRandomPointOnSegment(start: Point, end: Point) {
@@ -140,13 +172,19 @@ export class RIP {
 
   sortPoints(points: Point[]) {
     const p0 = {} as Point;
-    p0.y = Math.min.apply(null, points.map(p => p.y));
-    p0.x = Math.max.apply(null, points.filter( p=> p.y === p0.y).map(p => p.x));
-    points.sort((a,b) => {
+    p0.y = Math.min.apply(
+      null,
+      points.map((p) => p.y)
+    );
+    p0.x = Math.max.apply(
+      null,
+      points.filter((p) => p.y === p0.y).map((p) => p.x)
+    );
+    points.sort((a, b) => {
       const isLeft = this.isLeft(a, b, p0);
       if (isLeft === 0) {
         return distCompare(a, b, p0);
-      };
+      }
       return isLeft;
     });
 

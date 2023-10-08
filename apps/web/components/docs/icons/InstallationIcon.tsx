@@ -1,4 +1,4 @@
-import { DarkMode, Gradient, LightMode, type IconsProps } from '../Icon'
+import { DarkMode, Gradient, LightMode, type IconsProps } from "../Icon";
 
 export function InstallationIcon({ id, color }: IconsProps) {
   return (
@@ -37,5 +37,5 @@ export function InstallationIcon({ id, color }: IconsProps) {
         />
       </DarkMode>
     </>
-  )
+  );
 }

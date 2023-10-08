@@ -70,7 +70,7 @@ export default function Document({
               disabled={doc.pageNumber <= 1}
               onClick={(e) => {
                 e.preventDefault();
-                e.stopPropagation()
+                e.stopPropagation();
                 pdfSlick?.gotoPage(doc.pageNumber - 1);
               }}
               type="button"
@@ -84,7 +84,7 @@ export default function Document({
               disabled={doc.pageNumber >= doc.numPages}
               onClick={(e) => {
                 e.preventDefault();
-                e.stopPropagation()
+                e.stopPropagation();
                 pdfSlick?.gotoPage(doc.pageNumber + 1);
               }}
               type="button"
