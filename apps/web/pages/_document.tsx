@@ -15,8 +15,8 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-         {/* <link href="/viewer.css" rel="stylesheet" /> */}
-         <link rel="icon" href="/symbol.svg" type="image/svg+xml"></link>
+        {/* <link href="/viewer.css" rel="stylesheet" /> */}
+        <link rel="icon" href="/symbol.svg" type="image/svg+xml"></link>
       </Head>
       <body className="h-full bg-white">
         <Main />
@@ -24,14 +24,24 @@ export default function Document() {
         <div id="printContainer" />
         <dialog id="printServiceDialog" className="min-w-[200px]">
           <div className="row">
-            <span data-l10n-id="print_progress_message">Preparing document for printing…</span>
+            <span data-l10n-id="print_progress_message">
+              Preparing document for printing…
+            </span>
           </div>
           <div className="row">
             <progress value="0" max="100"></progress>
-            <span data-l10n-id="print_progress_percent" data-l10n-args='{ "progress": 0 }' className="relative-progress">0%</span>
+            <span
+              data-l10n-id="print_progress_percent"
+              data-l10n-args='{ "progress": 0 }'
+              className="relative-progress"
+            >
+              0%
+            </span>
           </div>
           <div className="buttonRow">
-            <button id="printCancel" className="dialogButton"><span data-l10n-id="print_progress_close">Cancel</span></button>
+            <button id="printCancel" className="dialogButton">
+              <span data-l10n-id="print_progress_close">Cancel</span>
+            </button>
           </div>
         </dialog>
       </body>

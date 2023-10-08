@@ -11,11 +11,17 @@ const Thumbnails = ({ usePDFSlickStore, thumbsRef }: ThumbnailsProps) => {
   const currentPage = usePDFSlickStore((s) => s.pageNumber);
 
   return (
-    <div className={clsx("overflow-auto w-full h-44 bg-slate-50 z-10 border-t border-slate-300 [box-shadow:1px_0_3px_0_rgb(0_0_0_/_0.1)]")}>
+    <div
+      className={clsx(
+        "overflow-auto w-full h-44 bg-slate-50 z-10 border-t border-slate-300 [box-shadow:1px_0_3px_0_rgb(0_0_0_/_0.1)]"
+      )}
+    >
       <div className="px-2 relative whitespace-nowrap h-full">
         <PDFSlickThumbnails
           {...{ thumbsRef, usePDFSlickStore }}
-          className={clsx("px-2 relative whitespace-nowrap h-full flex items-center space-x-2")}
+          className={clsx(
+            "px-2 relative whitespace-nowrap h-full flex items-center space-x-2"
+          )}
         >
           {({ pageNumber, width, height, src, pageLabel, loaded }) => (
             <div className="box-border pt-4 w-full inline-flex justify-center">

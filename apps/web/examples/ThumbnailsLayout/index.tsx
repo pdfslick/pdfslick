@@ -19,7 +19,7 @@ const ThumbnailsLayout = ({ pdfFilePath }: ThumbnailsLayoutProps) => {
     thumbsRef,
     usePDFSlickStore,
     PDFSlickViewer,
-    PDFSlickThumbnails
+    PDFSlickThumbnails,
   } = usePDFSlick(pdfFilePath, {
     thumbnailWidth: 370,
     singlePageViewer: true,
@@ -125,7 +125,11 @@ const ThumbnailsLayout = ({ pdfFilePath }: ThumbnailsLayoutProps) => {
         >
           <div className="flex-1 relative overflow-hidden">
             <PDFSlickViewer
-              {...{ viewerRef, usePDFSlickStore, className: "!overflow-hidden" }}
+              {...{
+                viewerRef,
+                usePDFSlickStore,
+                className: "!overflow-hidden",
+              }}
             />
           </div>
 

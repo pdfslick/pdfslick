@@ -13,14 +13,27 @@
  * limitations under the License.
  */
 
-import { AnnotationMode, PixelsPerInch, getXfaPageViewport, PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
-import { SimpleLinkService, XfaLayerBuilder, NullL10n } from "pdfjs-dist/web/pdf_viewer";
+import {
+  AnnotationMode,
+  PixelsPerInch,
+  getXfaPageViewport,
+  PDFDocumentProxy,
+  PDFPageProxy,
+} from "pdfjs-dist";
+import {
+  SimpleLinkService,
+  XfaLayerBuilder,
+  NullL10n,
+} from "pdfjs-dist/web/pdf_viewer";
 import { OverlayManager } from "./overlay_manager";
 
 //
 // https://github.com/mozilla/pdf.js/blob/master/web/print_utils.js
 //
-function getXfaHtmlForPrinting(printContainer: HTMLElement, pdfDocument: PDFDocumentProxy) {
+function getXfaHtmlForPrinting(
+  printContainer: HTMLElement,
+  pdfDocument: PDFDocumentProxy
+) {
   const xfaHtml: any = pdfDocument.allXfaHtml;
   const linkService = new SimpleLinkService();
   const scale = Math.round(PixelsPerInch.PDF_TO_CSS_UNITS * 100) / 100;
@@ -32,7 +45,7 @@ function getXfaHtmlForPrinting(printContainer: HTMLElement, pdfDocument: PDFDocu
 
     const builder = new XfaLayerBuilder({
       pageDiv: page,
-      pdfPage: (null as unknown as PDFPageProxy),
+      pdfPage: null as unknown as PDFPageProxy,
       annotationStorage: pdfDocument.annotationStorage,
       linkService,
       xfaHtml: xfaPage,
@@ -43,10 +56,9 @@ function getXfaHtmlForPrinting(printContainer: HTMLElement, pdfDocument: PDFDocu
   }
 }
 
-
 let activeService: PDFPrintService | null = null;
 let dialog: any = null;
-let overlayManager: any = new OverlayManager;
+let overlayManager: any = new OverlayManager();
 
 // Renders the page to the canvas of the given print service, and returns
 // the suggested dimensions of the output page.
@@ -54,9 +66,11 @@ function renderPage(
   activeServiceOnEntry: any,
   pdfDocument: PDFDocumentProxy,
   pageNumber: number,
-  size: { width: number, height: number, rotation: number },
+  size: { width: number; height: number; rotation: number },
   printResolution: number,
-  optionalContentConfigPromise: Awaited<ReturnType<PDFDocumentProxy["getOptionalContentConfig"]>>,
+  optionalContentConfigPromise: Awaited<
+    ReturnType<PDFDocumentProxy["getOptionalContentConfig"]>
+  >,
   printAnnotationStoragePromise: PDFDocumentProxy["annotationStorage"]
 ) {
   const scratchCanvas = activeService!.scratchCanvas;
@@ -139,7 +153,7 @@ class PDFPrintService {
     if (!hasEqualPageSizes) {
       console.warn(
         "Not all pages have the same size. The printed " +
-        "result may be incorrect!"
+          "result may be incorrect!"
       );
     }
 
@@ -191,7 +205,10 @@ class PDFPrintService {
     }
 
     const pageCount = this.pagesOverview.length;
-    const renderNextPage = (resolve: (value?: unknown) => void, reject: (reason?: any) => void) => {
+    const renderNextPage = (
+      resolve: (value?: unknown) => void,
+      reject: (reason?: any) => void
+    ) => {
       this.throwIfInactive();
       if (++this.currentPage >= pageCount) {
         renderProgress(pageCount, pageCount, this.l10n);
@@ -242,7 +259,7 @@ class PDFPrintService {
 
   performPrint() {
     this.throwIfInactive();
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       // Push window.print in the macrotask queue to avoid being affected by
       // the deprecation of running print() code in a microtask, see
       // https://github.com/mozilla/pdf.js/issues/7547.

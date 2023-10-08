@@ -27,7 +27,8 @@ export const examples = [
     name: "Horizontal Thumbnails",
     href: "/examples/horizontal-thumbs",
     imageSrc: "/assets/examples/PDFSlick_Horizontal_Thumbnails.jpg",
-    short: "Showing page thumbnails bar horizontally with full pages vertically",
+    short:
+      "Showing page thumbnails bar horizontally with full pages vertically",
     description:
       "Showing page thumbnails horizontally and full pages vertically.",
   },

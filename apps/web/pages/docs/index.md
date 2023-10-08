@@ -33,43 +33,44 @@ As mentioned above, the core package is intented for use in Vanilla JS apps or i
 {% /callout %}
 
 To install PDFSlick core package run:
+
 ```shell
 npm install @pdfslick/core
 # yarn add @pdfslick/core
 # pnpm add @pdfslick/core
 ```
 
-Once installed we need to create a store, a PDFSlick instance, and link these together. Finally, need to load the PDF document. 
+Once installed we need to create a store, a PDFSlick instance, and link these together. Finally, need to load the PDF document.
 
 ```typescript
 import { create, PDFSlick } from "@pdfslick/core";
 
 export function loadPdf(url: string = "/Path_to_the_PDF_Document.pdf") {
   const store = create();
-  const container = document.querySelector<HTMLDivElement>('#viewerContainer')!
+  const container = document.querySelector<HTMLDivElement>("#viewerContainer")!;
 
   const pdfSlick = new PDFSlick({
     container,
     store,
     options: {
-      scaleValue: "page-fit"
+      scaleValue: "page-fit",
     },
   });
-  pdfSlick.loadDocument(url)
+  pdfSlick.loadDocument(url);
   store.setState({ pdfSlick });
 
   const resizeObserver = new ResizeObserver(() => {
-    const { scaleValue } = store.getState()
+    const { scaleValue } = store.getState();
     if (scaleValue && ["page-width", "page-fit", "auto"].includes(scaleValue)) {
       pdfSlick.viewer.currentScaleValue = scaleValue;
     }
   });
 
-  resizeObserver.observe(container)
+  resizeObserver.observe(container);
 
   window.addEventListener("beforeunload", () => {
     resizeObserver.disconnect();
-  })
+  });
 }
 ```
 
@@ -88,37 +89,38 @@ export function setNavigation(store: ReturnType<typeof create>) {
 
   const unsubscribe = store.subscribe((s) => {
     if (s.pageNumber <= 1) {
-      previousBtn?.setAttribute("disabled", "true")
+      previousBtn?.setAttribute("disabled", "true");
     } else {
-      previousBtn?.removeAttribute("disabled")
+      previousBtn?.removeAttribute("disabled");
     }
 
     if (s.pageNumber >= s.numPages) {
-      nextBtn?.setAttribute("disabled", "true")
+      nextBtn?.setAttribute("disabled", "true");
     } else {
-      nextBtn?.removeAttribute("disabled")
+      nextBtn?.removeAttribute("disabled");
     }
   });
 
-  const onZoomIn = () => store.getState().pdfSlick?.increaseScale()
-  const onZoomOut = () => store.getState().pdfSlick?.decreaseScale()
-  const onNextPage = () => store.getState().pdfSlick?.gotoPage(store.getState().pageNumber + 1)
-  const onPreviousPage = () => store.getState().pdfSlick?.gotoPage(store.getState().pageNumber - 1)
+  const onZoomIn = () => store.getState().pdfSlick?.increaseScale();
+  const onZoomOut = () => store.getState().pdfSlick?.decreaseScale();
+  const onNextPage = () =>
+    store.getState().pdfSlick?.gotoPage(store.getState().pageNumber + 1);
+  const onPreviousPage = () =>
+    store.getState().pdfSlick?.gotoPage(store.getState().pageNumber - 1);
 
-  zoomInBtn?.addEventListener("click", onZoomIn)
-  zoomOutBtn?.addEventListener("click", onZoomOut)
-  nextBtn?.addEventListener("click", onNextPage)
-  previousBtn?.addEventListener("click", onPreviousPage)
+  zoomInBtn?.addEventListener("click", onZoomIn);
+  zoomOutBtn?.addEventListener("click", onZoomOut);
+  nextBtn?.addEventListener("click", onNextPage);
+  previousBtn?.addEventListener("click", onPreviousPage);
 
   window.addEventListener("beforeunload", () => {
-    zoomInBtn?.removeEventListener("click", onZoomIn)
-    zoomOutBtn?.removeEventListener("click", onZoomOut)
-    nextBtn?.removeEventListener("click", onNextPage)
-    previousBtn?.removeEventListener("click", onPreviousPage)
+    zoomInBtn?.removeEventListener("click", onZoomIn);
+    zoomOutBtn?.removeEventListener("click", onZoomOut);
+    nextBtn?.removeEventListener("click", onNextPage);
+    previousBtn?.removeEventListener("click", onPreviousPage);
 
-    unsubscribe()
-  })
-
+    unsubscribe();
+  });
 }
 ```
 

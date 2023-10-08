@@ -46,9 +46,7 @@ export const navigation: TDocsNavigation[] = [
   },
   {
     title: "Solid",
-    links: [
-      { title: "Use with SolidJS", href: "/docs/solid" },
-    ],
+    links: [{ title: "Use with SolidJS", href: "/docs/solid" }],
   },
 ];
 

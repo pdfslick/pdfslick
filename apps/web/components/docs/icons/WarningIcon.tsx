@@ -1,4 +1,4 @@
-import { DarkMode, Gradient, LightMode, type IconsProps } from '../Icon'
+import { DarkMode, Gradient, LightMode, type IconsProps } from "../Icon";
 
 export function WarningIcon({ id, color }: IconsProps) {
   return (
@@ -51,5 +51,5 @@ export function WarningIcon({ id, color }: IconsProps) {
         />
       </DarkMode>
     </>
-  )
+  );
 }

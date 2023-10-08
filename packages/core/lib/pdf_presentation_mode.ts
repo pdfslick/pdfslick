@@ -51,10 +51,10 @@ class PDFPresentationMode {
   mouseScrollTimeStamp: number;
   mouseScrollDelta: number;
   touchSwipeState: null | {
-    startX: number,
-    startY: number,
-    endX: number,
-    endY: number
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
   };
 
   controlsTimeout?: ReturnType<typeof setTimeout>;
@@ -70,17 +70,25 @@ class PDFPresentationMode {
   #state = PresentationModeState.UNKNOWN;
 
   #args: null | {
-    pageNumber: number,
-    scaleValue: string | null,
-    scrollMode: number,
-    spreadMode: number | null,
-    annotationEditorMode: number | null,
+    pageNumber: number;
+    scaleValue: string | null;
+    scrollMode: number;
+    spreadMode: number | null;
+    annotationEditorMode: number | null;
   } = null;
 
   /**
    * @param {PDFPresentationModeOptions} options
    */
-  constructor({ container, pdfViewer, eventBus }: { container: HTMLDivElement, pdfViewer: PDFViewer, eventBus: EventBus }) {
+  constructor({
+    container,
+    pdfViewer,
+    eventBus,
+  }: {
+    container: HTMLDivElement;
+    pdfViewer: PDFViewer;
+    eventBus: EventBus;
+  }) {
     this.container = container;
     this.pdfViewer = pdfViewer;
     this.eventBus = eventBus;
@@ -120,7 +128,7 @@ class PDFPresentationMode {
     ) {
       console.warn(
         "Ignoring Spread modes when entering PresentationMode, " +
-        "since the document may contain varying page sizes."
+          "since the document may contain varying page sizes."
       );
       this.#args.spreadMode = pdfViewer.spreadMode;
     }

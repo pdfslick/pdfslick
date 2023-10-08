@@ -46,8 +46,7 @@ const SidebarView = {
   LAYERS: 4,
 };
 
-const RendererType =
-{
+const RendererType = {
   CANVAS: "canvas",
   SVG: "svg",
 };
@@ -85,8 +84,8 @@ const AutoPrintRegExp = /\bprint\s*\(/;
  * Scale factors for the canvas, necessary with HiDPI displays.
  */
 class OutputScale {
-  sx: number
-  sy: number
+  sx: number;
+  sy: number;
 
   constructor() {
     const pixelRatio = window.devicePixelRatio || 1;
@@ -119,7 +118,11 @@ class OutputScale {
  *   ignore elements that either: Contains marked content identifiers,
  *   or have the CSS-rule `overflow: hidden;` set. The default value is `false`.
  */
-function scrollIntoView(element: HTMLElement, spot: any, scrollMatches = false) {
+function scrollIntoView(
+  element: HTMLElement,
+  spot: any,
+  scrollMatches = false
+) {
   // Assuming offsetParent is available (it's not available when viewer is in
   // hidden iframe or object). We have to scroll: if the offsetParent is not set
   // producing the error. See also animationStarted.
@@ -162,7 +165,10 @@ function scrollIntoView(element: HTMLElement, spot: any, scrollMatches = false) 
  * Helper function to start monitoring the scroll event and converting them into
  * PDF.js friendly one: with scroll debounce and scroll direction.
  */
-function watchScroll(viewAreaElement: HTMLElement, callback: (state: any) => void) {
+function watchScroll(
+  viewAreaElement: HTMLElement,
+  callback: (state: any) => void
+) {
   const debounceScroll = function (evt: Event) {
     if (rAF) {
       return;
@@ -240,7 +246,11 @@ function removeNullCharacters(str: string, replaceInvisible = false) {
  * @returns {number} Index of the first array element to pass the test,
  *                   or |items.length| if no such element exists.
  */
-function binarySearchFirstItem(items: any[], condition: (item: any) => boolean, start = 0) {
+function binarySearchFirstItem(
+  items: any[],
+  condition: (item: any) => boolean,
+  start = 0
+) {
   let minIndex = start;
   let maxIndex = items.length - 1;
 
@@ -338,7 +348,15 @@ function roundToDivide(x: number, div: number) {
  * @param {GetPageSizeInchesParameters} params
  * @returns {PageSize}
  */
-function getPageSizeInches({ view, userUnit, rotate }: { view: number[], userUnit: number, rotate: number }) {
+function getPageSizeInches({
+  view,
+  userUnit,
+  rotate,
+}: {
+  view: number[];
+  userUnit: number;
+  rotate: number;
+}) {
   const [x1, y1, x2, y2] = view;
   // We need to take the page rotation into account as well.
   const changeOrientation = rotate % 180 !== 0;
@@ -363,7 +381,11 @@ function getPageSizeInches({ view, userUnit, rotate }: { view: number[], userUni
  *   this will be the first element in the first partially visible row in
  *   `views`, although sometimes it goes back one row further.)
  */
-function backtrackBeforeAllVisibleElements(index: number, views: any[], top: number) {
+function backtrackBeforeAllVisibleElements(
+  index: number,
+  views: any[],
+  top: number
+) {
   // binarySearchFirstItem's assumption is that the input is ordered, with only
   // one index where the conditions flips from false to true: [false ...,
   // true...]. With vertical scrolling and spreads, it is possible to have
@@ -479,11 +501,11 @@ function getVisibleElements({
   horizontal = false,
   rtl = false,
 }: {
-  scrollEl: HTMLElement,
-  views: { div: HTMLElement, id: any }[],
-  sortByVisibility?: boolean,
-  horizontal?: boolean,
-  rtl?: boolean,
+  scrollEl: HTMLElement;
+  views: { div: HTMLElement; id: any }[];
+  sortByVisibility?: boolean;
+  horizontal?: boolean;
+  rtl?: boolean;
 }) {
   const top = scrollEl.scrollTop,
     bottom = top + scrollEl.clientHeight;
@@ -671,7 +693,7 @@ function isValidSpreadMode(mode: any) {
   );
 }
 
-function isPortraitOrientation(size: { width: number, height: number }) {
+function isPortraitOrientation(size: { width: number; height: number }) {
   return size.width <= size.height;
 }
 

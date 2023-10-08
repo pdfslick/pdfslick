@@ -1,19 +1,19 @@
-import { useId } from 'react'
-import clsx from 'clsx'
+import { useId } from "react";
+import clsx from "clsx";
 
-import { InstallationIcon } from './icons/InstallationIcon'
-import { LightbulbIcon } from './icons/LightbulbIcon'
-import { PluginsIcon } from './icons/PluginsIcon'
-import { PresetsIcon } from './icons/PresetsIcon'
-import { ThemingIcon } from './icons/ThemingIcon'
-import { WarningIcon } from './icons/WarningIcon'
-import { ReactIcon } from './icons/ReactIcon'
-import { SolidJSIcon } from './icons/SolidJSIcon'
+import { InstallationIcon } from "./icons/InstallationIcon";
+import { LightbulbIcon } from "./icons/LightbulbIcon";
+import { PluginsIcon } from "./icons/PluginsIcon";
+import { PresetsIcon } from "./icons/PresetsIcon";
+import { ThemingIcon } from "./icons/ThemingIcon";
+import { WarningIcon } from "./icons/WarningIcon";
+import { ReactIcon } from "./icons/ReactIcon";
+import { SolidJSIcon } from "./icons/SolidJSIcon";
 
 export type IconsProps = {
-  id: string,
-  color: string
-}
+  id: string;
+  color: string;
+};
 
 const icons: Record<string, typeof InstallationIcon> = {
   installation: InstallationIcon,
@@ -24,23 +24,23 @@ const icons: Record<string, typeof InstallationIcon> = {
   warning: WarningIcon,
   react: ReactIcon,
   solid: SolidJSIcon,
-}
+};
 
 const iconStyles: Record<string, string> = {
-  blue: '[--icon-foreground:theme(colors.slate.900)] [--icon-background:theme(colors.white)]',
+  blue: "[--icon-foreground:theme(colors.slate.900)] [--icon-background:theme(colors.white)]",
   amber:
-    '[--icon-foreground:theme(colors.amber.900)] [--icon-background:theme(colors.amber.100)]',
-}
+    "[--icon-foreground:theme(colors.amber.900)] [--icon-background:theme(colors.amber.100)]",
+};
 
 type IconProps = {
-  color?: string,
-  icon: string,
-  className: string,
-} & any
+  color?: string;
+  icon: string;
+  className: string;
+} & any;
 
-export function Icon({ color = 'blue', icon, className, ...props }: IconProps) {
-  let id = useId()
-  let IconComponent = icons[icon]
+export function Icon({ color = "blue", icon, className, ...props }: IconProps) {
+  let id = useId();
+  let IconComponent = icons[icon];
 
   return (
     <svg
@@ -52,27 +52,27 @@ export function Icon({ color = 'blue', icon, className, ...props }: IconProps) {
     >
       <IconComponent id={id} color={color} />
     </svg>
-  )
+  );
 }
 
 type GradientColor = {
-  stopColor: string,
-  offset?: string | number
-}
+  stopColor: string;
+  offset?: string | number;
+};
 
 const gradients: Record<string, GradientColor[]> = {
   blue: [
-    { stopColor: '#0EA5E9' },
-    { stopColor: '#22D3EE', offset: '.527' },
-    { stopColor: '#818CF8', offset: 1 },
+    { stopColor: "#0EA5E9" },
+    { stopColor: "#22D3EE", offset: ".527" },
+    { stopColor: "#818CF8", offset: 1 },
   ],
   amber: [
-    { stopColor: '#FDE68A', offset: '.08' },
-    { stopColor: '#F59E0B', offset: '.837' },
+    { stopColor: "#FDE68A", offset: ".08" },
+    { stopColor: "#F59E0B", offset: ".837" },
   ],
-}
+};
 
-export function Gradient({ color = 'blue', ...props }) {
+export function Gradient({ color = "blue", ...props }) {
   return (
     <radialGradient
       cx={0}
@@ -85,17 +85,17 @@ export function Gradient({ color = 'blue', ...props }) {
         <stop key={stopIndex} {...stop} />
       ))}
     </radialGradient>
-  )
+  );
 }
 
 type ModeProps = {
-  className: string,
-} & any
+  className: string;
+} & any;
 
 export function LightMode({ className, ...props }: ModeProps) {
-  return <g className={clsx('dark:hidden', className)} {...props} />
+  return <g className={clsx("dark:hidden", className)} {...props} />;
 }
 
 export function DarkMode({ className, ...props }: ModeProps) {
-  return <g className={clsx('hidden dark:inline', className)} {...props} />
+  return <g className={clsx("hidden dark:inline", className)} {...props} />;
 }

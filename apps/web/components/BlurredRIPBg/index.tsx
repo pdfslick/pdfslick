@@ -7,7 +7,7 @@ import ColorLoader from "./ColorsLoader";
 
 type BlurredRIPBgProps = {
   className: string;
-}
+};
 
 export default function BlurredRIPBg({ className }: BlurredRIPBgProps) {
   const rip = new RIP({
@@ -22,7 +22,7 @@ export default function BlurredRIPBg({ className }: BlurredRIPBgProps) {
       .map(({ x, y }) => `${x}% ${y}%`)
       .join(", ");
 
-    console.log(polygon)
+    console.log(polygon);
     return `polygon(${polygon})`;
   };
 
@@ -68,22 +68,18 @@ export default function BlurredRIPBg({ className }: BlurredRIPBgProps) {
         />
       </div> */}
 
-      
-        <div
-          
-          className={clsx(
-            className,
-            "transition-all duration-[5000ms] ease-linear",
-            // `from-[${fromColor}]`,
-            // `to-[${toColor}]`
-          )}
-          
-          style={{
-            clipPath,
-            // opacity: `${opacity / 100}`,
-          }}
-        />
-      
+      <div
+        className={clsx(
+          className,
+          "transition-all duration-[5000ms] ease-linear"
+          // `from-[${fromColor}]`,
+          // `to-[${toColor}]`
+        )}
+        style={{
+          clipPath,
+          // opacity: `${opacity / 100}`,
+        }}
+      />
     </>
   );
 }

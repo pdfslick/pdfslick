@@ -6,6 +6,7 @@ description: Viewing PDF Documents in React with PDFSlick.
 The `<PDFSlickViewer />` component is an essential part for viewing PDF documents. It expects the `viewerRef` and the `usePDFSlickStore` props, and optionally `className` may be also passed as a prop.
 
 So for all PDF documents we want to show, once we call the `usePDFSlick()` hook and get the `PDFSlickViewer`, `viewerRef` and `usePDFSlickStore` we can render the document's PDF viewer:
+
 ```jsx
   ...
 
@@ -17,13 +18,15 @@ So for all PDF documents we want to show, once we call the `usePDFSlick()` hook 
     ...
   );
 ```
+
 ---
 
 ## PDF Thumbnails
 
-In addition to rendering pages, PDFSlick provides a component for rendering page thumbnails. Just like with `viewerRef` needed to reference the `<PDFSlickViewer />`,  the `usePDFSlick()` hook returns a `thumbsRef` callback to be used for referencing the `<PDFSlickThumbnails />` components.
+In addition to rendering pages, PDFSlick provides a component for rendering page thumbnails. Just like with `viewerRef` needed to reference the `<PDFSlickViewer />`, the `usePDFSlick()` hook returns a `thumbsRef` callback to be used for referencing the `<PDFSlickThumbnails />` components.
 
 Here's an example for rendering PDF document viewer, and getting the `thumbRef` for the thumbnails component:
+
 ```jsx
 import { useEffect, useState } from "react";
 import { usePDFSlick } from "@pdfslick/react";
@@ -32,16 +35,16 @@ import Thumbsbar from "./Thumbsbar";
 import "@pdfslick/react/dist/pdf_viewer.css";
 
 type PDFViewerAppProps = {
-  pdfFilePath: string;
+  pdfFilePath: string,
 };
 
 export default function PDFViewerApp({ pdfFilePath }: PDFViewerAppProps) {
-  const { viewerRef, thumbsRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(pdfFilePath);
+  const { viewerRef, thumbsRef, usePDFSlickStore, PDFSlickViewer } =
+    usePDFSlick(pdfFilePath);
 
   return (
     <div className="absolute inset-0 bg-slate-200/70 flex flex-col pdfSlick">
       <div className="flex-1 flex">
-
         {/*
           Note how we pass `thumbsRef` here to the
           sidebar component that will render the thumbnails
@@ -58,13 +61,14 @@ export default function PDFViewerApp({ pdfFilePath }: PDFViewerAppProps) {
 ```
 
 So now we can pass the `thumbsRef` to render the thumbnails for the PDF pages in a sidebar next to the main PDF viewer:
+
 ```jsx
 import clsx from "clsx";
 import { type TUsePDFSlickStore, PDFSlickThumbnails } from "@pdfslick/react";
 
 type ThumbsbarProps = {
-  usePDFSlickStore: TUsePDFSlickStore;
-  thumbsRef: (instance: HTMLElement | null) => void;
+  usePDFSlickStore: TUsePDFSlickStore,
+  thumbsRef: (instance: HTMLElement | null) => void,
 };
 
 const Thumbsbar = ({ usePDFSlickStore, thumbsRef, show }: ThumbsbarProps) => {
@@ -74,17 +78,17 @@ const Thumbsbar = ({ usePDFSlickStore, thumbsRef, show }: ThumbsbarProps) => {
   return (
     <div className="overflow-auto absolute inset-0">
       <div className="px-2 relative h-full">
-
         {/*
             Note how we use `<PDFSlickThumbnails />` here
             with the passed `thumbsRef` prop to render the thumbnails...
         */}
-        <PDFSlickThumbnails {...{
-          thumbsRef,
-          usePDFSlickStore,
-          className: "grid grid-cols-3 gap-2 mx-auto pb-4"
-        }}>
-
+        <PDFSlickThumbnails
+          {...{
+            thumbsRef,
+            usePDFSlickStore,
+            className: "grid grid-cols-3 gap-2 mx-auto pb-4",
+          }}
+        >
           {/*
               ...and how we pass a child that will render a thumbnail for each PDF page
            */}
@@ -140,6 +144,7 @@ export default Thumbsbar;
 As we can see above PDFSlick's `<PDFSlickThumbnails />` component makes it easy to create and render thumbnails for each PDF page. It requires the `thumbsRef` and the `usePDFSlickStore` props, and optionally `className` may also be passed as a prop.
 
 Very important to note here is that it expects a child component that is used to render each thumbnails. The child gets appropriate props for the page thumbnail: {% .lead %}
+
 ```jsx
 <PDFSlickThumbnails {...{ thumbsRef, usePDFSlickStore }}>
   {({ pageNumber, width, height, src, pageLabel, rotation, scale, loaded }) => (

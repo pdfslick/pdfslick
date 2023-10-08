@@ -1,21 +1,21 @@
-import Link from 'next/link'
-import { ReactNode } from 'react'
-import { Icon } from './Icon'
+import Link from "next/link";
+import { ReactNode } from "react";
+import { Icon } from "./Icon";
 
-export function QuickLinks({ children }: { children: ReactNode}) {
+export function QuickLinks({ children }: { children: ReactNode }) {
   return (
     <div className="not-prose my-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
       {children}
     </div>
-  )
+  );
 }
 
 type QuickLinkProps = {
-  title: string,
-  description: string,
-  href: string,
-  icon: string,
-}
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+};
 
 export function QuickLink({ title, description, href, icon }: QuickLinkProps) {
   return (
@@ -34,5 +34,5 @@ export function QuickLink({ title, description, href, icon }: QuickLinkProps) {
         </p>
       </div>
     </div>
-  )
+  );
 }

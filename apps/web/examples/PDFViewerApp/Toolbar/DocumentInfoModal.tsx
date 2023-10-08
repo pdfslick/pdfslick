@@ -17,7 +17,11 @@ type DocumentInfoModalProps = {
   closeModal: () => void;
 };
 
-export default function DocumentInfoModal({ usePDFSlickStore, isOpen, closeModal }: DocumentInfoModalProps) {
+export default function DocumentInfoModal({
+  usePDFSlickStore,
+  isOpen,
+  closeModal,
+}: DocumentInfoModalProps) {
   const filename = usePDFSlickStore((s) => s.filename);
   const filesize = usePDFSlickStore((s) => s.filesize);
   const title = usePDFSlickStore((s) => s.title);

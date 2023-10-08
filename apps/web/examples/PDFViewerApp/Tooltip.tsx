@@ -23,7 +23,8 @@ const Tooltip = ({
         {
           "left-full top-1/2 -translate-y-1/2 ml-4": position === "right",
           "top-full mt-2": position === "bottom",
-          "right-1/2 translate-x-1/2": position === "bottom" && alignX === "center",
+          "right-1/2 translate-x-1/2":
+            position === "bottom" && alignX === "center",
           "right-0": position === "bottom" && alignX === "right",
           "left-0": position === "bottom" && alignX === "left",
         }
@@ -56,7 +57,7 @@ const Tooltip = ({
             {
               "left-1/2 -ml-[6px]": alignX === "center",
               "right-0 mr-[12px]": alignX === "right",
-              "left-0 ml-[6px]": alignX === "left"
+              "left-0 ml-[6px]": alignX === "left",
             }
           )}
         />

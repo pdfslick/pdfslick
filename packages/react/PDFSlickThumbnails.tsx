@@ -61,7 +61,7 @@ export function PDFSlickThumbnails({
       style={{
         position: "absolute",
         overflow: "auto",
-        inset: 0
+        inset: 0,
       }}
     >
       {Array.from(thumbnailViews).map(([pageNumber, view]) =>

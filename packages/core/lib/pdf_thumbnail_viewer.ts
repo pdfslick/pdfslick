@@ -57,7 +57,7 @@ class PDFThumbnailViewer {
   linkService: any;
   renderingQueue: any;
   l10n: any;
-  pageColors: { background: any, foreground: any } | null;
+  pageColors: { background: any; foreground: any } | null;
   scroll: any;
 
   _thumbnails: PDFThumbnailView[];
@@ -73,15 +73,24 @@ class PDFThumbnailViewer {
   /**
    * @param {PDFThumbnailViewerOptions} options
    */
-  constructor({ container, eventBus, linkService, renderingQueue, l10n, pageColors, store, thumbnailWidth }: {
-    container: HTMLDivElement,
-    eventBus: EventBus,
-    linkService: any,
-    renderingQueue: any,
-    l10n: any,
-    pageColors: { background: any, foreground: any } | null,
-    store: StoreApi<PDFSlickState>,
-    thumbnailWidth: number
+  constructor({
+    container,
+    eventBus,
+    linkService,
+    renderingQueue,
+    l10n,
+    pageColors,
+    store,
+    thumbnailWidth,
+  }: {
+    container: HTMLDivElement;
+    eventBus: EventBus;
+    linkService: any;
+    renderingQueue: any;
+    l10n: any;
+    pageColors: { background: any; foreground: any } | null;
+    store: StoreApi<PDFSlickState>;
+    thumbnailWidth: number;
   }) {
     this.container = container;
     this.eventBus = eventBus;
@@ -90,15 +99,15 @@ class PDFThumbnailViewer {
     this.l10n = l10n;
     this.pageColors = pageColors || null;
 
-    this._thumbnails = []
-    this._currentPageNumber = 0
-    this._pagesRotation = 0
-    this._pageLabels = []
+    this._thumbnails = [];
+    this._currentPageNumber = 0;
+    this._pagesRotation = 0;
+    this._pageLabels = [];
 
-    this.pdfDocument = null
+    this.pdfDocument = null;
 
-    this.store = store
-    this.thumbnailWidth = thumbnailWidth
+    this.store = store;
+    this.thumbnailWidth = thumbnailWidth;
 
     if (
       this.pageColors &&
@@ -114,7 +123,6 @@ class PDFThumbnailViewer {
       }
       this.pageColors = null;
     }
-
 
     this.scroll = watchScroll(this.container, this._scrollUpdated.bind(this));
     this._resetView();
@@ -137,8 +145,8 @@ class PDFThumbnailViewer {
   _getVisibleThumbs() {
     return getVisibleElements({
       scrollEl: this.container,
-      views: this._thumbnails
-    })
+      views: this._thumbnails,
+    });
   }
 
   scrollThumbnailIntoView(pageNumber: number) {
@@ -160,7 +168,7 @@ class PDFThumbnailViewer {
       thumbnailView.div.classList.add(THUMBNAIL_SELECTED_CLASS);
     }
     const visibleThumbs = this._getVisibleThumbs();
-    const { first, last, views } = visibleThumbs
+    const { first, last, views } = visibleThumbs;
 
     // If the thumbnail isn't currently visible, scroll it into view.
     if (views.length > 0) {
@@ -183,7 +191,7 @@ class PDFThumbnailViewer {
 
     this._currentPageNumber = pageNumber;
 
-    this.forceRendering()
+    this.forceRendering();
   }
 
   get pagesRotation() {
@@ -247,7 +255,7 @@ class PDFThumbnailViewer {
     const optionalContentConfigPromise = pdfDocument.getOptionalContentConfig();
 
     firstPagePromise
-      .then(firstPdfPage => {
+      .then((firstPdfPage) => {
         const pagesCount = pdfDocument.numPages;
         const viewport = firstPdfPage.getViewport({ scale: 1 });
 
@@ -263,7 +271,7 @@ class PDFThumbnailViewer {
             l10n: this.l10n,
             pageColors: this.pageColors,
             store: this.store,
-            thumbnailWidth: this.thumbnailWidth
+            thumbnailWidth: this.thumbnailWidth,
           });
           this._thumbnails.push(thumbnail);
         }
@@ -276,9 +284,9 @@ class PDFThumbnailViewer {
         const thumbnailView = this._thumbnails[this._currentPageNumber - 1];
         thumbnailView.div.classList.add(THUMBNAIL_SELECTED_CLASS);
 
-        this.store.getState()._setThumbnailsViews(this._thumbnails)
+        this.store.getState()._setThumbnailsViews(this._thumbnails);
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.error("Unable to initialize thumbnail viewer", reason);
       });
   }

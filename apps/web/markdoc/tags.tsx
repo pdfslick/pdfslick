@@ -1,5 +1,5 @@
-import { Callout } from '../components/docs/Callout'
-import { QuickLink, QuickLinks } from '../components/docs/QuickLinks'
+import { Callout } from "../components/docs/Callout";
+import { QuickLink, QuickLinks } from "../components/docs/QuickLinks";
 
 const tags: Record<string, any> = {
   callout: {
@@ -7,9 +7,9 @@ const tags: Record<string, any> = {
       title: { type: String },
       type: {
         type: String,
-        default: 'note',
-        matches: ['note', 'warning'],
-        errorLevel: 'critical',
+        default: "note",
+        matches: ["note", "warning"],
+        errorLevel: "critical",
       },
     },
     render: Callout,
@@ -21,7 +21,15 @@ const tags: Record<string, any> = {
       alt: { type: String },
       caption: { type: String },
     },
-    render: ({ src, alt = '', caption }: { src: string, alt?: string, caption: string }) => (
+    render: ({
+      src,
+      alt = "",
+      caption,
+    }: {
+      src: string;
+      alt?: string;
+      caption: string;
+    }) => (
       <figure>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} />
@@ -29,10 +37,10 @@ const tags: Record<string, any> = {
       </figure>
     ),
   },
-  'quick-links': {
+  "quick-links": {
     render: QuickLinks,
   },
-  'quick-link': {
+  "quick-link": {
     selfClosing: true,
     render: QuickLink,
     attributes: {
@@ -42,6 +50,6 @@ const tags: Record<string, any> = {
       href: { type: String },
     },
   },
-}
+};
 
-export default tags
+export default tags;

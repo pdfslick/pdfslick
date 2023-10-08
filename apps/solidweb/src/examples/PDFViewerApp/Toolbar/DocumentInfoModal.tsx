@@ -22,8 +22,11 @@ export default function DocumentInfoModal(props: DocumentInfoModalProps) {
   let wrapperRef!: HTMLDivElement;
 
   const handleClick = (event: MouseEvent) => {
-    if (wrapperRef.contains(event.target as HTMLElement) && !ref.contains(event.target as HTMLElement)) {
-      props.closeModal()
+    if (
+      wrapperRef.contains(event.target as HTMLElement) &&
+      !ref.contains(event.target as HTMLElement)
+    ) {
+      props.closeModal();
     }
   };
 

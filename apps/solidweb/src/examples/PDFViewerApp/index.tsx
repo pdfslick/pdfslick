@@ -8,8 +8,12 @@ type PDFViewerAppProps = {
 };
 
 const PDFViewerApp: Component<PDFViewerAppProps> = ({ pdfFilePath }) => {
-  const { viewerRef, thumbsRef, pdfSlickStore: store, PDFSlickViewer } =
-    usePDFSlick(pdfFilePath);
+  const {
+    viewerRef,
+    thumbsRef,
+    pdfSlickStore: store,
+    PDFSlickViewer,
+  } = usePDFSlick(pdfFilePath);
   const [isThumbsbarOpen, setIsThumbsbarOpen] = createSignal(true);
 
   return (

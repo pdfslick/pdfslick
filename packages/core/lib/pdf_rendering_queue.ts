@@ -32,16 +32,16 @@ const CLEANUP_TIMEOUT = 30000;
  * Controls rendering of the views for pages and thumbnails.
  */
 class PDFRenderingQueue {
-  pdfViewer: PDFViewer | null
-  pdfThumbnailViewer: PDFThumbnailViewer | null
-  onIdle: (() => void) | null
-  highestPriorityPage: string | null
-  idleTimeout: ReturnType<typeof setTimeout> | null // number | null
-  printing: boolean
-  isThumbnailViewEnabled: boolean
+  pdfViewer: PDFViewer | null;
+  pdfThumbnailViewer: PDFThumbnailViewer | null;
+  onIdle: (() => void) | null;
+  highestPriorityPage: string | null;
+  idleTimeout: ReturnType<typeof setTimeout> | null; // number | null
+  printing: boolean;
+  isThumbnailViewEnabled: boolean;
 
   constructor() {
-    this.pdfViewer = null
+    this.pdfViewer = null;
     this.pdfThumbnailViewer = null;
     this.onIdle = null;
     this.highestPriorityPage = null;
@@ -117,7 +117,12 @@ class PDFRenderingQueue {
    * @param {boolean} scrolledDown
    * @param {boolean} [preRenderExtra]
    */
-  getHighestPriority(visible: { first: any, last: any, views: any, ids: any }, views: PDFThumbnailView[], scrolledDown: boolean, preRenderExtra = false) {
+  getHighestPriority(
+    visible: { first: any; last: any; views: any; ids: any },
+    views: PDFThumbnailView[],
+    scrolledDown: boolean,
+    preRenderExtra = false
+  ) {
     /**
      * The state has changed. Figure out which page has the highest priority to
      * render next (if any).
@@ -211,7 +216,7 @@ class PDFRenderingQueue {
           .finally(() => {
             this.renderHighestPriority();
           })
-          .catch(reason => {
+          .catch((reason) => {
             if (reason instanceof RenderingCancelledException) {
               return;
             }

@@ -38,7 +38,9 @@ const Attachments = ({ usePDFSlickStore, show }: AttachmentsProps) => {
   const attachments = usePDFSlickStore((s) => s.attachments);
 
   return (
-    <div className={clsx("overflow-auto absolute inset-0", { invisible: !show })}>
+    <div
+      className={clsx("overflow-auto absolute inset-0", { invisible: !show })}
+    >
       <div className="p-2 text-slate-700 text-sm">
         {Array.from(attachments.entries()).map(
           ([key, { filename, content }]) => (

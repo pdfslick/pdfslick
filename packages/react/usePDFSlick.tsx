@@ -44,10 +44,10 @@ export function createStore(store: StoreApi<PDFSlickState>) {
 }
 
 /**
- * 
+ *
  * @param url PDF Document path
  * @param options PDFSlick Options
- * @returns 
+ * @returns
  */
 export const usePDFSlick: TUsePDFSlick = (url, options) => {
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);

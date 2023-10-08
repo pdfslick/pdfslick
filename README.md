@@ -3,6 +3,7 @@
 ![readme-header](https://pdfslick.dev/pdfslick_logo.svg)
 
 <br><br>
+
 <div align="center">
 View and Interact with PDF documents in React and SolidJS apps
 <br><br>
@@ -11,6 +12,7 @@ View and Interact with PDF documents in React and SolidJS apps
 [![GitHub release](https://img.shields.io/github/release/pdfslick/pdfslick.svg)](https://github.com/pdfslick/pdfslick/)
 [![npm version](https://img.shields.io/npm/v/@pdfslick/core.svg)](https://www.npmjs.com/package/@pdfslick/core)
 [![npm](https://img.shields.io/npm/dt/@pdfslick/core.svg)](https://www.npmjs.com/package/@pdfslick/core)
+
 <!-- [![npm](https://img.shields.io/npm/dt/@pdfslick/react.svg)](https://www.npmjs.com/package/@pdfslick/react)
 [![npm](https://img.shields.io/npm/dt/@pdfslick/solid.svg)](https://www.npmjs.com/package/@pdfslick/solid) -->
 
@@ -18,9 +20,11 @@ View and Interact with PDF documents in React and SolidJS apps
 
 [Getting Started](https://pdfslick.dev/docs) | [Examples](https://pdfslick.dev/examples)
 <br><br>
+
 </div>
 
 ---
+
 <br>
 
 PDFSlick is a library which enables viewing of and interaction with PDF documents in React and SolidJS apps.
@@ -29,6 +33,7 @@ It's build on top of Mozilla's [PDF.js](https://github.com/mozilla/pdf.js), and 
 ## PDFSlick for React
 
 To get started with React run:
+
 ```shell
 npm install @pdfslick/react
 # yarn add @pdfslick/react
@@ -36,6 +41,7 @@ npm install @pdfslick/react
 ```
 
 You can start using PDFSlick with the `usePDFSlick()` hook, like with the following basic example:
+
 ```jsx
 import { usePDFSlick } from "@pdfslick/react";
 import PDFNavigation from "./yourcomponents/PDFNavigation";
@@ -47,13 +53,16 @@ import PDFNavigation from "./yourcomponents/PDFNavigation";
 import "@pdfslick/react/dist/pdf_viewer.css";
 
 type PDFViewerComponentProps = {
-  pdfFilePath: string;
+  pdfFilePath: string,
 };
 
 const PDFViewerComponent = ({ pdfFilePath }: PDFViewerComponent) => {
-  const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(pdfFilePath, {
-    scaleValue: "page-fit"
-  });
+  const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(
+    pdfFilePath,
+    {
+      scaleValue: "page-fit",
+    }
+  );
 
   /*
    Access the store with `usePDFSlickStore()` hook — you can pass is
@@ -93,6 +102,7 @@ export default PDFViewerComponent;
 ```
 
 Provided with the PDF Document path and PDFSlick options object, the `usePDFSlick()` hook returns an object consisting (among the other things) of:
+
 - `PDFSlickViewer` is the PDF Viewer component used for viewing the PDF document
 - `viewerRef` is the `ref` callback that is provided as a prop to the `<PDFSlickViewer />` component
 - `usePDFSlickStore` enables using PDFSlick store within your React components
@@ -106,6 +116,7 @@ Provided with the PDF Document path and PDFSlick options object, the `usePDFSlic
 ## PDFSlick for SolidJS
 
 To get started with PDFSlick for SolidJS run:
+
 ```shell
 npm install @pdfslick/solid
 # yarn add @pdfslick/solid
@@ -113,6 +124,7 @@ npm install @pdfslick/solid
 ```
 
 You can start using PDFSlick with the `usePDFSlick()` hook, like with the following basic example:
+
 ```jsx
 import { Component, createSignal } from "solid-js";
 import { usePDFSlick } from "@pdfslick/solid";
@@ -125,12 +137,17 @@ import PDFNavigation from "./yourcomponents/PDFNavigation";
 import "@pdfslick/solid/dist/pdf_viewer.css";
 
 type PDFViewerComponentProps = {
-  pdfFilePath: string;
+  pdfFilePath: string,
 };
 
-const PDFViewerComponent: Component<PDFViewerComponentProps> = ({ pdfFilePath }) => {
-  const { viewerRef, pdfSlickStore: store, PDFSlickViewer } =
-    usePDFSlick(pdfFilePath);
+const PDFViewerComponent: Component<PDFViewerComponentProps> = ({
+  pdfFilePath,
+}) => {
+  const {
+    viewerRef,
+    pdfSlickStore: store,
+    PDFSlickViewer,
+  } = usePDFSlick(pdfFilePath);
 
   return (
     <div class="absolute inset-0 flex flex-col pdfSlick">
@@ -162,6 +179,7 @@ export default PDFViewerComponent;
 ```
 
 Provided with the PDF Document path and options object, the `usePDFSlick()` hook returns an object consisting (among the other things) of:
+
 - `PDFSlickViewer` is the PDF Viewer component used for viewing the PDF document
 - `viewerRef` is the `ref` callback that is provided as a prop to the `<PDFSlickViewer />` component
 - `pdfSlickStore` is the PDFSlick store
@@ -182,11 +200,11 @@ The core of PDFSlick is within the `@pdfslick/core` package. It wraps `PDF.js`'s
 
 Depending on your needs, at this you might find it useful to continue with learning more about using PDFSlick with React and SolidJS respsectivelly. However, if really interested you can learn more about using PDFSlick's `@pdfslick/core` package with Vanilla JS apps and with libraries other than React and SolidJS in the sections below.
 
-
 <br>
 
 [Learn more about PDFSlick](https://pdfslick.dev) | [Checkout the Examples](https://pdfslick.dev/examples)
 
 ## Thanks
+
 - [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
 - [VS Code Icons](https://github.com/microsoft/vscode-codicons) for the icons used throughout the examples
