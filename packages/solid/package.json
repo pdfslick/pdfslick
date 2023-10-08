@@ -9,19 +9,34 @@
     "*.css"
   ],
   "description": "PDFSlick SolidJS — view and interact with PDF documents in your SolidJS apps.",
+  "author": {
+    "name": "Vancho Stojkov",
+    "email": "vancho@stojkov.me",
+    "url": "https://stojkov.me"
+  },
+  "homepage": "https://pdfslick.dev",
+  "bugs": {
+    "url": "https://github.com/pdfslick/pdfslick/issues"
+  },
   "keywords": [
-    "pdf",
-    "pdf.js",
-    "solidjs",
-    "solid",
-    "pdfslick"
+    "pdfslick",
+    "pdf slick",
+    "view pdf",
+    "interact pdf",
+    "pdf solid",
+    "pdf solidjs",
+    "pdf viewer solid",
+    "pdf interact solid",
+    "pdf viewer solidjs",
+    "pdf interact solidjs",
+    "pdf.js"
   ],
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pdfslick/pdfslick.git",
+    "url": "git://github.com/pdfslick/pdfslick.git",
     "directory": "packages/solid"
   },
   "license": "MIT",

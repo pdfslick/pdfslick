@@ -6,17 +6,30 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "description": "PDFSlick React — view and interact with PDF documents in your React apps.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pdfslick/pdfslick.git",
-    "directory": "packages/react"
+  "author": {
+    "name": "Vancho Stojkov",
+    "email": "vancho@stojkov.me",
+    "url": "https://stojkov.me"
+  },
+  "homepage": "https://pdfslick.dev",
+  "bugs": {
+    "url": "https://github.com/pdfslick/pdfslick/issues"
   },
   "keywords": [
-    "pdf",
-    "pdf.js",
-    "react",
-    "pdfslick"
+    "pdfslick",
+    "pdf slick",
+    "view pdf",
+    "interact pdf",
+    "interact pdf react",
+    "pdf react",
+    "pdf react viewer",
+    "pdf.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pdfslick/pdfslick.git",
+    "directory": "packages/react"
+  },
   "files": [
     "dist"
   ],
