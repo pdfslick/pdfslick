@@ -42,18 +42,18 @@
     "update-deps": "ncu -ws -i"
   },
   "devDependencies": {
-    "concurrently": "^8.2.1",
+    "concurrently": "^8.2.2",
     "eslint-config-custom": "*",
-    "npm-check-updates": "^16.14.5",
+    "npm-check-updates": "^16.14.6",
     "prettier": "latest",
-    "turbo": "^1.10.15"
+    "turbo": "^1.10.16"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.2",
-    "rollup": "^4.0.2"
+    "rollup": "^4.1.4"
   },
   "packageManager": "npm@9.8.0"
 }
