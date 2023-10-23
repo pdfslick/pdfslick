@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 1.2.4
+
+### Patch Changes
+
+- Update dependencies
+
 ## 1.2.3
 
 ### Patch Changes

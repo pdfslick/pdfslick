@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "eslint-config-custom": "*",
+    "eslint-config-custom": "0.0.0",
     "npm-check-updates": "^16.14.6",
     "prettier": "latest",
     "turbo": "^1.10.16"

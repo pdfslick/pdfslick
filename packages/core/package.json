@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/core",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "source": "./index.ts",
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -49,16 +49,16 @@
     "zustand": "^4.4.4"
   },
   "devDependencies": {
-    "@pdfslick/rollup-config": "*",
+    "@pdfslick/rollup-config": "0.0.0",
     "autoprefixer": "^10.4.16",
     "concurrently": "^8.2.2",
     "eslint": "^8.52.0",
-    "eslint-config-custom": "*",
+    "eslint-config-custom": "0.0.0",
     "postcss": "^8.4.31",
     "postcss-cli": "^10.1.0",
     "postcss-inline-svg": "^6.0.0",
     "react": "^18.2.0",
-    "tsconfig": "*",
+    "tsconfig": "0.0.0",
     "typescript": "^5.2.2"
   },
   "rollup": {

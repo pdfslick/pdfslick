@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@kobalte/core": "^0.11.2",
-    "@pdfslick/solid": "*",
+    "@pdfslick/solid": "^1.2.4",
     "@solid-primitives/resize-observer": "^2.0.22",
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
