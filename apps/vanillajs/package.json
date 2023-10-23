@@ -13,9 +13,9 @@
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
-    "vite": "^4.4.11"
+    "vite": "^4.5.0"
   },
   "dependencies": {
-    "@pdfslick/core": "*"
+    "@pdfslick/core": "^1.2.4"
   }
 }

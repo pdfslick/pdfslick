@@ -1,5 +1,13 @@
 # @pdfslick/react
 
+## 1.2.4
+
+### Patch Changes
+
+- Update dependencies
+- Updated dependencies
+  - @pdfslick/core@1.2.4
+
 ## 1.2.3
 
 ### Patch Changes

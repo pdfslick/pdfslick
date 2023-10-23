@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/react",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "source": "./index.tsx",
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -43,12 +43,12 @@
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && cp ../core/dist/pdf_viewer.css ./dist"
   },
   "devDependencies": {
-    "@types/react": "^18.2.25",
-    "concurrently": "^8.2.1",
-    "eslint": "^8.51.0",
-    "eslint-config-custom": "*",
+    "@types/react": "^18.2.31",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.52.0",
+    "eslint-config-custom": "0.0.0",
     "react": "^18.2.0",
-    "tsconfig": "*",
+    "tsconfig": "0.0.0",
     "typescript": "^5.2.2",
     "wait-on": "^7.0.1"
   },
@@ -57,9 +57,9 @@
     "react-dom": ">=17"
   },
   "dependencies": {
-    "@pdfslick/core": "*",
+    "@pdfslick/core": "^1.2.4",
     "react-use": "^17.4.0",
-    "zustand": "^4.4.3"
+    "zustand": "^4.4.4"
   },
   "rollup": {
     "globals": {
