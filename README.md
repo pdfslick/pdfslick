@@ -5,7 +5,7 @@
 <br><br>
 
 <div align="center">
-View and Interact with PDF documents in React and SolidJS apps
+View and Interact with PDF documents in React, SolidJS, Svelte and JavaScript apps
 <br><br>
 
 [![Actions Status](https://github.com/pdfslick/pdfslick/actions/workflows/publish_site.yml/badge.svg)](https://github.com/pdfslick/pdfslick/actions)
@@ -27,7 +27,7 @@ View and Interact with PDF documents in React and SolidJS apps
 
 <br>
 
-PDFSlick is a library which enables viewing of and interaction with PDF documents in React and SolidJS apps.
+PDFSlick is a library that enables viewing of and interaction with PDF documents in React, SolidJS, Svelte and JavaScript apps.
 It's build on top of Mozilla's [PDF.js](https://github.com/mozilla/pdf.js), and utilises [Zustand](https://github.com/pmndrs/zustand) to provide a reactive store for the loaded documents.
 
 ## PDFSlick for React
@@ -187,6 +187,126 @@ Provided with the PDF Document path and options object, the `usePDFSlick()` hook
 <br>
 
 [More on using PDFSlick with Solid](https://pdfslick.dev/docs/solid) | [Checkout the SolidJS Examples](./apps/solidweb/src/examples)
+
+<br>
+
+## PDFSlick for Svelte
+
+To get started with PDFSlick for Svelte run:
+
+```shell
+npm install @pdfslick/core
+# yarn add @pdfslick/core
+# pnpm add @pdfslick/core
+```
+
+You can load a PDF document and subscribe to a portion of or the entire PDFSlick store's state, like in the following basic example:
+
+```html
+<script lang="ts">
+  import type { PDFSlick } from '@pdfslick/core';
+  import { onMount, onDestroy } from 'svelte';
+
+  // ...
+
+  /**
+   * Reference to the PDF Viewer container
+   */
+  let container: HTMLDivElement;
+
+  /**
+   * Reference to the pdfSlick instance
+   */
+  let pdfSlick: PDFSlick;
+
+  /**
+   * Keep PDF Slick state portions we're interested in using in your app
+   */
+  let pageNumber = 1;
+  let numPages = 0;
+
+  onMount(async () => {
+    /**
+     * This is all happening on client side, so we'll make sure we only load it there
+     */
+    const { create, PDFSlick } = await import('@pdfslick/core');
+
+    /**
+     * Create the PDF Slick store 
+     */
+    const store = create();
+
+    pdfSlick = new PDFSlick({
+      container,
+      store,
+      options: {
+        scaleValue: 'page-fit'
+      }
+    });
+
+    /**
+     * Load the PDF document
+     */
+    pdfSlick.loadDocument(url);
+    store.setState({ pdfSlick });
+
+    /**
+     * Subscribe to state changes, and keep values of interest as reactive Svelte vars, 
+     * (or alternatively we could hook these or entire PDF state into a Svelte store)
+     * 
+     * Also keep reference of the unsubscribe function we call on component destroy
+     */
+    unsubscribe = store.subscribe((s) => {
+      pageNumber = s.pageNumber;
+      numPages = s.numPages;
+    });
+  });
+
+  onDestroy(() => unsubscribe());
+
+	// ...
+</script>
+
+<!-- ... -->
+
+<div class="absolute inset-0 bg-slate-200/70 pdfSlick">
+
+  <div class="flex-1 relative h-full" id="container">
+    <!--
+      The important part —
+      we use the reference to this `container` when creating PDF Slick instance above
+    -->
+    <div id="viewerContainer" class="pdfSlickContainer absolute inset-0" bind:this={container}>
+      <div id="viewer" class="pdfSlickViewer pdfViewer" />
+    </div>
+  </div>
+
+  <!-- ... -->
+
+  <!-- Use `pdfSlick`, `pageNumber` and `numPages` to create PDF pagination -->
+  <div class="flex justify-center">
+    <button
+      on:click={() => pdfSlick?.gotoPage(Math.max(pageNumber - 1, 1))}
+      disabled={pageNumber <= 1}
+		>
+      Show Previous Page
+    </button>
+    <button
+      on:click={() =>  pdfSlick?.gotoPage(Math.min(pageNumber + 1, numPages))}
+      disabled={pageNumber >= numPages}
+    >
+      Show Next Page
+    </button>
+  </div>
+
+</div>
+
+<!-- ... -->
+```
+
+<br>
+
+[More on using PDFSlick with Svelte](https://pdfslick.dev/docs/svelte) | [Checkout the Svelte Examples](./apps/svelteweb/src)
 
 <br>
 

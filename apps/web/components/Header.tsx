@@ -48,6 +48,10 @@ export const navigation: TDocsNavigation[] = [
     title: "Solid",
     links: [{ title: "Use with SolidJS", href: "/docs/solid" }],
   },
+  {
+    title: "Svelte",
+    links: [{ title: "Use with Svelte", href: "/docs/svelte" }],
+  },
 ];
 
 function GitHubIcon(props: any) {

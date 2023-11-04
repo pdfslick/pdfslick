@@ -107,7 +107,7 @@ export function Layout({ children, title }: LayoutProps) {
                   </p>
                 )}
                 {title && (
-                  <h1 className="font-display text-3xl tracking-tight text-slate-900 dark:text-white">
+                  <h1 className="font-display text-3xl tracking-tight text-slate-900">
                     {title}
                   </h1>
                 )}
@@ -115,16 +115,16 @@ export function Layout({ children, title }: LayoutProps) {
             )}
             <Prose>{children}</Prose>
           </article>
-          <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+          <dl className="mt-12 flex border-t border-slate-200 pt-6">
             {previousPage && (
               <div>
-                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                <dt className="font-display text-sm font-medium text-slate-900">
                   Previous
                 </dt>
                 <dd className="mt-1">
                   <Link
                     href={previousPage.href}
-                    className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                    className="text-base font-semibold text-slate-500 hover:text-slate-600"
                   >
                     <span aria-hidden="true">&larr;</span> {previousPage.title}
                   </Link>
@@ -133,13 +133,13 @@ export function Layout({ children, title }: LayoutProps) {
             )}
             {nextPage && (
               <div className="ml-auto text-right">
-                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                <dt className="font-display text-sm font-medium text-slate-900">
                   Next
                 </dt>
                 <dd className="mt-1">
                   <Link
                     href={nextPage.href}
-                    className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                    className="text-base font-semibold text-slate-500 hover:text-slate-600"
                   >
                     {nextPage.title} <span aria-hidden="true">&rarr;</span>
                   </Link>

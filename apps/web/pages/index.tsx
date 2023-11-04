@@ -84,7 +84,7 @@ export default function Example() {
                       <h1 className="mt-6 text-[2.5rem] leading-none sm:text-6xl tracking-tight font-bold text-slate-800">
                         See it in Action
                       </h1>
-                      <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
+                      <p className="mt-4 text-lg text-slate-600">
                         Embrace PDFs as you would any other part of your React
                         and SolidJS apps — draw inspiration from these examples.
                       </p>

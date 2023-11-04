@@ -3,7 +3,7 @@ title: Getting started with SolidJS
 description: PDFSlick for SolidJS.
 ---
 
-To get started with PDFSlick for SolidJS React run:
+To get started with PDFSlick for SolidJS run:
 
 ```shell
 npm install @pdfslick/solid
