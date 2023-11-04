@@ -1,7 +1,15 @@
-import { Fragment } from "react";
-import { Highlight, themes } from "prism-react-renderer";
+import { Fragment, useEffect } from "react";
+import { Highlight, Prism, themes } from "prism-react-renderer";
+
+(typeof global !== "undefined" ? global : window).Prism = Prism;
 
 export function Fence({ children, language }: any) {
+  useEffect(() => {
+    (async () => {
+      // @ts-ignore
+      await import("prism-svelte");
+    })();
+  }, []);
   return (
     <Highlight
       code={children.trimEnd()}
