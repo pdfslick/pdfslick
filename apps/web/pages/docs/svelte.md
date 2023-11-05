@@ -117,7 +117,7 @@ You can load a PDF document and subscribe to a portion of or the entire PDFSlick
 <!-- ... -->
 ```
 
-For usage examples with Svelte take a look at [the simple PDF Viewer]((https://github.com/pdfslick/pdfslick/tree/main/apps/svelteweb/src/routes/simple-pdf-viewer)) and [the complete PDF Viewer App in Svelte](https://github.com/pdfslick/pdfslick/tree/main/apps/svelteweb/src/lib/PDFViewerApp) in the repo. There are also [React examples](https://github.com/pdfslick/pdfslick/tree/main/apps/web/examples) that might be helpful.
+For usage examples with Svelte take a look at [the simple PDF Viewer](https://github.com/pdfslick/pdfslick/blob/main/apps/svelteweb/src/routes/simple-pdf-viewer/+page.svelte) and [the complete PDF Viewer App in Svelte](https://github.com/pdfslick/pdfslick/tree/main/apps/svelteweb/src/lib/PDFViewerApp) in the repo. There are also [React examples](https://github.com/pdfslick/pdfslick/tree/main/apps/web/examples) that might be helpful.
 
 {% callout type="warning" title="Important Note" %}
 PDFSlick provides a CSS file containing styles that are required in order for it to function properly. This file needs to be imported once, somewhere in your app (`AppComponent.svelte`, or `+layout.svelte`, `+page.svelte` etc.)
