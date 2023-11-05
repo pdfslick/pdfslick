@@ -13,7 +13,7 @@ npm install @pdfslick/solid
 
 You can start using PDFSlick with the `usePDFSlick()` hook, like with the following basic example:
 
-```jsx
+```tsx
 import { Component, createSignal } from "solid-js";
 import { usePDFSlick } from "@pdfslick/solid";
 

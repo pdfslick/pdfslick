@@ -7,7 +7,7 @@ The `<PDFSlickViewer />` component is an essential part for viewing PDF document
 
 So for all PDF documents we want to show, once we call the `usePDFSlick()` hook and get the `PDFSlickViewer`, `viewerRef` and `usePDFSlickStore` we can render the document's PDF viewer:
 
-```jsx
+```tsx
   ...
 
   const { viewerRef, usePDFSlickStore, PDFSlickViewer } = usePDFSlick(pdfFilePath);
@@ -27,7 +27,7 @@ In addition to rendering pages, PDFSlick provides a component for rendering page
 
 Here's an example for rendering PDF document viewer, and getting the `thumbRef` for the thumbnails component:
 
-```jsx
+```tsx
 import { useEffect, useState } from "react";
 import { usePDFSlick } from "@pdfslick/react";
 import Thumbsbar from "./Thumbsbar";
@@ -62,7 +62,7 @@ export default function PDFViewerApp({ pdfFilePath }: PDFViewerAppProps) {
 
 So now we can pass the `thumbsRef` to render the thumbnails for the PDF pages in a sidebar next to the main PDF viewer:
 
-```jsx
+```tsx
 import clsx from "clsx";
 import { type TUsePDFSlickStore, PDFSlickThumbnails } from "@pdfslick/react";
 
@@ -145,7 +145,7 @@ As we can see above PDFSlick's `<PDFSlickThumbnails />` component makes it easy 
 
 Very important to note here is that it expects a child component that is used to render each thumbnails. The child gets appropriate props for the page thumbnail: {% .lead %}
 
-```jsx
+```tsx
 <PDFSlickThumbnails {...{ thumbsRef, usePDFSlickStore }}>
   {({ pageNumber, width, height, src, pageLabel, rotation, scale, loaded }) => (
     <div className="...">

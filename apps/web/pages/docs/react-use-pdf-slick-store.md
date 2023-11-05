@@ -50,7 +50,7 @@ This is basically a [Zustand](https://github.com/pmndrs/zustand) store that hand
 
 So for example, to get the current scale and the number of pages of the PDF document, and show it somewhere in a component we could use `usePDFSlickStore()` like in the following code:
 
-```jsx
+```tsx
 const currentScale = usePDFSlickStore(state => state.scale);
 const numPages = usePDFSlickStore(state => state.numPages);
 

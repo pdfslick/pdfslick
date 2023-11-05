@@ -13,7 +13,7 @@ npm install @pdfslick/react
 
 You can start using PDFSlick with the `usePDFSlick()` hook, like with the following basic example:
 
-```jsx
+```tsx
 import { usePDFSlick } from "@pdfslick/react";
 import PDFNavigation from "./PDFNavigation";
 
