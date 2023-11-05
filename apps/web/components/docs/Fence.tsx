@@ -1,20 +1,14 @@
-import { Fragment, useEffect } from "react";
-import { Highlight, Prism, themes } from "prism-react-renderer";
-
-(typeof global !== "undefined" ? global : window).Prism = Prism;
+import { Fragment } from "react";
+import { Highlight, themes } from "prism-react-renderer";
+import { Prism } from "./Prism";
 
 export function Fence({ children, language }: any) {
-  useEffect(() => {
-    (async () => {
-      // @ts-ignore
-      await import("prism-svelte");
-    })();
-  }, []);
   return (
     <Highlight
       code={children.trimEnd()}
       language={language}
       theme={themes.dracula}
+      prism={Prism}
     >
       {({ className, style, tokens, getTokenProps }) => (
         <pre className={className} style={style}>
