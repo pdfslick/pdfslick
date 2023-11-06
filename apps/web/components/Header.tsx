@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useWindowScroll } from "react-use";
+import { useRouter } from "next/router";
 
 export const mainNavigation = [
   { name: "Examples", href: "/examples" },
@@ -69,6 +70,11 @@ type HeaderProps = {
 export function Header({ alwaysShowBorders = false }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { y: scrollY } = useWindowScroll();
+  let router = useRouter();
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [router.pathname]);
 
   return (
     <header
@@ -151,13 +157,48 @@ export function Header({ alwaysShowBorders = false }: HeaderProps) {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 {mainNavigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {item.name}
-                  </Link>
+                  <div key={item.name}>
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      {item.name}
+                    </Link>
+                    {item.href === "/docs" && (
+                      <nav className={clsx("text-base lg:text-sm pl-2")}>
+                        <ul role="list" className="space-y-2">
+                          {navigation.map((section) => (
+                            <li key={section.title}>
+                              <h2 className="font-display font-extralight text-xs tracking-widest text-slate-300 uppercase">
+                                {section.title}
+                              </h2>
+                              <ul
+                                role="list"
+                                className="mt-2 space-y-1 lg:mt-4 lg:space-y-4 lg:border-slate-200"
+                              >
+                                {section.links.map((link) => (
+                                  <li key={link.href} className="relative">
+                                    <Link
+                                      href={link.href}
+                                      className={clsx(
+                                        "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full",
+                                        link.href === router.pathname
+                                          ? "font-semibold text-rose-500 before:bg-rose-500"
+                                          : "text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-600 hover:before:block"
+                                      )}
+                                    >
+                                      {link.title}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </li>
+                          ))}
+                        </ul>
+                      </nav>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

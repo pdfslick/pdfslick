@@ -49,10 +49,10 @@ Provided with the PDF Document path and options object, the `usePDFSlick()` hook
 {% callout type="warning" title="Important Note" %}
 PDFSlick provides a CSS file containing styles that are required in order for it to function properly. This file needs to be imported once, somewhere in your app (`index.tsx`, `App.tsx` etc.)
 
+{% /callout %}
+
 ```js
 import "@pdfslick/solid/dist/pdf_viewer.css";
 ```
-
-{% /callout %}
 
 You can take a look at [the code for this example](https://github.com/pdfslick/pdfslick/tree/main/apps/solidweb/src/examples/PDFViewerApp) in the repo, and [the React examples](https://github.com/pdfslick/pdfslick/tree/main/apps/web/examples) which may also be helpful.
