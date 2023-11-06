@@ -14,9 +14,9 @@ PDFSlick is a library that enables viewing of and interaction with PDF documents
 
 ## Core Concepts
 
-The core of PDFSlick is within the `@pdfslick/core` package. It wraps `PDF.js`'s functionality and links it to the store. This `@pdfslick/core` package is the basis for the React and SolidJS packages, which additionally transform the store and make it suitable for the adequate library, as well as providing components for the PDF viewer and thumbnails.
+The core of PDFSlick is within the `@pdfslick/core` package. It wraps `PDF.js`'s functionality and links it to the store. This `@pdfslick/core` package is the basis for the [React](/docs/react) and [SolidJS](/docs/solid) packages, which additionally transform the store and make it suitable for the adequate library, as well as providing components for the PDF viewer and thumbnails.
 
-Depending on your needs, at this you might find it useful to continue with learning more about using PDFSlick with React and SolidJS respsectivelly. However, if really interested you can learn more about using PDFSlick's `@pdfslick/core` package with Vanilla JS apps and with libraries other than React and SolidJS in the sections below.
+Depending on your needs, you might find it useful to continue with learning more about using PDFSlick with [React](/docs/react) and [SolidJS](/docs/solid) respsectivelly. Here you can learn more about using PDFSlick's `@pdfslick/core` package with Vanilla JS apps and with libraries other than React and SolidJS, like [Svelte](/docs/svelte). 
 
 {% quick-links %}
 
@@ -24,12 +24,14 @@ Depending on your needs, at this you might find it useful to continue with learn
 
 {% quick-link title="SolidJS" icon="solid" href="/docs/solid" description="Learn more about using PDFSlick with SolidJS." /%}
 
+{% quick-link title="Svelte" icon="svelte" href="/docs/svelte" description="Learn more about using PDFSlick with Svelte." /%}
+
 {% /quick-links %}
 
 ## PDFSlick core package
 
 {% callout type="warning" title="Note on PDFSlick Core Package" %}
-As mentioned above, the core package is intented for use in Vanilla JS apps or in other JS libraries other than React and SolidJS. If interested in using PDFSlick in your [React](/docs/react) and [SolidJS](/docs/solid) apps jump to their respective sections.
+The core package is intented for use in Vanilla JS apps or with JS libraries other than React and SolidJS, like with [Svelte](/docs/svelte) for example. If interested in using PDFSlick in your [React](/docs/react) and [SolidJS](/docs/solid) apps jump to their respective sections.
 {% /callout %}
 
 To install PDFSlick core package run:
@@ -133,5 +135,7 @@ Going through the docs sections on React or SolidJS, as well as the examples the
 {% quick-link title="React" icon="react" href="/docs/react" description="Learn more about using PDFSlick with React." /%}
 
 {% quick-link title="SolidJS" icon="solid" href="/docs/solid" description="Learn more about using PDFSlick with SolidJS." /%}
+
+{% quick-link title="Svelte" icon="svelte" href="/docs/svelte" description="Learn more about using PDFSlick with Svelte." /%}
 
 {% /quick-links %}

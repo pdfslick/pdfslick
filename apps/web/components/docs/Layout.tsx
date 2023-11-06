@@ -154,7 +154,6 @@ export function Layout({ children, title }: LayoutProps) {
 }
 
 export function LayoutTest({ children, frontmatter }: any) {
-  console.log(frontmatter);
   return (
     <>
       <Prose>{children}</Prose>

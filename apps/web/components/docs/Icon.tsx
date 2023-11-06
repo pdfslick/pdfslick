@@ -9,6 +9,7 @@ import { ThemingIcon } from "./icons/ThemingIcon";
 import { WarningIcon } from "./icons/WarningIcon";
 import { ReactIcon } from "./icons/ReactIcon";
 import { SolidJSIcon } from "./icons/SolidJSIcon";
+import { SvelteIcon } from "./icons/SvelteIcon";
 
 export type IconsProps = {
   id: string;
@@ -24,6 +25,7 @@ const icons: Record<string, typeof InstallationIcon> = {
   warning: WarningIcon,
   react: ReactIcon,
   solid: SolidJSIcon,
+  svelte: SvelteIcon
 };
 
 const iconStyles: Record<string, string> = {

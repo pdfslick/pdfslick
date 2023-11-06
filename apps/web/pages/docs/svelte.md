@@ -122,8 +122,8 @@ For usage examples with Svelte take a look at [the simple PDF Viewer](https://gi
 {% callout type="warning" title="Important Note" %}
 PDFSlick provides a CSS file containing styles that are required in order for it to function properly. This file needs to be imported once, somewhere in your app (`AppComponent.svelte`, or `+layout.svelte`, `+page.svelte` etc.)
 
+{% /callout %}
+
 ```js
 import "@pdfslick/solid/dist/pdf_viewer.css";
 ```
-
-{% /callout %}
