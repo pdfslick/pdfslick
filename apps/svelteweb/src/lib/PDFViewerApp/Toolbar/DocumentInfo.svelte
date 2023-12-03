@@ -43,7 +43,7 @@
 			on:click={() => {
 				isOpen = false;
 			}}
-      role='none'
+			role="none"
 		/>
 
 		<div class="fixed inset-0 overflow-y-auto pointer-events-none">

@@ -13,9 +13,9 @@
 			<button
 				class="w-full box-border rounded text-left hover:text-slate-900 p-1 hover:bg-slate-200"
 				on:click={(e) => {
-          // @ts-ignore
-          e.target && $pdfSlickStore?.pdfSlick?.openOrDownloadData(e.target, content, filename)
-        }}
+					// @ts-expect-error Argument of type 'EventTarget' is not assignable to parameter of type 'HTMLElement'
+					e.target && $pdfSlickStore?.pdfSlick?.openOrDownloadData(e.target, content, filename);
+				}}
 			>
 				{filename}
 			</button>
