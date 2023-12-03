@@ -65,7 +65,7 @@
 
 		<div class="flex items-center text-center space-x-2">
 			<form
-				on:submit|preventDefault={(e) => {
+				on:submit|preventDefault={() => {
 					const newPageNumber = parseInt(wantedPageNumber + '');
 					if (
 						Number.isInteger(newPageNumber) &&
@@ -83,7 +83,7 @@
 					bind:value={wantedPageNumber}
 					class="block w-12 text-right rounded-sm border border-slate-300 focus:shadow focus:border-blue-400 focus:ring-0 outline-none text-xs p-1 px-1.5 placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:italic"
 					on:focus={(e) => {
-						e.currentTarget.select()
+						e.currentTarget.select();
 					}}
 					on:keydown={(e) => {
 						switch (e.key) {

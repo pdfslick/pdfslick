@@ -23,7 +23,7 @@
 		let newWidth = 0;
 
 		const dragResize = drag<HTMLDivElement, unknown>()
-			.on('start', (e) => {
+			.on('start', () => {
 				newWidth = containerRef.clientWidth;
 				isResizing = true;
 			})
@@ -31,7 +31,7 @@
 				newWidth += e.dx;
 				width = Math.min(620, Math.max(233, newWidth));
 			})
-			.on('end', (e) => {
+			.on('end', () => {
 				isResizing = false;
 			});
 

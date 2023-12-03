@@ -20,9 +20,10 @@
 		SpreadMode = pdfSlick.SpreadMode;
 	});
 
-	const handleOpenPdfFile = (e: any) => {
-		if (e.target.files && e.target.files[0]) {
-			const file = e.target.files[0];
+	const handleOpenPdfFile = (e: Event) => {
+		const target = e.target as HTMLInputElement;
+		if (target.files && target.files[0]) {
+			const file = target.files[0];
 			const url = URL.createObjectURL(file);
 			$pdfSlickStore?.pdfSlick?.loadDocument(url, { filename: file.name });
 		}
