@@ -43,7 +43,7 @@
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && cp ../core/dist/pdf_viewer.css ./dist"
   },
   "devDependencies": {
-    "@types/react": "^18.2.41",
+    "@types/react": "^18.2.42",
     "concurrently": "^8.2.2",
     "eslint": "^8.55.0",
     "eslint-config-custom": "0.0.0",

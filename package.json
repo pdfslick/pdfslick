@@ -44,16 +44,16 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "eslint-config-custom": "0.0.0",
-    "npm-check-updates": "^16.14.6",
+    "npm-check-updates": "^16.14.11",
     "prettier": "latest",
-    "turbo": "^1.10.16"
+    "turbo": "^1.11.0"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.2",
-    "rollup": "^4.1.4"
+    "@changesets/cli": "^2.27.1",
+    "rollup": "^4.6.1"
   },
   "packageManager": "npm@9.8.0"
 }
