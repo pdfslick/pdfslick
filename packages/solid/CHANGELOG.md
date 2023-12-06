@@ -1,5 +1,13 @@
 # @pdfslick/solid
 
+## 1.2.6
+
+### Patch Changes
+
+- Update dependencies
+- Updated dependencies
+  - @pdfslick/core@1.2.6
+
 ## 1.2.5
 
 ### Patch Changes

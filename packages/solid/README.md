@@ -18,7 +18,7 @@ View and Interact with PDF documents in SolidJS apps
 
 <br>
 
-PDFSlick for Solid is a library which enables viewing of and interaction with PDF documents in SolidJS apps.
+PDFSlick for Solid is a library that enables viewing of and interaction with PDF documents in SolidJS apps.
 It's build on top of Mozilla's [PDF.js](https://github.com/mozilla/pdf.js), and utilises [Zustand](https://github.com/pmndrs/zustand) to provide a reactive store for the loaded documents.
 
 ## Getting started with PDFSlick for SolidJS
