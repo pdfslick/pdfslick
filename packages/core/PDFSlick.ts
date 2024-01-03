@@ -130,7 +130,7 @@ export class PDFSlick {
     this.useOnlyCssZoom = options?.useOnlyCssZoom ?? false;
     this.pageColors = options?.pageColors ?? null;
     this.maxCanvasPixels = options?.maxCanvasPixels ?? 16777216;
-    this.printResolution = options?.printResolution ?? 72;
+    this.printResolution = options?.printResolution ?? 96;
     this.thumbnailWidth = options?.thumbnailWidth ?? 125;
 
     if (
