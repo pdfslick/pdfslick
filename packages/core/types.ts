@@ -36,7 +36,7 @@ export type PDFSlickStateProps = {
   scrollMode: number;
 
   // documentInfo
-  url: string | null;
+  url: string | ArrayBuffer | null;
   filename?: string;
   filesize?: number;
   title?: string;

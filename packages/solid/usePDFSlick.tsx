@@ -8,7 +8,7 @@ import PDFSlickViewer from "./PDFSlickViewer";
 import { PDFSlickThumbnails } from "./PDFSlickThumbnails";
 
 type TUsePDFSlick = (
-  url: string | URL | undefined,
+  url: string | URL | ArrayBuffer | undefined,
   options?: PDFSlickOptions
 ) => {
   isDocumentLoaded: Accessor<boolean>;
