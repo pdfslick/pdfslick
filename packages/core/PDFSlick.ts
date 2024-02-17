@@ -79,7 +79,7 @@ export class PDFSlick {
   #viewerContainer: HTMLDivElement | undefined;
   #thumbsContainer: HTMLDivElement | undefined;
   printService: any;
-  url: string | URL | undefined;
+  url: string | ArrayBuffer | undefined;
   eventBus: EventBus;
   linkService: PDFLinkService;
   downloadManager: DownloadManager | null = null;
@@ -219,23 +219,27 @@ export class PDFSlick {
     this.store.setState({ scaleValue });
   }
 
-  async loadDocument(url: string | URL, options?: { filename?: string }) {
-    if (this.url) {
+  async loadDocument(url: string | URL | ArrayBuffer, options?: { filename?: string }) {
+    if (this.url && typeof this.url === "string") {
       try {
-        URL.revokeObjectURL(this.url.toString());
+        URL.revokeObjectURL(this.url);
       } catch (err) {}
     }
 
     this.document?.destroy();
     this.viewer?.cleanup();
 
-    this.url = url.toString();
+    if (url instanceof URL) {
+      this.url = url.toString();
+    } else {
+      this.url = url;
+    }
 
     const filename =
       options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
     this.filename = filename;
 
-    const pdfDocument = await getDocument({ url }).promise;
+    const pdfDocument = await getDocument(url).promise;
 
     this.document = pdfDocument;
     this.viewer.setDocument(this.document);
