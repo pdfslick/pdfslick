@@ -5,6 +5,8 @@ import type { PDFSlickState, PDFSlickOptions } from "@pdfslick/core";
 import PDFSlickViewer from "./PDFSlickViewer";
 import { PDFSlickThumbnails } from "./PDFSlickThumbnails";
 
+export { PDFSlickViewer };
+
 export type TUsePDFSlickStore = {
   (): PDFSlickState;
   <T>(
@@ -14,7 +16,7 @@ export type TUsePDFSlickStore = {
 };
 
 type TUsePDFSlick = (
-  url: string | URL | undefined,
+  url: string | URL | ArrayBuffer | undefined,
 
   options?: PDFSlickOptions
 ) => {
