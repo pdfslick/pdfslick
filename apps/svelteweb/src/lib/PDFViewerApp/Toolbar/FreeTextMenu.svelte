@@ -1,11 +1,31 @@
 <script lang="ts">
-	import { AnnotationEditorType, AnnotationEditorParamsType } from 'pdfjs-dist';
 	import { clsx } from 'clsx';
 	import { scale } from 'svelte/transition';
 	import { quintOut, quintIn } from 'svelte/easing';
 	import { Menu, MenuButton, MenuItems } from '@rgossiaux/svelte-headlessui';
 	import { pdfSlickStore } from '$lib/store';
 	import { default as colors, colorStrengths, colorNames } from '$lib/colors';
+
+	/**
+	 * import { AnnotationEditorType, AnnotationEditorParamsType } from 'pdfjs-dist';
+	 * ^ SyntaxError: [vite] Named export 'AnnotationEditorParamsType' not found. The requested module 'pdfjs-dist' is a CommonJS module, which may not support all module.exports as named exports.
+	 */
+
+	const AnnotationEditorType = {
+		DISABLE: -1,
+		NONE: 0,
+		FREETEXT: 3,
+		INK: 15
+	};
+
+	const AnnotationEditorParamsType = {
+		FREETEXT_SIZE: 1,
+		FREETEXT_COLOR: 2,
+		FREETEXT_OPACITY: 3,
+		INK_COLOR: 11,
+		INK_THICKNESS: 12,
+		INK_OPACITY: 13
+	};
 
 	let isFreetextMode = false;
 	let fontSize = 12;

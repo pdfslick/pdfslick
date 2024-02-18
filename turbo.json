@@ -9,9 +9,15 @@
     "lint": {
       "outputs": []
     },
-    "dev": {
+    "devdev": {
       "outputs": ["dist/**"],
       "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^devdev"],
+      "outputs": ["dist/**"],
+      "cache": false,
+      "persistent": true
     }
   },
   "globalEnv": ["NODE_ENV"]

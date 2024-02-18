@@ -40,21 +40,22 @@
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
     "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"npm run css-watch\"",
+    "devdev": "rollup --config node:@pdfslick/rollup-config && npm run css",
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && npm run css",
     "css": "postcss styles/pdf_viewer.css --config ./postcss.config.cjs --dir dist",
     "css-watch": "npm run css -- --watch"
   },
   "dependencies": {
     "pdfjs-dist": "^3.11.174",
-    "zustand": "^4.4.7"
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "@pdfslick/rollup-config": "0.0.0",
-    "autoprefixer": "^10.4.16",
+    "autoprefixer": "^10.4.17",
     "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-config-custom": "0.0.0",
-    "postcss": "^8.4.32",
+    "postcss": "^8.4.35",
     "postcss-cli": "^11.0.0",
     "postcss-inline-svg": "^6.0.0",
     "react": "^18.2.0",
