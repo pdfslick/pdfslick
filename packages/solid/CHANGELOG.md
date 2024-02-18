@@ -1,5 +1,16 @@
 # @pdfslick/solid
 
+## 1.3.0
+
+### Minor Changes
+
+- Allow loading PDFs as ArrayBuffers
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@1.3.0
+
 ## 1.2.7
 
 ### Patch Changes
