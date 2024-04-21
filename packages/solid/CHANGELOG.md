@@ -1,5 +1,16 @@
 # @pdfslick/solid
 
+## 1.4.0
+
+### Minor Changes
+
+- Use local pdfjs worker
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@1.4.0
+
 ## 1.3.0
 
 ### Minor Changes

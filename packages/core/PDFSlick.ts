@@ -50,7 +50,10 @@ import {
   isValidRotation,
 } from "./lib/ui_utils";
 
-GlobalWorkerOptions.workerSrc = `//cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.js`;
+GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.js',
+  import.meta.url
+).toString();
 
 const US_PAGE_NAMES = {
   "8.5x11": "Letter",
@@ -223,7 +226,7 @@ export class PDFSlick {
     if (this.url && typeof this.url === "string") {
       try {
         URL.revokeObjectURL(this.url);
-      } catch (err) {}
+      } catch (err) { }
     }
 
     this.document?.destroy();
@@ -398,17 +401,15 @@ export class PDFSlick {
     const [{ width, height }, unit, name, orientation] = await Promise.all([
       _isNonMetricLocale ? sizeInches : sizeMillimeters,
       this.l10n.get(
-        `document_properties_page_size_unit_${
-          _isNonMetricLocale ? "inches" : "millimeters"
+        `document_properties_page_size_unit_${_isNonMetricLocale ? "inches" : "millimeters"
         }`
       ),
       rawName &&
-        this.l10n.get(
-          `document_properties_page_size_name_${rawName.toLowerCase()}`
-        ),
       this.l10n.get(
-        `document_properties_page_size_orientation_${
-          isPortrait ? "portrait" : "landscape"
+        `document_properties_page_size_name_${rawName.toLowerCase()}`
+      ),
+      this.l10n.get(
+        `document_properties_page_size_orientation_${isPortrait ? "portrait" : "landscape"
         }`
       ),
     ]);
