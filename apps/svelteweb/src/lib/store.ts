@@ -29,7 +29,7 @@ type PDFSlickState = {
 	pagesRotation: number;
 	spreadMode: number;
 	scrollMode: number;
-	url: string | null;
+	url: string | ArrayBuffer | null;
 	filename?: string;
 	filesize?: number;
 	title?: string;
