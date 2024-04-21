@@ -47,20 +47,20 @@
   },
   "dependencies": {
     "pdfjs-dist": "^3.11.174",
-    "zustand": "^4.5.1"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@pdfslick/rollup-config": "0.0.0",
-    "autoprefixer": "^10.4.17",
+    "autoprefixer": "^10.4.19",
     "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-config-custom": "0.0.0",
-    "postcss": "^8.4.35",
+    "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-inline-svg": "^6.0.0",
     "react": "^18.2.0",
     "tsconfig": "0.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "rollup": {
     "globals": {
