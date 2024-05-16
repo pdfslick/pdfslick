@@ -46,7 +46,7 @@
     "css-watch": "npm run css -- --watch"
   },
   "dependencies": {
-    "pdfjs-dist": "^3.11.174",
+    "pdfjs-dist": "3.11.174",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -58,7 +58,7 @@
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-inline-svg": "^6.0.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "tsconfig": "0.0.0",
     "typescript": "^5.4.5"
   },

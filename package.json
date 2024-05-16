@@ -46,15 +46,14 @@
     "eslint-config-custom": "0.0.0",
     "npm-check-updates": "^16.14.12",
     "prettier": "latest",
-    "turbo": "^1.13.2"
+    "turbo": "^1.13.3"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.1",
-    "rollup": "^4.9.2",
-    "pdfjs-dist": "3.11.174"
+    "rollup": "^4.9.2"
   },
   "packageManager": "npm@9.8.0"
 }

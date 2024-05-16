@@ -44,11 +44,11 @@
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && cp ../core/dist/pdf_viewer.css ./dist"
   },
   "devDependencies": {
-    "@types/react": "^18.2.79",
+    "@types/react": "^18.3.2",
     "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-config-custom": "0.0.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "tsconfig": "0.0.0",
     "typescript": "^5.4.5",
     "wait-on": "^7.2.0"

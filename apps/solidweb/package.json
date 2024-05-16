@@ -20,17 +20,17 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.10",
+    "vite": "^5.2.11",
     "vite-plugin-solid": "^2.10.2"
   },
   "dependencies": {
-    "@kobalte/core": "^0.12.6",
+    "@kobalte/core": "^0.13.1",
     "@pdfslick/solid": "^1.2.4",
     "@solid-primitives/resize-observer": "^2.0.25",
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.16"
+    "solid-js": "^1.8.17"
   },
   "type": "module"
 }
