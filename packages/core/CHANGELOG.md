@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 1.4.1
+
+### Patch Changes
+
+- Use exact version for pdfjs-dist
+
 ## 1.4.0
 
 ### Minor Changes
