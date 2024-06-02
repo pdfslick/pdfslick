@@ -30,4 +30,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: wrangler pages deploy apps/svelteweb/.svelte-kit/cloudflare --project-name pdfslicksvelte  --commit-dirty=true --branch main
+          command: pages deploy apps/svelteweb/.svelte-kit/cloudflare --project-name pdfslicksvelte --branch main
