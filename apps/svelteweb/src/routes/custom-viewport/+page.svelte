@@ -21,6 +21,9 @@
 	let numPages = 0;
 	let scaleValue: string | undefined;
 
+	let files: FileList;
+	let handleFile: (url: string | ArrayBuffer) => Promise<void>;
+
 	onMount(async () => {
 		/**
 		 * This is all happening on client side, so make sure we load it only there
@@ -32,41 +35,49 @@
 		 */
 		const store = create();
 
-		pdfSlick = new PDFSlick({
-			container,
-			store,
-			options: {
-				scaleValue: 'page-fit'
-			}
-		});
+		handleFile = async (url: string | ArrayBuffer) => {
+			// TODO: Figure out why pdfjs doesn't remove #hiddenCopyElement in _resetView()
+			// https://github.com/mozilla/pdf.js/blob/5c51d5622342261259a40fcc86b792ac2ec4bf7c/web/pdf_viewer.js#L1109
+			container.querySelector('#hiddenCopyElement')?.remove();
 
-		/**
-		 * Load the PDF document
-		 */
-		pdfSlick.loadDocument(url);
-		store.setState({ pdfSlick });
+			pdfSlick = new PDFSlick({
+				container,
+				store,
+				options: {
+					scaleValue: 'page-fit'
+				}
+			});
 
-		/**
-		 * Resize observer — if zoom is not an absolute numeric value, adjust the PDF accordingly
-		 */
-		RO = new ResizeObserver(() => {
-			// const { scaleValue } = store.getState();
-			if (scaleValue && ['page-width', 'page-fit', 'auto'].includes(scaleValue)) {
-				pdfSlick.viewer.currentScaleValue = scaleValue;
-			}
-		});
+			/**
+			 * Load the PDF document
+			 */
+			pdfSlick.loadDocument(url);
+			store.setState({ pdfSlick });
 
-		/**
-		 * We can subscribe to state changes, and keep values of interest as reactive Svelte vars,
-		 * or alternatively we could hook these to a Svelte store
-		 *
-		 * Also keep reference of the unsubscribe function we call on component destroy
-		 */
-		unsubscribe = store.subscribe((s) => {
-			pageNumber = s.pageNumber;
-			numPages = s.numPages;
-			scaleValue = s.scaleValue;
-		});
+			/**
+			 * Resize observer — if zoom is not an absolute numeric value, adjust the PDF accordingly
+			 */
+			RO = new ResizeObserver(() => {
+				// const { scaleValue } = store.getState();
+				if (scaleValue && ['page-width', 'page-fit', 'auto'].includes(scaleValue)) {
+					pdfSlick.viewer.currentScaleValue = scaleValue;
+				}
+			});
+
+			/**
+			 * We can subscribe to state changes, and keep values of interest as reactive Svelte vars,
+			 * or alternatively we could hook these to a Svelte store
+			 *
+			 * Also keep reference of the unsubscribe function we call on component destroy
+			 */
+			unsubscribe = store.subscribe((s) => {
+				pageNumber = s.pageNumber;
+				numPages = s.numPages;
+				scaleValue = s.scaleValue;
+			});
+		};
+
+		handleFile(url);
 	});
 
 	onDestroy(() => {
@@ -84,7 +95,27 @@
 	const onGotoPrevious = () => pdfSlick?.gotoPage(Math.max(pageNumber - 1, 1));
 	const zoomOut = () => pdfSlick?.decreaseScale();
 	const zoomIn = () => pdfSlick?.increaseScale();
+
+	$: if (files) {
+		const [file] = [...files];
+
+		file
+			.arrayBuffer()
+			.then((f) => URL.createObjectURL(new Blob([f])))
+			.then((u) => {
+				url = u;
+				handleFile(u);
+			});
+	}
 </script>
+
+<input
+	accept=".pdf"
+	bind:files
+	id="upload-file"
+	type="file"
+	class="absolute -top-full -left-full opacity-0"
+/>
 
 <div class="w-[800px] h-[800px] max-w-full max-h-full relative mx-auto">
 	<div class="absolute inset-0 bg-slate-200/70 pdfSlick">
@@ -94,7 +125,10 @@
 			</div>
 		</div>
 
-		<div class="absolute w-full h-12 bottom-0 right-0 z-50 pointer-events-none">
+		<div
+			class="absolute w-full h-12 bottom-0 right-0 z-50 pointer-events-none flex justify-between items-center px-2"
+		>
+			<div></div>
 			<div class="flex justify-center">
 				<div
 					class="inline-flex rounded shadow justify-center border border-slate-300 bg-white divide-x divide-x-slate-100"
@@ -193,6 +227,22 @@
 							/>
 						</svg>
 					</button>
+				</div>
+			</div>
+			<div class="flex justify-end">
+				<div class="inline-flex rounded shadow justify-center border border-slate-300 bg-white">
+					<label
+						for="upload-file"
+						id="uploadBtn"
+						class="relative cursor-pointer inline-flex items-center rounded-l px-2 py-2 text-slate-500 ring-0 ring-inset ring-slate-700 hover:bg-slate-50 enabled:hover:text-slate-900 transition-all focus:z-10 disabled:opacity-70 pointer-events-auto"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 32 32"
+							><path
+								fill="currentColor"
+								d="m6 18l1.41 1.41L15 11.83V30h2V11.83l7.59 7.58L26 18L16 8zM6 8V4h20v4h2V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v4z"
+							/></svg
+						>
+					</label>
 				</div>
 			</div>
 		</div>
