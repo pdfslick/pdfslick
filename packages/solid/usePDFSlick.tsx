@@ -2,7 +2,11 @@ import { createStore, reconcile } from "solid-js/store";
 import { createEffect, createSignal, type Accessor } from "solid-js";
 import { onCleanup } from "solid-js";
 import { create, PDFSlick } from "@pdfslick/core";
-import type { PDFSlickOptions, PDFSlickState } from "@pdfslick/core";
+import type {
+  PDFSlickOptions,
+  PDFSlickState,
+  PDFException,
+} from "@pdfslick/core";
 import { StoreApi } from "zustand";
 import PDFSlickViewer from "./PDFSlickViewer";
 import { PDFSlickThumbnails } from "./PDFSlickThumbnails";
@@ -18,6 +22,7 @@ type TUsePDFSlick = (
   pdfSlickStore: PDFSlickState;
   PDFSlickViewer: typeof PDFSlickViewer;
   PDFSlickThumbnails: typeof PDFSlickThumbnails;
+  error: PDFException | null;
 };
 
 type ExtractState<S> = S extends { getState: () => infer T } ? T : never;
@@ -58,33 +63,38 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
   const [areContainersMounted, setContainersMounted] = createSignal(false);
   const [container, setContainer] = createSignal<HTMLElement | null>(null);
   const [thumbs, setThumbs] = createSignal<HTMLElement | null>(null);
+  const [error, setError] = createSignal<PDFException | null>(null);
 
   const [pdfSlick, setPdfSlick] = createSignal<PDFSlick | null>(null);
 
   const zustandStore = create();
   const pdfSlickStore = useStore(zustandStore);
 
-  const viewerRef = (node: HTMLDivElement) => {
+  const viewerRef = (node: HTMLElement) => {
     setContainer(node);
     setContainersMounted(true);
   };
 
-  const thumbsRef = (node: HTMLDivElement) => {
+  const thumbsRef = (node: HTMLElement) => {
     setThumbs(node);
   };
 
   createEffect(() => {
     if (url && areContainersMounted()) {
       const pdfSlick = new PDFSlick({
-        container: container()!,
-        thumbs: thumbs()!,
+        container: container()! as HTMLDivElement,
+        thumbs: thumbs()! as HTMLDivElement,
         store: zustandStore,
         options,
+        onError: (err) => setError(err),
       });
       setPdfSlick(pdfSlick);
       zustandStore.setState({ pdfSlick });
 
-      pdfSlick.loadDocument(url, options).then(() => setIsDocumentLoaded(true));
+      pdfSlick.loadDocument(url, options).then(() => {
+        setIsDocumentLoaded(true);
+        setError(null);
+      });
     }
   });
 
@@ -96,5 +106,6 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
     pdfSlickStore,
     PDFSlickViewer,
     PDFSlickThumbnails,
+    error,
   };
 };

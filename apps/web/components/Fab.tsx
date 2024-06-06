@@ -17,9 +17,13 @@ import { useRouter } from "next/router";
 
 type FabProps = {
   pdfSwitchable?: boolean;
+  showNonExisting?: boolean;
 };
 
-export default function Fab({ pdfSwitchable = true }: FabProps) {
+export default function Fab({
+  pdfSwitchable = true,
+  showNonExisting = false,
+}: FabProps) {
   const router = useRouter();
   const openPdfFileRef = useRef() as MutableRefObject<HTMLInputElement>;
 
@@ -93,6 +97,47 @@ export default function Fab({ pdfSwitchable = true }: FabProps) {
                       )}
                     </Menu.Item>
                   ))}
+
+                  {showNonExisting && (
+                    <>
+                      <Menu.Item key="non-existing">
+                        {({ active }) => (
+                          <a
+                            href={`${router.pathname}?pdf=/pdfs/non_existing.pdf`}
+                            title="Non existing PDF"
+                            className={clsx(
+                              "w-full items-top flex space-x-2 box-border text-left px-2 py-1.5 text-sm disabled:opacity-50",
+                              {
+                                "bg-slate-100 text-red-900": active,
+                                "text-red-500": !active,
+                              }
+                            )}
+                          >
+                            <VscIndent className="w-4 h-4 shrink-0" />
+                            <span className="truncate block">Non existing</span>
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item key="invalid">
+                        {({ active }) => (
+                          <a
+                            href={`${router.pathname}?pdf=/pdfs/invalid.pdf`}
+                            title="Invalid PDF Document"
+                            className={clsx(
+                              "w-full items-top flex space-x-2 box-border text-left px-2 py-1.5 text-sm disabled:opacity-50",
+                              {
+                                "bg-slate-100 text-red-900": active,
+                                "text-red-500": !active,
+                              }
+                            )}
+                          >
+                            <VscIndent className="w-4 h-4 shrink-0" />
+                            <span className="truncate block">Invalid PDF</span>
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </>
+                  )}
                 </div>
               )}
 
