@@ -7,6 +7,11 @@ import {
   PDFDocumentProxy,
   version,
   PDFDateString,
+  AbortException,
+  MissingPDFException,
+  InvalidPDFException,
+  RenderingCancelledException,
+  UnexpectedResponseException
 } from "pdfjs-dist";
 import {
   EventBus,
@@ -49,6 +54,13 @@ import {
   isValidScrollMode,
   isValidRotation,
 } from "./lib/ui_utils";
+
+export type PDFException =
+  | AbortException
+  | MissingPDFException
+  | InvalidPDFException
+  | RenderingCancelledException
+  | UnexpectedResponseException;
 
 GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.js',
@@ -108,16 +120,20 @@ export class PDFSlick {
   printResolution: number;
   thumbnailWidth: number;
 
+  #onError: ((err: PDFException) => void) | undefined;
+
   constructor({
     container,
     viewer,
     thumbs,
     store = createStore(),
     options,
+    onError
   }: PDFSlickInputArgs) {
     this.#container = container;
     this.#viewerContainer = viewer;
     this.#thumbsContainer = thumbs;
+    this.#onError = onError;
 
     this.l10n = options?.l10n ?? NullL10n;
     this.downloadManager = new DownloadManager();
@@ -229,52 +245,58 @@ export class PDFSlick {
       } catch (err) { }
     }
 
-    this.document?.destroy();
-    this.viewer?.cleanup();
+    try {
+      this.document?.destroy();
+      this.viewer?.cleanup();
 
-    if (url instanceof URL) {
-      this.url = url.toString();
-    } else {
-      this.url = url;
+      if (url instanceof URL) {
+        this.url = url.toString();
+      } else {
+        this.url = url;
+      }
+
+      const filename =
+        options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
+      this.filename = filename;
+
+      const pdfDocument = await getDocument(url).promise;
+
+      this.document = pdfDocument;
+      this.viewer.setDocument(this.document);
+      this.linkService.setDocument(this.document);
+
+      if (this.thumbnailViewer) {
+        this.thumbnailViewer?.setDocument(pdfDocument);
+      }
+
+      this.#initInternalEventListeners();
+      await this.#initializePageLabels();
+
+      this.store.setState({
+        filename,
+        numPages: pdfDocument.numPages,
+        pageNumber: 1,
+        isDocumentLoaded: true,
+        url: url.toString(),
+      });
+
+      const rawAttachments =
+        (await pdfDocument.getAttachments()) as TPDFDocumentAttachments;
+      const attachments = new Map(
+        Object.keys(rawAttachments ?? {})
+          .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+          .map((key) => [key, rawAttachments[key]])
+      );
+      this.store.setState({ attachments });
+
+      await this.#parseDocumentInfo();
+
+      this.forceRendering();
+    } catch (err) {
+      if (this.#onError) {
+        this.#onError(err as PDFException);
+      }
     }
-
-    const filename =
-      options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
-    this.filename = filename;
-
-    const pdfDocument = await getDocument(url).promise;
-
-    this.document = pdfDocument;
-    this.viewer.setDocument(this.document);
-    this.linkService.setDocument(this.document);
-
-    if (this.thumbnailViewer) {
-      this.thumbnailViewer?.setDocument(pdfDocument);
-    }
-
-    this.#initInternalEventListeners();
-    await this.#initializePageLabels();
-
-    this.store.setState({
-      filename,
-      numPages: pdfDocument.numPages,
-      pageNumber: 1,
-      isDocumentLoaded: true,
-      url: url.toString(),
-    });
-
-    const rawAttachments =
-      (await pdfDocument.getAttachments()) as TPDFDocumentAttachments;
-    const attachments = new Map(
-      Object.keys(rawAttachments ?? {})
-        .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-        .map((key) => [key, rawAttachments[key]])
-    );
-    this.store.setState({ attachments });
-
-    await this.#parseDocumentInfo();
-
-    this.forceRendering();
   }
 
   async #initializePageLabels() {

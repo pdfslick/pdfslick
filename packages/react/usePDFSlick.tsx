@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback, RefCallback, useMemo } from "react";
 import { StoreApi, useStore } from "zustand";
 import { create, PDFSlick } from "@pdfslick/core";
-import type { PDFSlickState, PDFSlickOptions } from "@pdfslick/core";
+import type {
+  PDFSlickState,
+  PDFSlickOptions,
+  PDFException,
+} from "@pdfslick/core";
 import PDFSlickViewer from "./PDFSlickViewer";
 import { PDFSlickThumbnails } from "./PDFSlickThumbnails";
 
@@ -27,6 +31,7 @@ type TUsePDFSlick = (
   usePDFSlickStore: TUsePDFSlickStore;
   PDFSlickViewer: typeof PDFSlickViewer;
   PDFSlickThumbnails: typeof PDFSlickThumbnails;
+  error: PDFException | null;
 };
 
 export function createStore(store: StoreApi<PDFSlickState>) {
@@ -55,6 +60,7 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [thumbs, setThumbs] = useState<HTMLDivElement | null>(null);
+  const [error, setError] = useState<PDFException | null>(null);
 
   const store = useMemo<StoreApi<PDFSlickState>>(() => create(), []);
   const usePDFSlickStore = useMemo<TUsePDFSlickStore>(
@@ -81,8 +87,13 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
         thumbs: thumbs!,
         store,
         options,
+        onError: (err) => setError(err),
       });
-      pdfSlick.loadDocument(url, options).then(() => setIsDocumentLoaded(true));
+
+      pdfSlick.loadDocument(url, options).then(() => {
+        setIsDocumentLoaded(true);
+        setError(null);
+      });
       store.setState({ pdfSlick });
     }
 
@@ -97,5 +108,6 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
     store,
     PDFSlickViewer,
     PDFSlickThumbnails,
+    error,
   };
 };

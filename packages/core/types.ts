@@ -1,6 +1,6 @@
 import { PDFViewer } from "pdfjs-dist/web/pdf_viewer";
 import { StoreApi } from "zustand";
-import { PDFSlick } from "./PDFSlick";
+import { PDFSlick, type PDFException } from "./PDFSlick";
 import { PDFThumbnailView } from "./lib";
 
 export type TPDFDocumentOutline = {
@@ -118,6 +118,7 @@ export type PDFSlickInputArgs = {
   thumbs?: HTMLDivElement | undefined;
   store?: StoreApi<PDFSlickState>;
   options?: PDFSlickOptions;
+  onError?: (err: PDFException) => void;
 };
 
 export type TEventBusName =
