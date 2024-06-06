@@ -93,7 +93,6 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
 
       pdfSlick.loadDocument(url, options).then(() => {
         setIsDocumentLoaded(true);
-        setError(null);
       });
     }
   });

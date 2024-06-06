@@ -40,4 +40,12 @@ export const examples = [
     description:
       "Simple Single Page Viewer with page navigation and scale tools.",
   },
+  {
+    name: "Error Handling",
+    href: "/examples/error-handling",
+    imageSrc: "/assets/examples/PDFSlick_error_handling.png",
+    short: "Support for error handling",
+    description:
+      "Support for error handling in Vanilla JS, React, Svelte and Solid apps.",
+  }
 ];
