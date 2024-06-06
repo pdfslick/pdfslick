@@ -1,5 +1,16 @@
 # @pdfslick/solid
 
+## 1.5.0
+
+### Minor Changes
+
+- Add support for error handling
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@1.5.0
+
 ## 1.4.1
 
 ### Patch Changes

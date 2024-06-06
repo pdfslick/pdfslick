@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 1.5.0
+
+### Minor Changes
+
+- Add support for error handling
+
 ## 1.4.1
 
 ### Patch Changes
