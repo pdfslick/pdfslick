@@ -10,10 +10,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.2"
   },
   "dependencies": {
     "@pdfslick/core": "^1.2.4"
