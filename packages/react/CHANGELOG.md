@@ -1,5 +1,13 @@
 # @pdfslick/react
 
+## 1.5.1
+
+### Patch Changes
+
+- e02641b: Update deps, add dark mode example, remove use of eval in PDFs
+- Updated dependencies [e02641b]
+  - @pdfslick/core@1.5.1
+
 ## 1.5.0
 
 ### Minor Changes
