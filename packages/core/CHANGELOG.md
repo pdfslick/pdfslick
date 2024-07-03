@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 1.5.1
+
+### Patch Changes
+
+- e02641b: Update deps, add dark mode example, remove use of eval in PDFs
+
 ## 1.5.0
 
 ### Minor Changes

@@ -17,20 +17,20 @@
     "@types/d3-drag": "^3.0.7",
     "@types/d3-selection": "^3.0.10",
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3",
     "vite-plugin-solid": "^2.10.2"
   },
   "dependencies": {
-    "@kobalte/core": "^0.13.1",
+    "@kobalte/core": "^0.13.3",
     "@pdfslick/solid": "^1.2.4",
     "@solid-primitives/resize-observer": "^2.0.25",
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.17"
+    "solid-js": "^1.8.18"
   },
   "type": "module"
 }

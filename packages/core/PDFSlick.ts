@@ -251,6 +251,8 @@ export class PDFSlick {
 
       if (url instanceof URL) {
         this.url = url.toString();
+      } else if (url instanceof ArrayBuffer) {
+        this.url = URL.createObjectURL(new Blob([url], { type: "application/pdf" }));
       } else {
         this.url = url;
       }
@@ -259,7 +261,10 @@ export class PDFSlick {
         options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
       this.filename = filename;
 
-      const pdfDocument = await getDocument(url).promise;
+      const pdfDocument = await getDocument({
+        url: this.url,
+        isEvalSupported: false
+      }).promise;
 
       this.document = pdfDocument;
       this.viewer.setDocument(this.document);
