@@ -34,8 +34,33 @@ export default function Example() {
         <title>PDFSlick</title>
         <meta
           name="description"
-          content="View and interact with PDFs in your React and SolidJS apps."
+          content="View and Interact with PDFs in React, SolidJS, Svelte and JavaScript apps."
         />
+        <meta name="twitter:title" content="PDFSlick" />
+        <meta
+          name="twitter:description"
+          content="View and Interact with PDFs in React, SolidJS, Svelte and JavaScript apps."
+        />
+        <meta
+          name="twitter:image"
+          content="https://pdfslick.dev/pdf_slick_og_image.png"
+        />
+        <meta name="twitter:image:alt" content="PDFSlick" />
+        <meta property="og:url" content="https://pdfslick.dev/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="PDFSlick" />
+        <meta
+          property="og:description"
+          content="View and Interact with PDFs in React, SolidJS, Svelte and JavaScript apps."
+        />
+        <meta
+          property="og:image"
+          content="https://pdfslick.dev/pdf_slick_og_image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content="PDFSlick" />
       </Head>
 
       <Header />
@@ -65,7 +90,8 @@ export default function Example() {
                 <img src="/pdfslick_logo.svg" alt="PDFSlick" />
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-                View and interact with PDFs in your React and SolidJS apps
+                View and Interact with PDFs in React, SolidJS, Svelte and
+                JavaScript apps
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link
@@ -85,8 +111,9 @@ export default function Example() {
                         See it in Action
                       </h1>
                       <p className="mt-4 text-lg text-slate-600">
-                        Embrace PDFs as you would any other part of your React
-                        and SolidJS apps — draw inspiration from these examples.
+                        Embrace PDFs as you would any other part of your React,
+                        SolidJS, Svelte and JavaScript apps — draw inspiration
+                        from these examples.
                       </p>
                     </div>
                     <div className="mx-auto overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
