@@ -22,7 +22,7 @@ type TUsePDFSlick = (
   pdfSlickStore: PDFSlickState;
   PDFSlickViewer: typeof PDFSlickViewer;
   PDFSlickThumbnails: typeof PDFSlickThumbnails;
-  error: PDFException | null;
+  error: Accessor<PDFException | null>;
 };
 
 type ExtractState<S> = S extends { getState: () => infer T } ? T : never;
