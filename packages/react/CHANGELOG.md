@@ -1,5 +1,13 @@
 # @pdfslick/react
 
+## 1.5.2
+
+### Patch Changes
+
+- Upadte deps and types
+- Updated dependencies
+  - @pdfslick/core@1.5.2
+
 ## 1.5.1
 
 ### Patch Changes

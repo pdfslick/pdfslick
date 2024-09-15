@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 1.5.2
+
+### Patch Changes
+
+- Upadte deps and types
+
 ## 1.5.1
 
 ### Patch Changes

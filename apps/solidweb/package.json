@@ -13,24 +13,24 @@
   "devDependencies": {
     "@kobalte/tailwindcss": "^0.9.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/forms": "^0.5.9",
     "@types/d3-drag": "^3.0.7",
     "@types/d3-selection": "^3.0.10",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.4",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.11",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.5",
     "vite-plugin-solid": "^2.10.2"
   },
   "dependencies": {
-    "@kobalte/core": "^0.13.3",
+    "@kobalte/core": "^0.13.6",
     "@pdfslick/solid": "^1.2.4",
-    "@solid-primitives/resize-observer": "^2.0.25",
+    "@solid-primitives/resize-observer": "^2.0.26",
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.18"
+    "solid-js": "^1.8.22"
   },
   "type": "module"
 }
