@@ -9,6 +9,7 @@
 @import "./prism.css";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "@pdfslick/react/dist/pdf_viewer.css";
 
 @layer components {
   #__next {
