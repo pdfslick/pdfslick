@@ -324,7 +324,7 @@ Depending on your needs, at this you might find it useful to continue with learn
 
 ## How to join us
 ```
-npm ci;
+npm install;
 npm run dev;
 ```
 
