@@ -46,11 +46,9 @@ You can start using PDFSlick with the `usePDFSlick()` hook, like with the follow
 import { usePDFSlick } from "@pdfslick/react";
 import PDFNavigation from "./yourcomponents/PDFNavigation";
 
-//
-// It is required to include PDFSlick's CSS styles once
-// you can do it in your main `App.tsx` for example
-//
+/** Import only once in root component like index.ts or root css.
 import "@pdfslick/react/dist/pdf_viewer.css";
+*/
 
 type PDFViewerComponentProps = {
   pdfFilePath: string,
@@ -323,6 +321,21 @@ Depending on your needs, at this you might find it useful to continue with learn
 <br>
 
 [Learn more about PDFSlick](https://pdfslick.dev) | [Checkout the Examples](https://pdfslick.dev/examples)
+
+## How to join us
+```
+npm ci;
+npm run dev;
+```
+
+- Open http://localhost:3000 for React website examples (Nextjs server).
+- Open http://localhost:5174/ for Svelte website examples.
+- Open http://localhost:3004/ for Solid website examples.
+- Copy ./assets/pdfs/* to
+  + ./apps/solidweb/public/pdfs/
+  + ./apps/svelteweb/public/pdfs/
+  + ./apps/web/public/pdfs/
+  + ./apps/vanillajs/public/pdfs/
 
 ## Thanks
 

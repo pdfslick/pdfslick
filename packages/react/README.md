@@ -37,11 +37,9 @@ You can start using PDFSlick with the `usePDFSlick()` hook, like with the follow
 import { usePDFSlick } from "@pdfslick/react";
 import PDFNavigation from "./yourcomponents/PDFNavigation";
 
-//
-// It is required to include PDFSlick's CSS styles once
-// you can do it in your main `App.tsx` for example
-//
+/** Import only once in root component like index.ts or root css.
 import "@pdfslick/react/dist/pdf_viewer.css";
+*/
 
 type PDFViewerComponentProps = {
   pdfFilePath: string,

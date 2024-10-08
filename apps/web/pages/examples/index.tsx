@@ -2,9 +2,12 @@ import Link from "next/link";
 import clsx from "clsx";
 import { examples } from "../../components/examples";
 import { Header } from "../../components/Header";
-import "@pdfslick/react/dist/pdf_viewer.css";
 import Head from "next/head";
 import Footer from "../../components/Footer";
+
+/** Import only once in root component like index.ts or root css.
+import "@pdfslick/react/dist/pdf_viewer.css";
+*/
 
 export default function Examples() {
   return (
