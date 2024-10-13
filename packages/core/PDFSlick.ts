@@ -830,7 +830,7 @@ export class PDFSlick {
   }
 
   /**
-   * Dispatch event on teh eventBus
+   * Dispatch event on the eventBus
    * @param eventName TEventBusName
    * @param data Object
    */
