@@ -125,5 +125,5 @@ PDFSlick provides a CSS file containing styles that are required in order for it
 {% /callout %}
 
 ```js
-import "@pdfslick/solid/dist/pdf_viewer.css";
+import "@pdfslick/core/dist/pdf_viewer.css";
 ```
