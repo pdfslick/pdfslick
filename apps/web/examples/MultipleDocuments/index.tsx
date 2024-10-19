@@ -6,8 +6,6 @@ import Document from "./Document";
 import Sidebar from "./Sidebar";
 import { pdfDocs } from "../../components/pdfDocs";
 
-import "@pdfslick/react/dist/pdf_viewer.css";
-
 export function formatBytes(bytes: number, decimals: number) {
   if (bytes == 0) return "0 Bytes";
   var k = 1024,

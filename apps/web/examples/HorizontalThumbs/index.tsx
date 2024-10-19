@@ -1,8 +1,6 @@
 import { usePDFSlick } from "@pdfslick/react";
 import Thumbnails from "./Thumbnails";
 
-import "@pdfslick/react/dist/pdf_viewer.css";
-
 type HorizontalThumbsProps = {
   pdfFilePath: string;
 };
