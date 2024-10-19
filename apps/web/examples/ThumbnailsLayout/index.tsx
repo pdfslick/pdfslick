@@ -7,8 +7,6 @@ import {
 } from "react-icons/vsc";
 import { usePDFSlick } from "@pdfslick/react";
 
-import "@pdfslick/react/dist/pdf_viewer.css";
-
 type ThumbnailsLayoutProps = {
   pdfFilePath: string;
 };

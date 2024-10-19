@@ -1,5 +1,4 @@
 import { usePDFSlick } from "@pdfslick/react";
-import "@pdfslick/react/dist/pdf_viewer.css";
 
 type PDFViewerAppProps = {
   pdfFilePath: string;

@@ -1,14 +1,9 @@
-/* @import './fonts.css';
-@import './docsearch.css';
-@import './prism.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities; */
 @import "tailwindcss/base";
 @import "./fonts.css";
 @import "./prism.css";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "@pdfslick/react/dist/pdf_viewer.css";
 
 @layer components {
   #__next {
