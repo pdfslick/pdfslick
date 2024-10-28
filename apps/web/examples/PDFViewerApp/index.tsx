@@ -3,8 +3,6 @@ import { usePDFSlick } from "@pdfslick/react";
 import Toolbar from "./Toolbar";
 import Thumbsbar from "./Thumbsbar";
 
-import "@pdfslick/react/dist/pdf_viewer.css";
-
 type PDFViewerAppProps = {
   pdfFilePath: string;
 };

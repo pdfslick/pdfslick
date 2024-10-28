@@ -4,14 +4,17 @@ import Loader from "../../components/Loader";
 import Fab from "../../components/Fab";
 import { useRouter } from "next/router";
 
-const PDFViewerApp = dynamic(() => import("../../examples/PDFViewerApp"), {
-  loading: () => <Loader bgColor="bg-slate-50" color="text-slate-700" />,
-  ssr: false,
-});
+const PDFViewerAppWithForm = dynamic(
+  () => import("../../examples/PDFViewerApp"),
+  {
+    loading: () => <Loader bgColor="bg-slate-50" color="text-slate-700" />,
+    ssr: false,
+  }
+);
 
-export default function PDFViewerAppPage() {
+export default function PDFViewerAppWithFormPage() {
   const router = useRouter();
-  const pdfFilePath = (router.query.pdf as string) ?? "/pdfs/p4450.pdf";
+  const pdfFilePath = (router.query.pdf as string) ?? "/pdfs/i-129.pdf";
   return (
     <>
       <Head>
@@ -19,7 +22,7 @@ export default function PDFViewerAppPage() {
       </Head>
       <div className="absolute inset-0 w-full h-full flex divide-x divide-slate-200">
         <div className="w-full h-full relative">
-          <PDFViewerApp key={pdfFilePath} {...{ pdfFilePath }} />
+          <PDFViewerAppWithForm key={pdfFilePath} {...{ pdfFilePath }} />
           <Fab />
         </div>
       </div>

@@ -9,6 +9,12 @@ export const pdfDocs: Record<
       "IRS Congressional Budget Justification & Annual Performance Report and Plan Fiscal Year 2024",
     size: 2741941,
   },
+  Petition_for_a_Nonimmigrant_Worker: {
+    url: "/pdfs/i-129.pdf",
+    name: "i-129.pdf",
+    title: "Petition for a Nonimmigrant Worker (with Form)",
+    size: 2166806,
+  },
   Digital_Public_Administration_Factsheets_Sweden_vFINAL: {
     url: "/pdfs/Digital_Public_Administration_Factsheets_Sweden_vFINAL.pdf",
     name: "Digital_Public_Administration_Factsheets_Sweden_vFINAL.pdf",
