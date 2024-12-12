@@ -46,6 +46,7 @@ export default function PDFSlickViewer({
       style={{
         position: "absolute",
         inset: 0,
+        overflow: "auto"
       }}
     >
       <div id="viewer" className="pdfSlickViewer pdfViewer" />

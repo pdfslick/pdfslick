@@ -64,7 +64,7 @@ export type PDFException =
     | UnexpectedResponseException;
 
 GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.mjs',
+    'pdfjs-dist/build/pdf.worker.min.mjs',
     import.meta.url
 ).toString();
 

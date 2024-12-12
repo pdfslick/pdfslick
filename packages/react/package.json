@@ -39,13 +39,14 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
-    "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"wait-on ./dist && cp ../core/dist/pdf_viewer.css ./dist\"",
-    "devdev": "rollup --config node:@pdfslick/rollup-config && cp ../core/dist/pdf_viewer.css ./dist",
-    "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && cp ../core/dist/pdf_viewer.css ./dist"
+    "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"wait-on ./dist && copyfiles -u 3 '../core/dist/pdf_viewer.css' ./dist\"",
+    "devdev": "rollup --config node:@pdfslick/rollup-config && copyfiles -u 3 \"../core/dist/pdf_viewer.css\" ./dist",
+    "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && copyfiles -u 3 \"../core/dist/pdf_viewer.css\" ./dist"
   },
   "devDependencies": {
     "@types/react": "^18.3.5",
     "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.56.0",
     "eslint-config-custom": "0.0.0",
     "react": "^18.3.1",
