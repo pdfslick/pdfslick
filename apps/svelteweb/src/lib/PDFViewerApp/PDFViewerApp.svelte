@@ -57,7 +57,6 @@
 		 * Load the PDF document
 		 */
 		pdfSlick.loadDocument(url);
-		store.setState({ pdfSlick });
 
 		/**
 		 * Resize observer — if zoom is not an absolute numeric value, adjust the PDF viewer accordingly
@@ -78,6 +77,8 @@
 		unsubscribe = store.subscribe((s) => {
 			pdfSlickStore.set(s);
 		});
+
+        store.setState({ pdfSlick });
 	});
 
 	onDestroy(() => {

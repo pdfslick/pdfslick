@@ -162,7 +162,7 @@
 			if (e.currentTarget?.files && e.currentTarget?.files[0]) {
 				const file = e.currentTarget.files[0];
 				const url = URL.createObjectURL(file);
-				$pdfSlickStore.pdfSlick?.loadDocument(url, { filename: file.name });
+				$pdfSlickStore?.pdfSlick?.loadDocument(url, { filename: file.name });
 			}
 		}}
 		class="absolute -top-[10000px]"
