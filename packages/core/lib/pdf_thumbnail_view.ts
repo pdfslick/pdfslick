@@ -26,7 +26,7 @@ import {
   PDFPageProxy,
   PageViewport,
 } from "pdfjs-dist";
-import { PDFViewer, PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer";
+import { PDFViewer, PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";
 

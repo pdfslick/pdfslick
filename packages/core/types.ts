@@ -1,4 +1,4 @@
-import { PDFViewer } from "pdfjs-dist/web/pdf_viewer";
+import { PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { StoreApi } from "zustand";
 import { PDFSlick, type PDFException } from "./PDFSlick";
 import { PDFThumbnailView } from "./lib";
@@ -34,6 +34,7 @@ export type PDFSlickStateProps = {
   pagesRotation: number;
   spreadMode: number;
   scrollMode: number;
+  highlightDefaultColor?: string;
 
   // documentInfo
   url: string | ArrayBuffer | null;
@@ -104,6 +105,7 @@ export type PDFSlickOptions = {
   enablePrintAutoRotate?: boolean;
   useOnlyCssZoom?: boolean;
   pageColors?: { background: any; foreground: any };
+  annotationEditorHighlightColors: string,
   l10n?: any;
   maxCanvasPixels?: number;
   printResolution?: number;

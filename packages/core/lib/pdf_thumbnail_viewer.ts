@@ -28,7 +28,7 @@ import {
   watchScroll,
 } from "./ui_utils";
 import { PDFThumbnailView, TempImageFactory } from "./pdf_thumbnail_view";
-import { EventBus } from "pdfjs-dist/web/pdf_viewer";
+import { EventBus } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { PDFDocumentProxy } from "pdfjs-dist";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";

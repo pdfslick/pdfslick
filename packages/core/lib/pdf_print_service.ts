@@ -19,42 +19,44 @@ import {
   getXfaPageViewport,
   PDFDocumentProxy,
   PDFPageProxy,
+  
 } from "pdfjs-dist";
 import {
   SimpleLinkService,
   XfaLayerBuilder,
-  NullL10n,
-} from "pdfjs-dist/web/pdf_viewer";
+  GenericL10n
+} from "pdfjs-dist/web/pdf_viewer.mjs";
+import { IL10n } from "pdfjs-dist/types/web/pdf_viewer";
 import { OverlayManager } from "./overlay_manager";
 
 //
 // https://github.com/mozilla/pdf.js/blob/master/web/print_utils.js
 //
 function getXfaHtmlForPrinting(
-  printContainer: HTMLElement,
-  pdfDocument: PDFDocumentProxy
-) {
-  const xfaHtml: any = pdfDocument.allXfaHtml;
-  const linkService = new SimpleLinkService();
-  const scale = Math.round(PixelsPerInch.PDF_TO_CSS_UNITS * 100) / 100;
-
-  for (const xfaPage of xfaHtml?.children) {
-    const page = document.createElement("div");
-    page.className = "xfaPrintedPage";
-    printContainer.append(page);
-
-    const builder = new XfaLayerBuilder({
-      pageDiv: page,
-      pdfPage: null as unknown as PDFPageProxy,
-      annotationStorage: pdfDocument.annotationStorage,
-      linkService,
-      xfaHtml: xfaPage,
-    });
-    const viewport = getXfaPageViewport(xfaPage, { scale });
-
-    builder.render(viewport, "print");
+    printContainer: HTMLElement,
+    pdfDocument: PDFDocumentProxy
+  ) {
+    const xfaHtml: any = pdfDocument.allXfaHtml;
+    const linkService = new SimpleLinkService();
+    const scale = Math.round(PixelsPerInch.PDF_TO_CSS_UNITS * 100) / 100;
+  
+    for (const xfaPage of xfaHtml?.children) {
+      const page = document.createElement("div");
+      page.className = "xfaPrintedPage";
+      printContainer.append(page);
+  
+      const builder = new XfaLayerBuilder({
+        pdfPage: null as unknown as PDFPageProxy,
+        annotationStorage: pdfDocument.annotationStorage,
+        linkService,
+        xfaHtml: xfaPage,
+      });
+      const viewport = getXfaPageViewport(xfaPage, { scale });
+  
+      builder.render(viewport, "print");
+      page.append(builder.div!);
+    }
   }
-}
 
 let activeService: PDFPrintService | null = null;
 let dialog: any = null;
@@ -110,7 +112,7 @@ class PDFPrintService {
   _printResolution: number;
   _optionalContentConfigPromise: any; //  = optionalContentConfigPromise || pdfDocument.getOptionalContentConfig();
   _printAnnotationStoragePromise: any; // printAnnotationStoragePromise || Promise.resolve();
-  l10n: typeof NullL10n;
+  l10n: IL10n;
   currentPage: number;
   scratchCanvas: HTMLCanvasElement | null;
   pageStyleSheet: HTMLStyleElement | null;
@@ -122,7 +124,7 @@ class PDFPrintService {
     printResolution: number,
     optionalContentConfigPromise = null,
     printAnnotationStoragePromise = null,
-    l10n: typeof NullL10n
+    l10n: IL10n
   ) {
     this.pdfDocument = pdfDocument;
     this.pagesOverview = pagesOverview;

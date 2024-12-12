@@ -20,7 +20,7 @@ import {
   SpreadMode,
 } from "./ui_utils";
 import { AnnotationEditorType } from "pdfjs-dist";
-import { EventBus, PDFViewer } from "pdfjs-dist/web/pdf_viewer";
+import { EventBus, PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
 
 const DELAY_BEFORE_HIDING_CONTROLS = 3000; // in ms
 const ACTIVE_SELECTOR = "pdfPresentationMode";
@@ -132,8 +132,8 @@ class PDFPresentationMode {
       );
       this.#args.spreadMode = pdfViewer.spreadMode;
     }
-    if (pdfViewer.annotationEditorMode !== AnnotationEditorType.DISABLE) {
-      this.#args.annotationEditorMode = pdfViewer.annotationEditorMode;
+    if (pdfViewer.annotationEditorMode.mode !== AnnotationEditorType.DISABLE) {
+      this.#args.annotationEditorMode = pdfViewer.annotationEditorMode.mode;
     }
 
     try {
@@ -214,7 +214,7 @@ class PDFPresentationMode {
       this.pdfViewer.currentScaleValue = "page-fit";
 
       if (this.#args!.annotationEditorMode !== null) {
-        this.pdfViewer.annotationEditorMode = AnnotationEditorType.NONE;
+        this.pdfViewer.annotationEditorMode = { mode: AnnotationEditorType.NONE };
       }
     }, 0);
 
@@ -246,7 +246,7 @@ class PDFPresentationMode {
       this.pdfViewer.currentPageNumber = pageNumber;
 
       if (this.#args!.annotationEditorMode !== null) {
-        this.pdfViewer.annotationEditorMode = this.#args!.annotationEditorMode;
+        this.pdfViewer.annotationEditorMode = { mode: this.#args!.annotationEditorMode };
       }
       this.#args = null;
     }, 0);
