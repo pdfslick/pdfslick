@@ -105,7 +105,7 @@ export type PDFSlickOptions = {
   enablePrintAutoRotate?: boolean;
   useOnlyCssZoom?: boolean;
   pageColors?: { background: any; foreground: any };
-  annotationEditorHighlightColors: string,
+  annotationEditorHighlightColors?: string,
   l10n?: any;
   maxCanvasPixels?: number;
   printResolution?: number;
