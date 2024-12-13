@@ -12,7 +12,7 @@ type THighlightMenuProps = {
 };
 
 const parseHighlightColors = (value: string | undefined) => {
-    if(!value){
+    if (!value) {
         return []
     }
     const colors = value.split(',')
@@ -27,10 +27,10 @@ const HighlightMenu = ({ store }: THighlightMenuProps) => {
     const isHighlightMode = () =>
         store.annotationEditorMode === AnnotationEditorType.HIGHLIGHT;
 
-    const [highlightColors, setHighlightColors] = createSignal([] as { name: string, color: string}[])
+    const [highlightColors, setHighlightColors] = createSignal([] as { name: string, color: string }[])
 
     createEffect(() => {
-        if(highlightColors.length < 1 && store.pdfSlick){
+        if (highlightColors.length < 1 && store.pdfSlick) {
             const colors = parseHighlightColors(store.pdfSlick?.annotationEditorHighlightColors)
             setHighlightColors(colors)
         }
@@ -78,20 +78,27 @@ const HighlightMenu = ({ store }: THighlightMenuProps) => {
                                 {highlightColors().map((highlightColor) => (
                                     <DropdownMenu.Item
                                         closeOnSelect={false}
-                                        class="p-2 cursor-pointer block rounded-full origin-center border border-transparent hover:scale-125 hover:border-blue-300 focus:ring-0 focus:outline-none focus:scale-125 focus:border-blue-300"
+                                        class={`
+                                        p-2 
+                                        cursor-pointer 
+                                        block 
+                                        rounded-full 
+                                        origin-center 
+                                        relative
+                                        hover:scale-125 
+                                        focus:ring-0 
+                                        focus:outline-none 
+                                        focus:scale-125
+                                        ${store.highlightDefaultColor === highlightColor.color
+                                                ? 'ring-2 ring-blue-500 ring-offset-2'
+                                                : 'border border-transparent hover:border-blue-300 focus:border-blue-300'
+                                            }
+                                        `}
                                         style={{
                                             "background-color": highlightColor.color,
                                         }}
                                         onSelect={() => {
-                                            store.pdfSlick?.setAnnotationEditorMode(
-                                                AnnotationEditorType.HIGHLIGHT
-                                            );
-                                            store.pdfSlick?.setAnnotationEditorParams([
-                                                {
-                                                    type: AnnotationEditorParamsType.HIGHLIGHT_DEFAULT_COLOR,
-                                                    value: highlightColor.color,
-                                                },
-                                            ]);
+                                            store.pdfSlick?.setHighlightDefaultColor(highlightColor.color)
                                         }}
                                     />
                                 ))}

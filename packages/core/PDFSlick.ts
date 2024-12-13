@@ -11,7 +11,8 @@ import {
     MissingPDFException,
     InvalidPDFException,
     RenderingCancelledException,
-    UnexpectedResponseException
+    UnexpectedResponseException,
+    AnnotationEditorParamsType
 } from "pdfjs-dist";
 import {
     EventBus,
@@ -742,6 +743,21 @@ export class PDFSlick {
                 value: params.value,
             });
         }
+    }
+
+    setHighlightDefaultColor(color: string) {
+        this.setAnnotationEditorMode(
+            AnnotationEditorType.HIGHLIGHT
+        );
+
+        this.setAnnotationEditorParams([
+            {
+                type: AnnotationEditorParamsType.HIGHLIGHT_DEFAULT_COLOR,
+                value: color,
+            },
+        ]);
+
+        this.store.setState({ highlightDefaultColor: color })
     }
 
     setSpreadMode(spread: number) {
