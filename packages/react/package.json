@@ -61,6 +61,7 @@
   "dependencies": {
     "@pdfslick/core": "^1.5.2",
     "react-use": "^17.6.0",
+    "vite": "^5.4.11",
     "zustand": "^4.5.5"
   },
   "rollup": {
