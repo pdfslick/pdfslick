@@ -78,7 +78,7 @@
 			pdfSlickStore.set(s);
 		});
 
-        store.setState({ pdfSlick });
+		store.setState({ pdfSlick });
 	});
 
 	onDestroy(() => {

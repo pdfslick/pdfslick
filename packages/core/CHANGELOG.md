@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 2.0.0
+
+### Major Changes
+
+- Use pdf.js 4.x version
+
 ## 1.5.2
 
 ### Patch Changes

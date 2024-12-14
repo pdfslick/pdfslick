@@ -7,5 +7,8 @@
     "nextjs.json",
     "react-library.json",
     "core.json"
-  ]
+  ],
+  "dependencies": {
+    "vite": "^5.4.11"
+  }
 }

@@ -1,7 +1,7 @@
 {
   "name": "vanillajs",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,12 +10,12 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.11",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
     "typescript": "^5.6.2",
-    "vite": "^5.4.5"
+    "vite": "^5.4.11"
   },
   "dependencies": {
-    "@pdfslick/core": "^1.2.4"
+    "@pdfslick/core": "^2.0.0"
   }
 }
