@@ -1,6 +1,6 @@
 {
   "name": "solidweb",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "private": true,
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@kobalte/core": "^0.13.7",
-    "@pdfslick/solid": "^1.2.4",
+    "@pdfslick/solid": "^2.0.0",
     "@solid-primitives/resize-observer": "^2.0.26",
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",

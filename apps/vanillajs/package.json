@@ -1,7 +1,7 @@
 {
   "name": "vanillajs",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,6 +16,6 @@
     "vite": "^5.4.11"
   },
   "dependencies": {
-    "@pdfslick/core": "^1.2.4"
+    "@pdfslick/core": "^2.0.0"
   }
 }
