@@ -49,11 +49,11 @@
     "turbo": "^2.3.3"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=20"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.1",
     "rollup": "^4.9.2"
   },
-  "packageManager": "npm@9.8.0"
+  "packageManager": "npm@10.9.2"
 }
