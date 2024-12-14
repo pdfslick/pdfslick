@@ -42,7 +42,7 @@
     "update-deps": "ncu -ws -i"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.1.0",
     "eslint-config-custom": "0.0.0",
     "npm-check-updates": "^17.1.11",
     "prettier": "latest",
@@ -52,8 +52,8 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.1",
-    "rollup": "^4.9.2"
+    "@changesets/cli": "^2.27.10",
+    "rollup": "^4.28.1"
   },
   "packageManager": "npm@10.9.2"
 }
