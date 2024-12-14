@@ -24,7 +24,7 @@ import { PDFThumbnailView } from "./pdf_thumbnail_view";
 import { IRenderableView } from "pdfjs-dist/types/web/interfaces.js";
 import { PDFThumbnailViewer } from "./pdf_thumbnail_viewer";
 
-import { PDFViewer, PDFPageView } from "pdfjs-dist/web/pdf_viewer";
+import { PDFViewer, PDFPageView } from "pdfjs-dist/web/pdf_viewer.mjs";
 
 const CLEANUP_TIMEOUT = 30000;
 

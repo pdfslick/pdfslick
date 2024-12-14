@@ -36,8 +36,9 @@ export default function PDFSlickViewer(props: PDFSlickViewerProps) {
       id="viewerContainer"
       class={`pdfSlickContainer ${props.class ?? ""}`}
       style={{
-        position: "absolute",
-        inset: 0,
+        "position": "absolute",
+        "inset": 0,
+        "overflow": "auto"
       }}
     >
       <div id="viewer" class="pdfSlickViewer pdfViewer" />

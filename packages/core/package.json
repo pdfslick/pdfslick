@@ -42,11 +42,11 @@
     "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"npm run css-watch\"",
     "devdev": "rollup --config node:@pdfslick/rollup-config && npm run css",
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && npm run css",
-    "css": "postcss styles/pdf_viewer.css --config ./postcss.config.cjs --dir dist",
+    "css": "node combine-css.js",
     "css-watch": "npm run css -- --watch"
   },
   "dependencies": {
-    "pdfjs-dist": "3.11.174",
+    "pdfjs-dist": "^4.9.155",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
@@ -58,6 +58,7 @@
     "postcss": "^8.4.47",
     "postcss-cli": "^11.0.0",
     "postcss-inline-svg": "^6.0.0",
+    "postcss-url": "^10.1.3",
     "react": "^18.3.1",
     "tsconfig": "0.0.0",
     "typescript": "^5.6.2"

@@ -26,7 +26,7 @@ const AttachmentButton: FC<AttachmentButtonProps> = ({
       ref={ref}
       className="w-full box-border rounded text-left hover:text-slate-900 p-1 hover:bg-slate-200"
       onClick={() =>
-        pdfSlick?.openOrDownloadData(ref.current, content, filename)
+        pdfSlick?.openOrDownloadData(content, filename)
       }
     >
       {filename}
