@@ -262,10 +262,12 @@ export class PDFSlick {
                 options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
             this.filename = filename;
 
-            const pdfDocument = await getDocument({
+            const pdfDocumentLoader = getDocument({
                 url: this.url,
                 isEvalSupported: false
-            }).promise;
+            });
+
+            const pdfDocument = await pdfDocumentLoader.promise;
 
             this.document = pdfDocument;
             this.viewer.setDocument(this.document);
