@@ -1,4 +1,5 @@
 import {
+    type OnProgressParameters
     GlobalWorkerOptions,
     getDocument,
     getPdfFilenameFromUrl,
@@ -239,7 +240,10 @@ export class PDFSlick {
         this.store.setState({ scaleValue });
     }
 
-    async loadDocument(url: string | URL | ArrayBuffer, options?: { filename?: string }) {
+    async loadDocument(
+      url: string | URL | ArrayBuffer,
+      options?: { filename?: string; onProgress?: (_: OnProgressParameters) => void; },
+    ) {
         if (this.url && typeof this.url === "string") {
             try {
                 URL.revokeObjectURL(this.url);
@@ -266,6 +270,10 @@ export class PDFSlick {
                 url: this.url,
                 isEvalSupported: false
             });
+
+            if (!!options.onProgress) {
+              pdfDocumentLoader.onProgress = options.onProgress;
+            }
 
             const pdfDocument = await pdfDocumentLoader.promise;
 
