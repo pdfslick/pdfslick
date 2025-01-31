@@ -2,6 +2,13 @@ export const pdfDocs: Record<
   string,
   { url: string; name: string; title?: string; size?: number }
 > = {
+  "Wines-of-Macedonia-Brochure": {
+    url: "/pdfs/Wines-of-Macedonia-Brochure.pdf",
+    name: "Wines-of-Macedonia-Brochure.pdf",
+    title:
+      "Wines of Macedonia",
+    size: 3192185
+  },
   "p4450.pdf": {
     url: "/pdfs/p4450.pdf",
     name: "p4450.pdf",

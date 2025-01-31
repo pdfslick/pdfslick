@@ -14,7 +14,7 @@ const SimplePDFViewer = dynamic(
 
 export default function SimplePDFViewerPage() {
   const router = useRouter();
-  const pdfFilePath = (router.query.pdf as string) ?? "/pdfs/p4450.pdf";
+  const pdfFilePath = (router.query.pdf as string) ?? "/pdfs/Wines-of-Macedonia-Brochure.pdf";
   return (
     <>
       <Head>

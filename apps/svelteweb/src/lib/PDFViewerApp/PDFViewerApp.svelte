@@ -9,7 +9,7 @@
 	 * We'll use predefined PDF url to a document, but if this were a
 	 * Svelte component this could be a property as well
 	 */
-	export let url = '/pdfs/p4450.pdf';
+	export let url = '/pdfs/Wines-of-Macedonia-Brochure.pdf';
 
 	let RO: ResizeObserver;
 
