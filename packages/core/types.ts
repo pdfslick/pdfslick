@@ -2,6 +2,7 @@ import { PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { StoreApi } from "zustand";
 import { PDFSlick, type PDFException } from "./PDFSlick";
 import { PDFThumbnailView } from "./lib";
+import { type OnProgressParameters } from "pdfjs-dist";
 
 export type TPDFDocumentOutline = {
   title: string;
@@ -112,6 +113,7 @@ export type PDFSlickOptions = {
   thumbnailWidth?: number;
   scaleValue?: string;
   filename?: string;
+  onProgress?: (a: OnProgressParameters) => void;
 };
 
 export type PDFSlickInputArgs = {

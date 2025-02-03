@@ -56,7 +56,11 @@
 		/**
 		 * Load the PDF document
 		 */
-		pdfSlick.loadDocument(url);
+		pdfSlick.loadDocument(url, {
+			onProgress: ({ total, loaded }) => {
+				console.log(total, loaded);
+			}
+		});
 
 		/**
 		 * Resize observer — if zoom is not an absolute numeric value, adjust the PDF viewer accordingly

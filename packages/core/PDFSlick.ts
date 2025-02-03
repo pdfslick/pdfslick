@@ -12,7 +12,8 @@ import {
     InvalidPDFException,
     RenderingCancelledException,
     UnexpectedResponseException,
-    AnnotationEditorParamsType
+    AnnotationEditorParamsType,
+    type OnProgressParameters
 } from "pdfjs-dist";
 import {
     EventBus,
@@ -239,7 +240,7 @@ export class PDFSlick {
         this.store.setState({ scaleValue });
     }
 
-    async loadDocument(url: string | URL | ArrayBuffer, options?: { filename?: string }) {
+    async loadDocument(url: string | URL | ArrayBuffer, options?: { filename?: string, onProgress?: (a: OnProgressParameters) => void; }) {
         if (this.url && typeof this.url === "string") {
             try {
                 URL.revokeObjectURL(this.url);
@@ -262,10 +263,16 @@ export class PDFSlick {
                 options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
             this.filename = filename;
 
-            const pdfDocument = await getDocument({
+            const pdfDocumentLoader = getDocument({
                 url: this.url,
                 isEvalSupported: false
-            }).promise;
+            });
+
+            if (!!options?.onProgress) {
+                pdfDocumentLoader.onProgress = options.onProgress;
+            }
+
+            const pdfDocument = await pdfDocumentLoader.promise;
 
             this.document = pdfDocument;
             this.viewer.setDocument(this.document);
@@ -715,7 +722,7 @@ export class PDFSlick {
     }
 
     setAnnotationEditorMode(annotationEditorMode: number) {
-        
+
         this.viewer.annotationEditorMode = { mode: annotationEditorMode }
         this.dispatch("switchannotationeditormode", {
             source: this,
@@ -737,11 +744,11 @@ export class PDFSlick {
 
         for (const params of pairs) {
             this.dispatch("switchannotationeditorparams",
-            {
-                source: this,
-                type: params.type,
-                value: params.value,
-            });
+                {
+                    source: this,
+                    type: params.type,
+                    value: params.value,
+                });
         }
     }
 

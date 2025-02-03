@@ -10,9 +10,16 @@ export function loadPdf(url: string = "/pdfs/CH_infographics.pdf") {
     store,
     options: {
       scaleValue: "page-fit",
+      onProgress: ({ total, loaded }) => {
+        console.log(total, loaded)
+      }
     },
   });
-  pdfSlick.loadDocument(url);
+  pdfSlick.loadDocument(url, {
+    onProgress: ({ total, loaded }) => {
+      console.log(total, loaded)
+    }
+  });
   store.setState({ pdfSlick });
 
   const resizeObserver = new ResizeObserver(() => {

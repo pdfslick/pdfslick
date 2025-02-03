@@ -15,7 +15,11 @@ export default function PDFViewerApp({ pdfFilePath }: PDFViewerAppProps) {
     thumbsRef,
     usePDFSlickStore,
     PDFSlickViewer,
-  } = usePDFSlick(pdfFilePath);
+  } = usePDFSlick(pdfFilePath, {
+    onProgress: ({ loaded, total }) => {
+      console.log(loaded, total)
+    }
+  });
 
   useEffect(() => {
     if (isDocumentLoaded) {

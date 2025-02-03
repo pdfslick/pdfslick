@@ -13,7 +13,11 @@ const PDFViewerApp: Component<PDFViewerAppProps> = ({ pdfFilePath }) => {
     thumbsRef,
     pdfSlickStore: store,
     PDFSlickViewer,
-  } = usePDFSlick(pdfFilePath);
+  } = usePDFSlick(pdfFilePath, {
+    onProgress: ({ total, loaded }) => {
+      console.log(loaded, total)
+    },
+  });
   const [isThumbsbarOpen, setIsThumbsbarOpen] = createSignal(true);
 
   return (
