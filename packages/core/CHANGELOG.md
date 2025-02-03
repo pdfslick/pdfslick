@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 2.0.1
+
+### Patch Changes
+
+- Deps and other minor updates
+
 ## 2.0.0
 
 ### Major Changes
