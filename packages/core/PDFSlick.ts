@@ -14,6 +14,7 @@ import {
     UnexpectedResponseException,
     AnnotationEditorParamsType
 } from "pdfjs-dist";
+import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
 import {
     EventBus,
     PDFViewer,
@@ -122,6 +123,7 @@ export class PDFSlick {
     maxCanvasPixels: number;
     printResolution: number;
     thumbnailWidth: number;
+    getDocumentParams: DocumentInitParameters;
 
     #onError: ((err: PDFException) => void) | undefined;
 
@@ -131,7 +133,7 @@ export class PDFSlick {
         thumbs,
         store = createStore(),
         options,
-        onError
+        onError,
     }: PDFSlickInputArgs) {
         this.#container = container;
         this.#viewerContainer = viewer;
@@ -155,6 +157,7 @@ export class PDFSlick {
         this.maxCanvasPixels = options?.maxCanvasPixels ?? 16777216;
         this.printResolution = options?.printResolution ?? 96;
         this.thumbnailWidth = options?.thumbnailWidth ?? 125;
+        this.getDocumentParams = options?.getDocumentParams ?? {};
 
         if (
             this.pageColors &&
@@ -263,6 +266,7 @@ export class PDFSlick {
             this.filename = filename;
 
             const pdfDocument = await getDocument({
+                ...this.getDocumentParams,
                 url: this.url,
                 isEvalSupported: false
             }).promise;
