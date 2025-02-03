@@ -1,11 +1,3 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   reactStrictMode: true,
-//   transpilePackages: ["ui"],
-// };
-
-// module.exports = nextConfig;
-
 const withMarkdoc = require('@markdoc/next.js')
 
 /** @type {import('next').NextConfig} */
@@ -18,6 +10,7 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md'],
   experimental: {
     scrollRestoration: true,
+    esmExternals: 'loose',
   },
 }
 // module.exports = withMarkdoc({ mode: 'static' })(nextConfig)
