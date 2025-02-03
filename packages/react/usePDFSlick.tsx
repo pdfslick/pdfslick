@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, RefCallback, useMemo } from "react";
-import { StoreApi, useStore } from "zustand";
+import { StoreApi } from "zustand";
+import { useStoreWithEqualityFn } from "zustand/traditional";
 import { create, PDFSlick } from "@pdfslick/core";
 import type {
   PDFSlickState,
@@ -44,7 +45,7 @@ export function createStore(store: StoreApi<PDFSlickState>) {
     selector?: (state: PDFSlickState) => T,
     equals?: (a: T, b: T) => boolean
   ) {
-    return useStore(store, selector!, equals);
+    return useStoreWithEqualityFn(store, selector!, equals);
   }
 
   return usePDFSlickStore;
