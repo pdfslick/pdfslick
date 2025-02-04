@@ -1,5 +1,5 @@
 import {
-    type OnProgressParameters
+    type OnProgressParameters,
     GlobalWorkerOptions,
     getDocument,
     getPdfFilenameFromUrl,
@@ -271,7 +271,7 @@ export class PDFSlick {
                 isEvalSupported: false
             });
 
-            if (!!options.onProgress) {
+            if (!!options?.onProgress) {
               pdfDocumentLoader.onProgress = options.onProgress;
             }
 
