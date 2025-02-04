@@ -1,3 +1,4 @@
+import { type OnProgressParameters } from "pdfjs-dist";
 import { PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { StoreApi } from "zustand";
 import { PDFSlick, type PDFException } from "./PDFSlick";
@@ -112,6 +113,7 @@ export type PDFSlickOptions = {
   thumbnailWidth?: number;
   scaleValue?: string;
   filename?: string;
+  onProgress?: (opts: OnProgressParameters) => void;
 };
 
 export type PDFSlickInputArgs = {
