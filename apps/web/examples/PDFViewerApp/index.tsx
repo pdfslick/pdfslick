@@ -17,6 +17,14 @@ export default function PDFViewerApp({ pdfFilePath }: PDFViewerAppProps) {
     usePDFSlickStore,
     PDFSlickViewer,
   } = usePDFSlick(pdfFilePath, {
+    getDocumentParams: {
+      // rangeChunkSize: 65536,
+      disableAutoFetch: true,
+      disableFontFace: false,
+      disableRange: false,
+      disableStream: true,
+      verbosity: 0
+    },
     onProgress: ({ total, loaded }) => {
       setLoadedPerc((100 * loaded) / total);
     },

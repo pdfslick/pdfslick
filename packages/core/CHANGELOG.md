@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 2.1.0
+
+### Minor Changes
+
+- Add all pdf.js doc params, track load onProgress, fix minor errors
+
 ## 2.0.1
 
 ### Patch Changes
