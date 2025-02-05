@@ -44,7 +44,7 @@
 	<div class="flex-1 relative h-full" id="container">
 		<div
 			id="viewerContainer"
-			class="pdfSlickContainer absolute inset-0"
+			class="pdfSlickContainer absolute inset-0 overflow-auto"
 			bind:this={container}
 			class:hidden={!!error}
 		>
