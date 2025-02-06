@@ -79,7 +79,7 @@
 <div class="absolute inset-0 bg-slate-200/70 pdfSlick">
 	<div class="flex-1 relative h-full" id="container">
 		<div id="viewerContainer" class="pdfSlickContainer absolute inset-0 overflow-auto" bind:this={container}>
-			<div id="viewer" class="pdfSlickViewer pdfViewer" />
+			<div id="viewer" class="pdfSlickViewer pdfViewer"></div>
 		</div>
 	</div>
 

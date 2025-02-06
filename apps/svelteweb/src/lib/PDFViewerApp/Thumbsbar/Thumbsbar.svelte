@@ -74,6 +74,6 @@
 					'bg-transparent hover:bg-blue-400': !isResizing
 				}
 			)}
-		/>
+		></div>
 	{/if}
 </div>

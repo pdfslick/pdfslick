@@ -42,7 +42,7 @@
 				'grid-cols-4': cols > 3
 			})}
 			bind:this={thumbsRef}
-		/>
+		></div>
 	</div>
 </div>
 

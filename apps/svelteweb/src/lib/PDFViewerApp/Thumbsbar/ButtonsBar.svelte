@@ -27,7 +27,7 @@
 		<Tooltip>
 			<p class="whitespace-nowrap">Page Thumbnails</p>
 		</Tooltip>
-		<iconify-icon height={16} icon="codicon:versions" />
+		<iconify-icon height={16} icon="codicon:versions"></iconify-icon>
 	</button>
 	<button
 		disabled={!$pdfSlickStore?.documentOutline}
@@ -42,7 +42,7 @@
 		<Tooltip>
 			<p class="whitespace-nowrap">Document Outline</p>
 		</Tooltip>
-		<iconify-icon height={16} icon="codicon:list-tree" />
+		<iconify-icon height={16} icon="codicon:list-tree"></iconify-icon>
 	</button>
 	<button
 		disabled={$pdfSlickStore?.attachments?.size < 1}
@@ -57,6 +57,6 @@
 		<Tooltip>
 			<p class="whitespace-nowrap">Attachments</p>
 		</Tooltip>
-		<iconify-icon height={16} icon="codicon:save-all" />
+		<iconify-icon height={16} icon="codicon:save-all"></iconify-icon>
 	</button>
 </div>
