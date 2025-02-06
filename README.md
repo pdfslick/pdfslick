@@ -277,7 +277,7 @@ You can load a PDF document and subscribe to a portion of or the entire PDFSlick
       we use the reference to this `container` when creating PDF Slick instance above
     -->
     <div id="viewerContainer" class="pdfSlickContainer absolute inset-0 overflow-auto" bind:this={container}>
-      <div id="viewer" class="pdfSlickViewer pdfViewer" />
+      <div id="viewer" class="pdfSlickViewer pdfViewer"></div>
     </div>
   </div>
 

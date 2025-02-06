@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PDFSlickState, PDFSlick } from '@pdfslick/core';
+	import { type PDFSlickState, PDFSlick, create } from '@pdfslick/core';
 	import { onMount, onDestroy } from 'svelte';
 	import Thumbsbar from './Thumbsbar/Thumbsbar.svelte';
 	import Toolbar from './Toolbar/Toolbar.svelte';
@@ -9,33 +9,28 @@
 	 * We'll use predefined PDF url to a document, but if this were a
 	 * Svelte component this could be a property as well
 	 */
-	export let url = '/pdfs/Wines-of-Macedonia-Brochure.pdf';
+	let { url = $bindable('/pdfs/Wines-of-Macedonia-Brochure.pdf') } = $props();
 
 	let RO: ResizeObserver;
 
 	let container: HTMLDivElement;
-	let thumbs: HTMLDivElement;
+	let thumbs = $state<HTMLDivElement>();
 	let store: import('zustand/vanilla').StoreApi<PDFSlickState>;
 	let pdfSlick: PDFSlick;
 	let unsubscribe: () => void = () => {};
-	let openedInitial = false;
+	let openedInitial = $state(false);
 
 	/**
 	 * Open thumbnails sidebar when PDF document is loaded
 	 */
-	$: {
+	$effect(() => {
 		if ($pdfSlickStore && $pdfSlickStore.pagesReady && !openedInitial) {
 			isThumbsbarOpen.set(true);
 			openedInitial = true;
 		}
-	}
+	});
 
 	onMount(async () => {
-		/**
-		 * This is all happening on client side, so make sure we load it only there
-		 */
-		const { create, PDFSlick } = await import('@pdfslick/core');
-
 		/**
 		 * Create the PDF Slick store
 		 */
@@ -89,34 +84,38 @@
 	/**
 	 * start observing DOM container
 	 */
-	$: {
+	$effect(() => {
 		if (RO && container) {
 			RO.observe(container);
 		}
-	}
+	});
 </script>
 
 <div class="absolute inset-0 bg-slate-200/70 flex flex-col pdfSlick">
 	<Toolbar />
 	<div class="flex-1 flex">
-		<Thumbsbar bind:thumbsRef={thumbs} />
+		<Thumbsbar bind:thumbsRef={thumbs!} />
 
 		<div class="flex-1 relative h-full" id="container">
-			<div id="viewerContainer" class="pdfSlickContainer absolute inset-0 overflow-auto" bind:this={container}>
-				<div id="viewer" class="pdfSlickViewer pdfViewer" />
+			<div
+				id="viewerContainer"
+				class="pdfSlickContainer absolute inset-0 overflow-auto"
+				bind:this={container}
+			>
+				<div id="viewer" class="pdfSlickViewer pdfViewer"></div>
 			</div>
 		</div>
 	</div>
 </div>
 
 <!-- the following used for printing and displaying the print dialog -->
-<div id="printContainer" />
+<div id="printContainer"></div>
 <dialog id="printServiceDialog" class="min-w-[200px]">
 	<div class="row">
 		<span data-l10n-id="print_progress_message">Preparing document for printing…</span>
 	</div>
 	<div class="row">
-		<progress value="0" max="100" />
+		<progress value="0" max="100"></progress>
 		<span
 			data-l10n-id="print_progress_percent"
 			data-l10n-args={`{ "progress": 0 }`}

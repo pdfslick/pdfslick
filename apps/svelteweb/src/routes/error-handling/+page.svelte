@@ -48,7 +48,7 @@
 			bind:this={container}
 			class:hidden={!!error}
 		>
-			<div id="viewer" class="pdfSlickViewer pdfViewer" />
+			<div id="viewer" class="pdfSlickViewer pdfViewer"></div>
 		</div>
 		{#if !!error}
 			<div class="w-full max-w-screen-sm mx-auto py-4">
