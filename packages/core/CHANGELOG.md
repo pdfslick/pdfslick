@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 2.1.3
+
+### Patch Changes
+
+- Fix publishing issues
+
 ## 2.1.2
 
 ### Patch Changes
