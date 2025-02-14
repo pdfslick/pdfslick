@@ -3,6 +3,10 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+  id-token: write
+
 env:
   FORCE_COLOR: 1
   TURBO_TELEMETRY_DISABLED: 1
