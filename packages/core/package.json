@@ -65,6 +65,9 @@
     "tsconfig": "0.0.0",
     "typescript": "5.6.3"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "rollup": {
     "globals": {
       "zustand": "zustand",

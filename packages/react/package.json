@@ -66,6 +66,9 @@
     "vite": "^5.4.13",
     "zustand": "^5.0.3"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "rollup": {
     "globals": {
       "zustand": "zustand",
