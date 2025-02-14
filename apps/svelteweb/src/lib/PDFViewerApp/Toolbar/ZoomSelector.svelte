@@ -46,8 +46,9 @@
 				</div>
 			</div></DropdownMenu.Trigger
 		>
-		<DropdownMenu.Content class="rounded-sm shadow-lg divide-y divide-slate-200 p-0 m-1 mr-2 w-32 ring-1 ring-black/10">
-			
+		<DropdownMenu.Content
+			class="rounded-sm shadow-lg divide-y divide-slate-200 p-0 m-1 mr-2 w-32 ring-1 ring-black/10"
+		>
 			<DropdownMenu.Group class="py-1">
 				{#each Array.from(presets.entries()) as [value, label]}
 					<DropdownMenu.Item
