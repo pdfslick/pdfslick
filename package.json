@@ -55,5 +55,8 @@
     "@changesets/cli": "^2.27.12",
     "rollup": "^4.34.1"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "packageManager": "npm@11.1.0"
 }

@@ -6,6 +6,7 @@
 	}: {
 		position?: 'bottom' | 'right';
 		alignX?: 'center' | 'right' | 'left';
+		/* eslint-disable  @typescript-eslint/no-explicit-any */
 		children?: any;
 	} = $props();
 </script>
