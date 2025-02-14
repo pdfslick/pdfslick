@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  FORCE_COLOR: 1
+  TURBO_TELEMETRY_DISABLED: 1
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

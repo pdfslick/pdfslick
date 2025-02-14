@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/react",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "source": "./index.tsx",
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -59,12 +59,15 @@
     "react-dom": ">=17"
   },
   "dependencies": {
-    "@pdfslick/core": "^2.1.1",
+    "@pdfslick/core": "^2.1.2",
     "react-use": "^17.6.0",
     "tailwindcss": "^3.4.17",
     "use-sync-external-store": "^1.4.0",
     "vite": "^5.4.13",
     "zustand": "^5.0.3"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "rollup": {
     "globals": {

@@ -1,5 +1,13 @@
 # @pdfslick/solid
 
+## 2.1.2
+
+### Patch Changes
+
+- Generate provenance on e ach npm package separately
+- Updated dependencies
+  - @pdfslick/core@2.1.2
+
 ## 2.1.1
 
 ### Patch Changes

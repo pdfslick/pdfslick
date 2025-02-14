@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/core",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "source": "./index.ts",
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -64,6 +64,9 @@
     "react": "^18.3.1",
     "tsconfig": "0.0.0",
     "typescript": "5.6.3"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "rollup": {
     "globals": {

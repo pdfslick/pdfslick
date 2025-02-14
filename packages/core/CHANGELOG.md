@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 2.1.2
+
+### Patch Changes
+
+- Generate provenance on e ach npm package separately
+
 ## 2.1.1
 
 ### Patch Changes
