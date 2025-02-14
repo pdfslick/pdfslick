@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/react",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "source": "./index.tsx",
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -59,7 +59,7 @@
     "react-dom": ">=17"
   },
   "dependencies": {
-    "@pdfslick/core": "^2.1.0",
+    "@pdfslick/core": "^2.1.1",
     "react-use": "^17.6.0",
     "tailwindcss": "^3.4.17",
     "use-sync-external-store": "^1.4.0",
