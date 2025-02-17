@@ -49,7 +49,7 @@ export default function DocumentInfoModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-5" />
+          <div className="fixed inset-0 bg-black/5 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">

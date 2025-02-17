@@ -63,7 +63,7 @@ export default function Document({
         </div>
         <div
           onClick={() => setDoc(doc)}
-          className="bg-white bg-opacity-0 hover:bg-opacity-20 absolute inset-0 cursor-pointer"
+          className="bg-white/0 hover:bg-white/20 absolute inset-0 cursor-pointer"
         >
           <div className="absolute bottom-2 left-0 w-full flex justify-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
             <button
@@ -74,7 +74,7 @@ export default function Document({
                 pdfSlick?.gotoPage(doc.pageNumber - 1);
               }}
               type="button"
-              className="rounded-full bg-blue-600 p-1.5 text-white enabled:hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 bg-opacity-50 enabled:hover:bg-opacity-100 disabled:opacity-30 enabled:ring-2 enabled:ring-blue-500 enabled:ring-offset-2"
+              className="rounded-full bg-blue-600/50 p-1.5 text-white enabled:hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-30 enabled:ring-2 enabled:ring-blue-500 enabled:ring-offset-2"
             >
               <VscChevronLeft className="h-4 w-4" />
               <span className="sr-only">Previous Page</span>
@@ -88,7 +88,7 @@ export default function Document({
                 pdfSlick?.gotoPage(doc.pageNumber + 1);
               }}
               type="button"
-              className="rounded-full bg-blue-600 p-1.5 text-white enabled:hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 bg-opacity-50 enabled:hover:bg-opacity-100 disabled:opacity-30 enabled:ring-2 enabled:ring-blue-500 enabled:ring-offset-2"
+              className="rounded-full bg-blue-600/50 p-1.5 text-white enabled:hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-30 enabled:ring-2 enabled:ring-blue-500 enabled:ring-offset-2"
             >
               <VscChevronRight className="h-4 w-4" />
               <span className="sr-only">Next Page</span>
