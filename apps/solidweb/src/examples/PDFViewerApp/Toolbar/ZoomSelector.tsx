@@ -54,7 +54,7 @@ const ZoomSelector = ({ store }: TZoomSelectorProps) => {
         </HoverCard.Root>
       </button>
 
-      <DropdownMenu.Root isModal={false}>
+      <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger
           class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-xs focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
           onClick={(e) => {

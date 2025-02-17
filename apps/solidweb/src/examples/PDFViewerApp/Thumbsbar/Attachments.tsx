@@ -21,7 +21,6 @@ const AttachmentButton: Component<AttachmentButtonProps> = (props) => {
       class="w-full box-border rounded-sm text-left hover:text-slate-900 p-1 hover:bg-slate-200"
       onClick={() =>
         props.store.pdfSlick?.openOrDownloadData(
-          ref,
           props.content,
           props.filename
         )

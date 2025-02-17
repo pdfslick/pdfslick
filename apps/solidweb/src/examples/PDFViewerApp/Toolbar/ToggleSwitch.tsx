@@ -1,12 +1,14 @@
-import { Component, ComponentProps, createSignal } from 'solid-js';
+import { Component, ComponentProps, createSignal, JSX } from 'solid-js';
 
-interface ToggleSwitchProps extends ComponentProps<'button'> {
+interface ToggleSwitchProps extends Omit<ComponentProps<'button'>, 'onClick' | 'onChange'> {
   /** Initial enabled state */
   enabled?: boolean;
   /** Callback function when toggle state changes */
   onChange?: (enabled: boolean) => void;
   /** Optional label for the toggle */
   label?: string;
+  /** Optional */
+  onClick?: JSX.EventHandler<HTMLButtonElement, MouseEvent> | undefined;
 }
 
 const ToggleSwitch: Component<ToggleSwitchProps> = (props) => {

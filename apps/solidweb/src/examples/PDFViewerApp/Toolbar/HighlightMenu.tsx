@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { VsChevronDown } from "solid-icons/vs";
 import { TbHighlight } from 'solid-icons/tb'
 import { AnnotationEditorType, AnnotationEditorParamsType } from "pdfjs-dist";

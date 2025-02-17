@@ -31,7 +31,7 @@ const FreetextMenu = ({ store }: TFreetextMenuProps) => {
         <VsCaseSensitive class="w-5 h-5" />
       </button>
 
-      <DropdownMenu.Root isModal={false}>
+      <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger
           disabled={!store.pdfSlick}
           class="h-6 hover:group-hover:enabled:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-xs transition-all focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
