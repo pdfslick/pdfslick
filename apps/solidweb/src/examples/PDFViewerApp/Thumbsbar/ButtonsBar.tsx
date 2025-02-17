@@ -19,7 +19,7 @@ const ButtonsBar = ({
 }: ButtonsBarProps) => {
   return (
     <div
-      class={`bg-slate-100/70 z-10 flex flex-col p-1 py-2 space-y-3 items-center border-r border-r-slate-300 shadow-sm transition-all [box-shadow:1px_0_2px_0_rgb(0_0_0_/_0.05)]`}
+      class={`bg-slate-100/70 z-10 flex flex-col p-1 py-2 space-y-3 items-center border-r border-r-slate-300 shadow-xs transition-all [box-shadow:1px_0_2px_0_rgb(0_0_0_/_0.05)]`}
       classList={{
         "translate-x-0 visible opacity-100": isThumbsbarOpen(),
         "-translate-x-full invisible opacity-0": !isThumbsbarOpen(),
@@ -27,7 +27,7 @@ const ButtonsBar = ({
     >
       <button
         disabled={!store.pdfSlick}
-        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent`}
+        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent`}
         classList={{
           "enabled:bg-blue-100 enabled:text-black border-blue-200":
             !!store.pdfSlick && tab() === "thumbnails",
@@ -41,7 +41,7 @@ const ButtonsBar = ({
       </button>
       <button
         disabled={!store.documentOutline}
-        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent`}
+        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent`}
         classList={{
           "enabled:bg-blue-100 enabled:text-black border-blue-200":
             tab() === "outline",
@@ -55,7 +55,7 @@ const ButtonsBar = ({
       </button>
       <button
         disabled={store.attachments?.size < 1}
-        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent`}
+        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent`}
         classList={{
           "enabled:bg-blue-100 enabled:text-black border-blue-200":
             tab() === "attachments",

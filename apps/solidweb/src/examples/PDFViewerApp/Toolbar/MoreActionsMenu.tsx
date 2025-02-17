@@ -61,7 +61,7 @@ const MoreActionsMenu = ({ store }: MoreActionsMenuProps) => {
       </div>
       <DropdownMenu.Root isModal={false}>
         <DropdownMenu.Trigger
-          class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+          class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -72,7 +72,7 @@ const MoreActionsMenu = ({ store }: MoreActionsMenuProps) => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            class="absolute right-2 w-52 z-30 mt-2 origin-top-right divide-y divide-slate-200 rounded text-left bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-content-hide ui-expanded:animate-content-show"
+            class="absolute right-2 w-52 z-30 mt-2 origin-top-right divide-y divide-slate-200 rounded-sm text-left bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden animate-content-hide ui-expanded:animate-content-show"
             role="menu"
             aria-orientation="vertical"
             tabindex="-1"

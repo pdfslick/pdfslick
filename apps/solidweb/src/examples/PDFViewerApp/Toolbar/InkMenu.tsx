@@ -19,7 +19,7 @@ const InkMenu = ({ store }: TInkMenuProps) => {
       }`}
     >
       <button
-        class={` enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent`}
+        class={` enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent`}
         onClick={() => {
           const mode = isInkMode()
             ? AnnotationEditorType.NONE
@@ -33,7 +33,7 @@ const InkMenu = ({ store }: TInkMenuProps) => {
       <DropdownMenu.Root isModal={false}>
         <DropdownMenu.Trigger
           disabled={!store.pdfSlick}
-          class="h-6 enabled:group-hover:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-sm transition-all focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+          class="h-6 hover:group-hover:enabled:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-xs transition-all focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -45,7 +45,7 @@ const InkMenu = ({ store }: TInkMenuProps) => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            class="absolute right-0 z-30 mt-2 origin-top-right rounded-sm text-left bg-white divide-y divide-slate-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-content-hide ui-expanded:animate-content-show"
+            class="absolute right-0 z-30 mt-2 origin-top-right rounded-xs text-left bg-white divide-y divide-slate-200 shadow-lg ring-1 ring-black/5 focus:outline-hidden animate-content-hide ui-expanded:animate-content-show"
             role="menu"
             aria-orientation="vertical"
             tabindex="-1"
@@ -57,7 +57,7 @@ const InkMenu = ({ store }: TInkMenuProps) => {
                   {colorNames.map((name) => (
                     <DropdownMenu.Item
                       closeOnSelect={false}
-                      class="p-2 cursor-pointer block rounded-full origin-center border border-transparent hover:scale-125 hover:border-blue-300 focus:ring-0 focus:outline-none focus:scale-125 focus:border-blue-300"
+                      class="p-2 cursor-pointer block rounded-full origin-center border border-transparent hover:scale-125 hover:border-blue-300 focus:ring-0 focus:outline-hidden focus:scale-125 focus:border-blue-300"
                       style={{
                         "background-color": colors[name][s],
                       }}
