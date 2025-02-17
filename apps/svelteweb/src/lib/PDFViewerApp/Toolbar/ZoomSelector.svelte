@@ -23,7 +23,7 @@
 	<button
 		aria-label="Zoom Out"
 		disabled={!$pdfSlickStore?.pdfSlick || $pdfSlickStore?.scale <= 0.25}
-		class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+		class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 		on:click={() => $pdfSlickStore?.pdfSlick?.viewer?.decreaseScale()}
 	>
 		<iconify-icon height={16} icon="codicon:remove"></iconify-icon>
@@ -31,7 +31,7 @@
 
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger
-			class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-sm focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+			class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-sm focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 		>
 			<span class="sr-only">Open zoom options</span>
 			<div class="flex px-1 w-full">
@@ -83,7 +83,7 @@
 
 	<!-- <Menu as="div" class="relative">
 		<MenuButton
-			class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-sm focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+			class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-sm focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 			on:click={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -104,7 +104,7 @@
 		</MenuButton>
 		<MenuItems
 			as="div"
-			class="absolute w-32 max-w-[142px] right-0 left-0 z-30 mt-1 origin-top-right divide-y divide-slate-200 rounded text-left bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-content-hide ui-expanded:animate-content-show"
+			class="absolute w-32 max-w-[142px] right-0 left-0 z-30 mt-1 origin-top-right divide-y divide-slate-200 rounded text-left bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden animate-content-hide ui-expanded:animate-content-show"
 			role="menu"
 			aria-orientation="vertical"
 			tabindex={-1}
@@ -152,7 +152,7 @@
 	<button
 		aria-label="Zoom In"
 		disabled={!$pdfSlickStore?.pdfSlick || $pdfSlickStore?.scale >= 5}
-		class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+		class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 		on:click={() => $pdfSlickStore?.pdfSlick?.viewer?.increaseScale()}
 	>
 		<iconify-icon height={16} icon="codicon:add"></iconify-icon>

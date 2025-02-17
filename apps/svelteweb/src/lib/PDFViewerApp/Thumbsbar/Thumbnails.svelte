@@ -58,14 +58,14 @@
 					<button
 						on:click={() => $pdfSlickStore?.pdfSlick?.gotoPage(pageNumber)}
 						class={clsx('p-0.5', {
-							'bg-blue-400 shadow': loaded && pageNumber === $pdfSlickStore?.pageNumber,
+							'bg-blue-400 shadow-sm': loaded && pageNumber === $pdfSlickStore?.pageNumber,
 							'bg-transparent': pageNumber !== $pdfSlickStore?.pageNumber || !loaded
 						})}
 					>
 						<div
 							class={clsx('box-border relative border', {
-								'border-slate-300 border-solid bg-slate-400 bg-opacity-5 shadow-sm': !loaded,
-								'border-slate-300 border-solid hover:border-blue-400 shadow hover:shadow':
+								'border-slate-300 border-solid bg-slate-400/5 shadow-xs': !loaded,
+								'border-slate-300 border-solid hover:border-blue-400 shadow-sm hover:shadow-sm':
 									loaded && pageNumber !== $pdfSlickStore?.pageNumber,
 								'border-transparent border-solid shadow-md':
 									loaded && pageNumber === $pdfSlickStore?.pageNumber

@@ -51,7 +51,7 @@
 			<div id="viewer" class="pdfSlickViewer pdfViewer"></div>
 		</div>
 		{#if !!error}
-			<div class="w-full max-w-screen-sm mx-auto py-4">
+			<div class="w-full max-w-(--breakpoint-sm) mx-auto py-4">
 				<div
 					id="alert-additional-content-2"
 					class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
@@ -59,7 +59,7 @@
 				>
 					<div class="flex items-center">
 						<svg
-							class="flex-shrink-0 w-4 h-4 me-2"
+							class="shrink-0 w-4 h-4 me-2"
 							aria-hidden="true"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="currentColor"
