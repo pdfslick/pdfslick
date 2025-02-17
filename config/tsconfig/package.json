@@ -9,6 +9,6 @@
     "core.json"
   ],
   "dependencies": {
-    "typescript": "5.6.3"
+    "typescript": "5.7.3"
   }
 }
