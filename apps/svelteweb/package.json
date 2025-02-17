@@ -41,8 +41,7 @@
 		"d3-selection": "^3.0.0",
 		"iconify-icon": "^2.3.0",
 		"svelte-portal": "^2.2.1",
-		"tailwindcss": "^3.4.17",
-		"zustand": "^5.0.3"
+		"tailwindcss": "^3.4.17"
 	},
 	"type": "module"
 }

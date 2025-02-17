@@ -30,8 +30,7 @@
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.9.4",
-    "zustand": "^5.0.3"
+    "solid-js": "^1.9.4"
   },
   "type": "module"
 }
