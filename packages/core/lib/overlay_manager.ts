@@ -37,23 +37,11 @@ class OverlayManager {
     }
     this.#overlays.set(dialog, { canForceClose });
 
-    dialog.addEventListener("cancel", () => {
-      this.#active = null;
+    dialog.addEventListener("cancel", ({ target }) => {
+      if (this.#active === target) {
+        this.#active = null;
+      }
     });
-  }
-
-  /**
-   * @param {HTMLDialogElement} dialog - The overlay's DOM element.
-   * @returns {Promise} A promise that is resolved when the overlay has been
-   *                    unregistered.
-   */
-  async unregister(dialog: HTMLDialogElement) {
-    if (!this.#overlays.has(dialog)) {
-      throw new Error("The overlay does not exist.");
-    } else if (this.#active === dialog) {
-      throw new Error("The overlay cannot be removed while it is active.");
-    }
-    this.#overlays.delete(dialog);
   }
 
   /**
@@ -82,8 +70,8 @@ class OverlayManager {
    * @returns {Promise} A promise that is resolved when the overlay has been
    *                    closed.
    */
-  async close(dialog = this.#active) {
-    if (!dialog || !this.#overlays.has(dialog)) {
+  async close(dialog: HTMLDialogElement = this.#active!) {
+    if (!this.#overlays.has(dialog)) {
       throw new Error("The overlay does not exist.");
     } else if (!this.#active) {
       throw new Error("The overlay is currently not active.");
@@ -92,6 +80,17 @@ class OverlayManager {
     }
     dialog.close();
     this.#active = null;
+  }
+
+  /**
+   * @param {HTMLDialogElement} dialog - The overlay's DOM element.
+   * @returns {Promise} A promise that is resolved when the overlay has been
+   *                    closed.
+   */
+  async closeIfActive(dialog: HTMLDialogElement) {
+    if (this.#active === dialog) {
+      await this.close(dialog);
+    }
   }
 }
 

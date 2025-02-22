@@ -6,7 +6,6 @@ import {
     AnnotationEditorType,
     AnnotationMode,
     PDFDocumentProxy,
-    version,
     PDFDateString,
     AbortException,
     MissingPDFException,
@@ -45,8 +44,6 @@ import {
     PDFPrintServiceFactory,
     PDFPresentationMode,
 } from "./lib";
-import { PDFRenderingQueue as TPDFRenderingQueue } from "pdfjs-dist/types/web/pdf_page_view";
-import { PDFThumbnailViewer as TPDFThumbnailViewer } from "pdfjs-dist/types/web/pdf_thumbnail_viewer";
 
 import { StoreApi } from "zustand/vanilla";
 import { create as createStore } from "./store";
@@ -92,7 +89,7 @@ function getPageName(
 }
 
 export class PDFSlick {
-    #renderingQueue: TPDFRenderingQueue;
+    #renderingQueue: PDFRenderingQueue;
 
     #container: HTMLDivElement;
     #viewerContainer: HTMLDivElement | undefined;
@@ -128,6 +125,9 @@ export class PDFSlick {
 
     #onError: ((err: PDFException) => void) | undefined;
 
+    #eventBusAbortController: AbortController | undefined | null;
+    #windowAbortController: AbortController | undefined | null;
+
     constructor({
         container,
         viewer,
@@ -145,10 +145,8 @@ export class PDFSlick {
         this.downloadManager = new DownloadManager();
 
         this.textLayerMode = options?.textLayerMode ?? TextLayerMode.ENABLE;
-        this.#annotationMode =
-            options?.annotationMode ?? AnnotationMode.ENABLE_FORMS;
-        this.#annotationEditorMode =
-            options?.annotationEditorMode ?? AnnotationEditorType.NONE;
+        this.#annotationMode = options?.annotationMode ?? AnnotationMode.ENABLE_FORMS;
+        this.#annotationEditorMode = options?.annotationEditorMode ?? AnnotationEditorType.NONE;
         this.annotationEditorHighlightColors = options?.annotationEditorHighlightColors ?? "yellow=#FFFF98,green=#53FFBC,blue=#80EBFF,pink=#FFCBE6,red=#FF4F5F"
         this.removePageBorders = options?.removePageBorders ?? false;
         this.singlePageViewer = options?.singlePageViewer ?? false;
@@ -176,8 +174,7 @@ export class PDFSlick {
         }
         this.store = store;
 
-        const renderingQueue =
-            new PDFRenderingQueue() as unknown as TPDFRenderingQueue;
+        const renderingQueue = new PDFRenderingQueue();
         renderingQueue.onIdle = this._cleanup.bind(this);
         renderingQueue.isThumbnailViewEnabled = true;
         this.#renderingQueue = renderingQueue;
@@ -195,7 +192,7 @@ export class PDFSlick {
             ...(viewer && { viewer }),
             eventBus,
             linkService,
-            renderingQueue,
+            renderingQueue: renderingQueue as unknown as PDFViewerOptions['renderingQueue'],
             textLayerMode: this.textLayerMode,
             annotationEditorHighlightColors: this.annotationEditorHighlightColors,
             l10n: this.l10n,
@@ -216,13 +213,13 @@ export class PDFSlick {
                 eventBus,
                 linkService,
                 renderingQueue,
-                l10n: this.l10n,
                 pageColors: this.pageColors,
+                enableHWA: undefined,
                 store: store,
                 thumbnailWidth: this.thumbnailWidth,
             });
             renderingQueue.setThumbnailViewer(
-                this.thumbnailViewer as unknown as TPDFThumbnailViewer
+                this.thumbnailViewer
             );
         }
 
@@ -244,8 +241,8 @@ export class PDFSlick {
     }
 
     async loadDocument(
-      url: string | URL | ArrayBuffer,
-      options?: { filename?: string; onProgress?: (_: OnProgressParameters) => void; },
+        url: string | URL | ArrayBuffer,
+        options?: { filename?: string; onProgress?: (_: OnProgressParameters) => void; },
     ) {
         if (this.url && typeof this.url === "string") {
             try {
@@ -265,8 +262,7 @@ export class PDFSlick {
                 this.url = url;
             }
 
-            const filename =
-                options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
+            const filename = options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
             this.filename = filename;
 
             const pdfDocumentLoader = getDocument({
@@ -276,7 +272,7 @@ export class PDFSlick {
             });
 
             if (!!options?.onProgress) {
-              pdfDocumentLoader.onProgress = options.onProgress;
+                pdfDocumentLoader.onProgress = options.onProgress;
             }
 
             const pdfDocument = await pdfDocumentLoader.promise;
@@ -580,18 +576,15 @@ export class PDFSlick {
         const pagesOverview = this.viewer.getPagesOverview();
         const printContainer = document.getElementById("printContainer")!;
         const printResolution = this.printResolution;
-        const optionalContentConfigPromise =
-            this.viewer.optionalContentConfigPromise;
 
-        const printService = PDFPrintServiceFactory.instance.createPrintService(
-            this.document!,
+        const printService = PDFPrintServiceFactory.instance.createPrintService({
+            pdfDocument: this.document!,
             pagesOverview,
             printContainer,
             printResolution,
-            optionalContentConfigPromise,
-            null, // this._printAnnotationStoragePromise,
-            this.l10n
-        );
+            optionalContentConfigPromise: null,
+            printAnnotationStoragePromise: null, // this._printAnnotationStoragePromise,
+        });
         this.printService = printService;
         this.forceRendering();
         // Disable the editor-indicator during printing (fixes bug 1790552).
@@ -638,24 +631,45 @@ export class PDFSlick {
     }
 
     #initInternalEventListeners() {
-        this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this));
-        this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this));
-        this.eventBus._on("pagechanging", this.#onPageChanging.bind(this));
-        this.eventBus._on("pagerendered", this.#onPageRendered.bind(this));
-        this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this));
-        this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this));
-        this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this));
+        {
+            this.#eventBusAbortController = new AbortController();
+            const { signal } = this.#eventBusAbortController;
+            const opts: any = { signal };
 
-        this.eventBus._on("beforeprint", this.beforePrint.bind(this));
-        this.eventBus._on("afterprint", this.afterPrint.bind(this));
+            this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this), opts);
+            this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this), opts);
+            this.eventBus._on("pagechanging", this.#onPageChanging.bind(this), opts);
+            this.eventBus._on("pagerendered", this.#onPageRendered.bind(this), opts);
+            this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this), opts);
+            this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this), opts);
+            this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this), opts);
 
-        window.onbeforeprint = (e) => {
-            this.eventBus.dispatch("beforeprint", { source: window });
-        };
+            this.eventBus._on("beforeprint", this.beforePrint.bind(this), opts);
+            this.eventBus._on("afterprint", this.afterPrint.bind(this), opts);
+        }
 
-        window.onafterprint = (e) => {
-            this.eventBus.dispatch("afterprint", { source: window });
-        };
+        {
+            this.#windowAbortController = new AbortController();
+            const { signal } = this.#windowAbortController;
+
+            window.addEventListener(
+                "beforeprint",
+                () => this.eventBus.dispatch("beforeprint", { source: window }),
+                { signal }
+            );
+            window.addEventListener(
+                "afterprint",
+                () => this.eventBus.dispatch("afterprint", { source: window }),
+                { signal }
+            );
+        }
+    }
+
+    unbindEvents() {
+        this.#eventBusAbortController?.abort();
+        this.#eventBusAbortController = null;
+        this.#windowAbortController?.abort();
+        this.#windowAbortController = null;
     }
 
     async #onDocumentReady({ source }: TEventBusEvent) {
@@ -729,7 +743,6 @@ export class PDFSlick {
     }
 
     setAnnotationEditorMode(annotationEditorMode: number) {
-        
         this.viewer.annotationEditorMode = { mode: annotationEditorMode }
         this.dispatch("switchannotationeditormode", {
             source: this,
@@ -743,15 +756,12 @@ export class PDFSlick {
             | { type: number; value: any }
             | { type: number; value: any }[]
     ) {
-
-
         const pairs = Array.isArray(annotationEditorParams)
             ? annotationEditorParams
             : [annotationEditorParams];
 
         for (const params of pairs) {
-            this.dispatch("switchannotationeditorparams",
-            {
+            this.dispatch("switchannotationeditorparams", {
                 source: this,
                 type: params.type,
                 value: params.value,
