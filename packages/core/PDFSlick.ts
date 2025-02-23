@@ -41,7 +41,6 @@ import type {
 import {
     PDFThumbnailViewer,
     PDFRenderingQueue,
-    PDFPrintServiceFactory,
     PDFPresentationMode,
 } from "./lib";
 
@@ -55,6 +54,8 @@ import {
     isValidScrollMode,
     isValidRotation,
 } from "./lib/ui_utils";
+import { PDFSlickPrintService } from "./PDFSlickPrintService";
+import { PDFSlickPrintDialog } from "./PDFSlickPrintDialog";
 
 export type PDFException =
     | AbortException
@@ -90,11 +91,11 @@ function getPageName(
 
 export class PDFSlick {
     #renderingQueue: PDFRenderingQueue;
-
     #container: HTMLDivElement;
     #viewerContainer: HTMLDivElement | undefined;
     #thumbsContainer: HTMLDivElement | undefined;
-    printService: any;
+    #printService: PDFSlickPrintService;
+
     url: string | ArrayBuffer | undefined;
     eventBus: EventBus;
     linkService: PDFLinkService;
@@ -125,8 +126,7 @@ export class PDFSlick {
 
     #onError: ((err: PDFException) => void) | undefined;
 
-    #eventBusAbortController: AbortController | undefined | null;
-    #windowAbortController: AbortController | undefined | null;
+    #eventAbortController: AbortController | undefined | null;
 
     constructor({
         container,
@@ -135,6 +135,7 @@ export class PDFSlick {
         store = createStore(),
         options,
         onError,
+        printDialog,
     }: PDFSlickInputArgs) {
         this.#container = container;
         this.#viewerContainer = viewer;
@@ -235,6 +236,12 @@ export class PDFSlick {
         this.linkService = linkService;
         this.viewer = pdfViewer;
         this.linkService.setViewer(pdfViewer);
+
+        this.#printService = new PDFSlickPrintService({
+            eventBus,
+            slick: this,
+            printDialog: printDialog ?? PDFSlickPrintDialog.create(),
+        });
 
         const scaleValue = options?.scaleValue ?? "auto";
         this.store.setState({ scaleValue });
@@ -460,9 +467,8 @@ export class PDFSlick {
     }
 
     forceRendering(isThumbnailViewEnabled: boolean = true) {
-        this.#renderingQueue.printing = !!this.printService;
+        this.#renderingQueue.printing = !!this.#printService.printing;
         this.#renderingQueue.isThumbnailViewEnabled = isThumbnailViewEnabled;
-        // @ts-ignore
         this.#renderingQueue.renderHighestPriority();
     }
 
@@ -536,87 +542,7 @@ export class PDFSlick {
     }
 
     get supportsPrinting() {
-        return PDFPrintServiceFactory.instance.supportsPrinting;
-    }
-
-    beforePrint() {
-        // this._printAnnotationStoragePromise = this.pdfScriptingManager
-        //   .dispatchWillPrint()
-        //   .catch(() => {
-        //     /* Avoid breaking printing; ignoring errors. */
-        //   })
-        //   .then(() => {
-        //     return this.document?.annotationStorage.print;
-        //   });
-
-        if (this.printService) {
-            // There is no way to suppress beforePrint/afterPrint events,
-            // but PDFPrintService may generate double events -- this will ignore
-            // the second event that will be coming from native window.print().
-            return;
-        }
-
-        if (!this.supportsPrinting) {
-            // this.l10n.get("printing_not_supported").then(msg => {
-            //   this._otherError(msg);
-            // });
-            return;
-        }
-
-        // The beforePrint is a sync method and we need to know layout before
-        // returning from this method. Ensure that we can get sizes of the pages.
-        if (!this.viewer.pageViewsReady) {
-            this.l10n.get("printing_not_ready", null).then((msg) => {
-                // eslint-disable-next-line no-alert
-                window.alert(msg);
-            });
-            return;
-        }
-
-        const pagesOverview = this.viewer.getPagesOverview();
-        const printContainer = document.getElementById("printContainer")!;
-        const printResolution = this.printResolution;
-
-        const printService = PDFPrintServiceFactory.instance.createPrintService({
-            pdfDocument: this.document!,
-            pagesOverview,
-            printContainer,
-            printResolution,
-            optionalContentConfigPromise: null,
-            printAnnotationStoragePromise: null, // this._printAnnotationStoragePromise,
-        });
-        this.printService = printService;
-        this.forceRendering();
-        // Disable the editor-indicator during printing (fixes bug 1790552).
-        // this.setTitle();
-
-        printService.layout();
-
-        // if (this._hasAnnotationEditors) {
-        //   this.externalServices.reportTelemetry({
-        //     type: "editing",
-        //     data: { type: "print" },
-        //   });
-        // }
-    }
-
-    afterPrint() {
-        // if (this._printAnnotationStoragePromise) {
-        //   this._printAnnotationStoragePromise.then(() => {
-        //     this.pdfScriptingManager.dispatchDidPrint();
-        //   });
-        //   this._printAnnotationStoragePromise = null;
-        // }
-
-        if (this.printService) {
-            this.printService.destroy();
-            this.printService = null;
-
-            this.document?.annotationStorage.resetModified();
-        }
-        this.forceRendering();
-        // Re-enable the editor-indicator after printing (fixes bug 1790552).
-        // this.setTitle();
+        return this.#printService.supportsPrinting;
     }
 
     requestPresentationMode() {
@@ -624,52 +550,27 @@ export class PDFSlick {
     }
 
     triggerPrinting() {
-        if (!this.supportsPrinting) {
-            return;
-        }
-        window.print();
+        this.#printService.print();
     }
 
     #initInternalEventListeners() {
-        {
-            this.#eventBusAbortController = new AbortController();
-            const { signal } = this.#eventBusAbortController;
-            const opts: any = { signal };
+        this.#eventAbortController = new AbortController();
+        const { signal } = this.#eventAbortController;
+        const opts: any = { signal };
 
-            this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this), opts);
-            this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this), opts);
-            this.eventBus._on("pagechanging", this.#onPageChanging.bind(this), opts);
-            this.eventBus._on("pagerendered", this.#onPageRendered.bind(this), opts);
-            this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this), opts);
-            this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this), opts);
-            this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this), opts);
-
-            this.eventBus._on("beforeprint", this.beforePrint.bind(this), opts);
-            this.eventBus._on("afterprint", this.afterPrint.bind(this), opts);
-        }
-
-        {
-            this.#windowAbortController = new AbortController();
-            const { signal } = this.#windowAbortController;
-
-            window.addEventListener(
-                "beforeprint",
-                () => this.eventBus.dispatch("beforeprint", { source: window }),
-                { signal }
-            );
-            window.addEventListener(
-                "afterprint",
-                () => this.eventBus.dispatch("afterprint", { source: window }),
-                { signal }
-            );
-        }
+        this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this), opts);
+        this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this), opts);
+        this.eventBus._on("pagechanging", this.#onPageChanging.bind(this), opts);
+        this.eventBus._on("pagerendered", this.#onPageRendered.bind(this), opts);
+        this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this), opts);
+        this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this), opts);
+        this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this), opts);
     }
 
     unbindEvents() {
-        this.#eventBusAbortController?.abort();
-        this.#eventBusAbortController = null;
-        this.#windowAbortController?.abort();
-        this.#windowAbortController = null;
+        this.#eventAbortController?.abort();
+        this.#eventAbortController = null;
+        this.#printService.unbindEvents();
     }
 
     async #onDocumentReady({ source }: TEventBusEvent) {
