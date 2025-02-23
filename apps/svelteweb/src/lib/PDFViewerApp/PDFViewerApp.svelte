@@ -107,24 +107,3 @@
 		</div>
 	</div>
 </div>
-
-<!-- the following used for printing and displaying the print dialog -->
-<div id="printContainer"></div>
-<dialog id="printServiceDialog" class="min-w-[200px]">
-	<div class="row">
-		<span data-l10n-id="print_progress_message">Preparing document for printing…</span>
-	</div>
-	<div class="row">
-		<progress value="0" max="100"></progress>
-		<span
-			data-l10n-id="print_progress_percent"
-			data-l10n-args={`{ "progress": 0 }`}
-			class="relative-progress">0%</span
-		>
-	</div>
-	<div class="buttonRow">
-		<button id="printCancel" class="dialogButton"
-			><span data-l10n-id="print_progress_close">Cancel</span></button
-		>
-	</div>
-</dialog>

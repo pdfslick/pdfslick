@@ -19,7 +19,7 @@
 /** @typedef {import("./pdf_thumbnail_viewer").PDFThumbnailViewer} PDFThumbnailViewer */
 
 import { RenderingCancelledException } from "pdfjs-dist";
-import { RenderingStates } from "./ui_utils";
+import { type getVisibleElements, RenderingStates } from "./ui_utils";
 import { PDFThumbnailView } from "./pdf_thumbnail_view";
 import { IRenderableView } from "pdfjs-dist/types/web/interfaces.js";
 import { PDFThumbnailViewer } from "./pdf_thumbnail_viewer";
@@ -49,6 +49,12 @@ class PDFRenderingQueue {
     this.idleTimeout = null;
     this.printing = false;
     this.isThumbnailViewEnabled = false;
+
+    {
+      Object.defineProperty(this, "hasViewer", {
+        value: () => !!this.pdfViewer,
+      });
+    }
   }
 
   /**
@@ -69,15 +75,8 @@ class PDFRenderingQueue {
    * @param {IRenderableView} view
    * @returns {boolean}
    */
-  isHighestPriority(view: PDFPageView) {
+  isHighestPriority(view: IRenderableView) {
     return this.highestPriorityPage === view.renderingId;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  hasViewer() {
-    return !!this.pdfViewer;
   }
 
   /**
@@ -90,7 +89,7 @@ class PDFRenderingQueue {
     }
 
     // Pages have a higher priority than thumbnails, so check them first.
-    if (this.pdfViewer?.forceRendering(currentlyVisiblePages)) {
+    if (this.pdfViewer!.forceRendering(currentlyVisiblePages)) {
       return;
     }
     // No pages needed rendering, so check thumbnails.
@@ -118,11 +117,11 @@ class PDFRenderingQueue {
    * @param {boolean} [preRenderExtra]
    */
   getHighestPriority(
-    visible: { first: any; last: any; views: any; ids: any },
+    visible: ReturnType<typeof getVisibleElements<PDFThumbnailView>>,
     views: PDFThumbnailView[],
     scrolledDown: boolean,
     preRenderExtra = false
-  ) {
+  ): PDFThumbnailView | null {
     /**
      * The state has changed. Figure out which page has the highest priority to
      * render next (if any).
@@ -216,11 +215,11 @@ class PDFRenderingQueue {
           .finally(() => {
             this.renderHighestPriority();
           })
-          .catch((reason) => {
+          .catch(reason => {
             if (reason instanceof RenderingCancelledException) {
               return;
             }
-            console.error(`renderView: "${reason}"`);
+            console.error("renderView:", reason);
           });
         break;
     }
