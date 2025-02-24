@@ -33,7 +33,7 @@ export class PDFSlickPrintDialog implements IPDFSlickPrintDialog {
           h('progress', { value: '0', max: '100' }, []),
           h('span', { 'data-l10n-id': 'pdfjs-print-progress-percent', 'data-l10n-args': '{ "progress": 0 }', class: 'relative-progress' }, ['0%']),
         ]),
-        h('div', { class: 'row' }, [
+        h('div', { class: 'buttonRow' }, [
           h('button', { id: 'printCancel', class: 'dialogButton', type: 'button' }, [
             h('span', { 'data-l10n-id': 'pdfjs-print-progress-close-button' }, ['Cancel'])
           ]),

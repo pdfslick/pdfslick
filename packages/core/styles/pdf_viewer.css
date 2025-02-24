@@ -100,7 +100,12 @@
     color: rgb(255 255 255);
 }
 
-.pdfSlick .dialogButton {
+.pdfSlick-dialog .buttonRow {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pdfSlick-dialog .dialogButton {
     border: none;
     background: none;
     width: 28px;
@@ -108,15 +113,15 @@
     outline: none;
 }
 
-.pdfSlick .dialogButton:is(:hover, :focus-visible) {
+.pdfSlick-dialog .dialogButton:is(:hover, :focus-visible) {
     background-color: var(--dialog-button-hover-bg-color);
 }
 
-.pdfSlick .dialogButton:is(:hover, :focus-visible)>span {
+.pdfSlick-dialog .dialogButton:is(:hover, :focus-visible)>span {
     color: var(--dialog-button-hover-color);
 }
 
-.pdfSlick .dialogButton {
+.pdfSlick-dialog .dialogButton {
     min-width: 16px;
     margin: 2px 1px;
     padding: 2px 6px 0;
@@ -130,7 +135,7 @@
     box-sizing: border-box;
 }
 
-.pdfSlick .dialogButton {
+.pdfSlick-dialog .dialogButton {
     width: auto;
     margin: 3px 4px 2px !important;
     padding: 2px 11px;
