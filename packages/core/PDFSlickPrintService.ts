@@ -178,18 +178,6 @@ export class PDFSlickPrintService {
             },
             { signal, capture: true }
         );
-
-        // if ("onbeforeprint" in window) {
-        //     // Do not propagate before/afterprint events when they are not triggered
-        //     // from within this polyfill. (FF / Chrome 63+).
-        //     const stopPropagationIfNeeded = function (event: Event) {
-        //         if ((<any>event).detail !== "custom") {
-        //             event.stopImmediatePropagation();
-        //         }
-        //     };
-        //     window.addEventListener("beforeprint", stopPropagationIfNeeded);
-        //     window.addEventListener("afterprint", stopPropagationIfNeeded);
-        // }
     }
 
     unbindEvents() {
