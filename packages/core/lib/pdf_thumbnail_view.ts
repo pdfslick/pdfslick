@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
+// eslint-disable-next-line max-len
 /** @typedef {import("./event_utils").EventBus} EventBus */
 /** @typedef {import("./interfaces").IL10n} IL10n */
 /** @typedef {import("./interfaces").IPDFLinkService} IPDFLinkService */
 /** @typedef {import("./interfaces").IRenderableView} IRenderableView */
-// eslint-disable-next-line max-len
 /** @typedef {import("./pdf_rendering_queue").PDFRenderingQueue} PDFRenderingQueue */
 
 import { OutputScale, RenderingStates } from "./ui_utils";
@@ -25,13 +25,17 @@ import {
   RenderingCancelledException,
   PDFPageProxy,
   PageViewport,
+  RenderTask,
 } from "pdfjs-dist";
 import { PDFViewer, PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";
+import { OptionalContentConfig, PDFViewerOptions } from "pdfjs-dist/types/web/pdf_viewer";
+import type { PDFRenderingQueue } from "./pdf_rendering_queue";
 
 const DRAW_UPSCALE_FACTOR = 2; // See comment in `PDFThumbnailView.draw` below.
 const MAX_NUM_SCALING_STEPS = 3;
+const THUMBNAIL_WIDTH = 98; // px
 
 /**
  * @typedef {Object} PDFThumbnailViewOptions
@@ -44,31 +48,29 @@ const MAX_NUM_SCALING_STEPS = 3;
  *   The default value is `null`.
  * @property {IPDFLinkService} linkService - The navigation/linking service.
  * @property {PDFRenderingQueue} renderingQueue - The rendering queue object.
- * @property {IL10n} l10n - Localization service.
  * @property {Object} [pageColors] - Overwrites background and foreground colors
  *   with user defined ones in order to improve readability in high contrast
  *   mode.
+ * @property {boolean} [enableHWA] - Enables hardware acceleration for
+ *   rendering. The default value is `false`.
  */
 
 class TempImageFactory {
   static #tempCanvas: HTMLCanvasElement | null = null;
 
   static getCanvas(width: number, height: number) {
-    const tempCanvas = (this.#tempCanvas ||=
-      document.createElement("canvas")) as HTMLCanvasElement;
+    const tempCanvas = (this.#tempCanvas ||= document.createElement("canvas")) as HTMLCanvasElement;
     tempCanvas.width = width;
     tempCanvas.height = height;
 
     // Since this is a temporary canvas, we need to fill it with a white
-    // background ourselves. `_getPageDrawContext` uses CSS rules for this.
+    // background ourselves. `#getPageDrawContext` uses CSS rules for this.
     const ctx = tempCanvas.getContext("2d", { alpha: false })!;
     ctx.save();
     ctx.fillStyle = "rgb(255, 255, 255)";
     ctx.fillRect(0, 0, width, height);
     ctx.restore();
-
-    const c = tempCanvas.getContext("2d")!;
-    return [tempCanvas!, c] as [HTMLCanvasElement, CanvasRenderingContext2D];
+    return [tempCanvas!, tempCanvas.getContext("2d")!] as const;
   }
 
   static destroyCanvas() {
@@ -83,20 +85,32 @@ class TempImageFactory {
   }
 }
 
+type PDFThumbnailViewOptions = {
+  id: any;
+  container: HTMLElement;
+  eventBus: EventBus;
+  defaultViewport: PageViewport;
+  optionalContentConfigPromise?: Promise<OptionalContentConfig>
+  linkService: NonNullable<PDFViewerOptions['linkService']>;
+  renderingQueue: PDFRenderingQueue;
+  pageColors: { background: any; foreground: any } | null;
+  enableHWA?: boolean;
+  store: StoreApi<PDFSlickState>;
+  thumbnailWidth: number;
+}
+
 /**
  * @implements {IRenderableView}
  */
 class PDFThumbnailView {
-  container: HTMLElement;
-  eventBus: EventBus;
   id: number;
+  eventBus: EventBus;
   viewport: PageViewport;
-  optionalContentConfigPromise: any;
-  _optionalContentConfigPromise: any;
-  linkService: any;
-  renderingQueue: any;
-  l10n: any;
-  pageColors: Object | null;
+  _optionalContentConfigPromise: PDFThumbnailViewOptions['optionalContentConfigPromise'] | null;
+  linkService: PDFThumbnailViewOptions['linkService'];
+  renderingQueue: PDFThumbnailViewOptions['renderingQueue'];
+  pageColors: PDFThumbnailViewOptions['pageColors'];
+  enableHWA: boolean | null;
 
   store: StoreApi<PDFSlickState>;
   thumbnailWidth: number;
@@ -107,7 +121,7 @@ class PDFThumbnailView {
   rotation: number;
   pdfPageRotate: number;
 
-  renderTask: any;
+  renderTask: RenderTask | null;
   renderingState: number;
   resume: any;
 
@@ -118,7 +132,6 @@ class PDFThumbnailView {
   pdfPage: PDFPageProxy | null;
 
   src?: string | null;
-  canvas?: HTMLCanvasElement | null;
 
   div: HTMLDivElement;
 
@@ -133,26 +146,14 @@ class PDFThumbnailView {
     optionalContentConfigPromise,
     linkService,
     renderingQueue,
-    l10n,
     pageColors,
+    enableHWA,
     store,
     thumbnailWidth,
-  }: {
-    id: any;
-    container: HTMLElement;
-    eventBus: EventBus;
-    defaultViewport: any;
-    store: StoreApi<PDFSlickState>;
-    thumbnailWidth: number;
-  } & Partial<Omit<PDFViewer, "container">>) {
-    this.container = container;
-    this.eventBus = eventBus;
+  }: PDFThumbnailViewOptions) {
     this.id = id;
     this.renderingId = "thumbnail" + id;
     this.pageLabel = null;
-
-    this.store = store;
-    this.loaded = false;
 
     this.pdfPage = null;
     this.rotation = 0;
@@ -160,7 +161,9 @@ class PDFThumbnailView {
     this.pdfPageRotate = defaultViewport.rotation;
     this._optionalContentConfigPromise = optionalContentConfigPromise || null;
     this.pageColors = pageColors || null;
+    this.enableHWA = enableHWA || false;
 
+    this.eventBus = eventBus;
     this.linkService = linkService;
     this.renderingQueue = renderingQueue;
 
@@ -168,25 +171,57 @@ class PDFThumbnailView {
     this.renderingState = RenderingStates.INITIAL;
     this.resume = null;
 
-    const pageWidth = this.viewport.width,
-      pageHeight = this.viewport.height,
-      pageRatio = pageWidth / pageHeight;
+    // <pdf-slick>
+    // const anchor = document.createElement("a");
+    // anchor.href = linkService.getAnchorUrl("#page=" + id);
+    // anchor.setAttribute("data-l10n-id", "pdfjs-thumb-page-title");
+    // anchor.setAttribute("data-l10n-args", this.#pageL10nArgs);
+    // anchor.onclick = function () {
+    //   linkService.goToPage(id);
+    //   return false;
+    // };
+    // this.anchor = anchor;
 
-    this.canvasWidth = thumbnailWidth; // THUMBNAIL_WIDTH;
-    this.canvasHeight = (this.canvasWidth / pageRatio) | 0;
-    this.scale = this.canvasWidth / pageWidth;
+    // const div = document.createElement("div");
+    // div.className = "thumbnail pdfSlickThumbHolder"; // <pdf-slick>
+    // div.setAttribute("data-page-number", String(this.id));
+    // this.div = div;
+    // this.#updateDims();
 
-    this.l10n = l10n;
+    // const img = document.createElement("div");
+    // img.className = "thumbnailImage";
+    // this._placeholderImg = img;
 
-    this.canvas = null;
-    this.src = null;
+    // div.append(img);
+    // anchor.append(div);
+    // container.append(anchor);
+
+    // ---------------
+    this.store = store;
+    this.thumbnailWidth = thumbnailWidth;
+    this.loaded = false;
 
     const div = document.createElement("div");
     div.className = "thumbnail pdfSlickThumbHolder";
     div.setAttribute("data-page-number", this.id.toString());
     this.div = div;
+    this.#updateDims();
 
     container.append(div);
+    // </pdf-slick>
+  }
+
+  #updateDims() {
+    const { width, height } = this.viewport;
+    const ratio = width / height;
+
+    this.canvasWidth = this.thumbnailWidth; // <pdf-slick>
+    this.canvasHeight = (this.canvasWidth / ratio) | 0;
+    this.scale = this.canvasWidth / width;
+
+    const { style } = this.div;
+    style.setProperty("--thumbnail-width", `${this.canvasWidth}px`);
+    style.setProperty("--thumbnail-height", `${this.canvasHeight}px`);
   }
 
   setPdfPage(pdfPage: PDFPageProxy) {
@@ -201,23 +236,20 @@ class PDFThumbnailView {
     this.cancelRendering();
     this.renderingState = RenderingStates.INITIAL;
 
-    const pageWidth = this.viewport.width,
-      pageHeight = this.viewport.height,
-      pageRatio = pageWidth / pageHeight;
-
-    this.canvasHeight = (this.canvasWidth / pageRatio) | 0;
-    this.scale = this.canvasWidth / pageWidth;
-
     this.div.removeAttribute("data-loaded");
-    this.loaded = false;
+    // <pdf-slick>
+    //this.image?.replaceWith(this._placeholderImg);
+    //this.#updateDims();
 
-    if (this.canvas) {
-      // Zeroing the width and height causes Firefox to release graphics
-      // resources immediately, which can greatly reduce memory consumption.
-      this.canvas.width = 0;
-      this.canvas.height = 0;
-      delete this.canvas;
-    }
+    // if (this.image) {
+    //   this.image.removeAttribute("src");
+    //   delete this.image;
+    // }
+
+    // -----------
+    this.loaded = false;
+    this.#updateDims();
+    // </pdf-slick>
   }
 
   update({ rotation = null }: { rotation: number | null }) {
@@ -244,14 +276,14 @@ class PDFThumbnailView {
     this.resume = null;
   }
 
-  /**
-   * @private
-   */
-  _getPageDrawContext(upscaleFactor = 1) {
+  #getPageDrawContext(upscaleFactor = 1, enableHWA = this.enableHWA) {
     // Keep the no-thumbnail outline visible, i.e. `data-loaded === false`,
     // until rendering/image conversion is complete, to avoid display issues.
     const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d", { alpha: false });
+    const ctx = canvas.getContext("2d", {
+      alpha: false,
+      willReadFrequently: !enableHWA,
+    })!;
     const outputScale = new OutputScale();
 
     canvas.width = (upscaleFactor * this.canvasWidth * outputScale.sx) | 0;
@@ -264,22 +296,29 @@ class PDFThumbnailView {
     return { ctx, canvas, transform };
   }
 
-  /**
-   * @private
-   */
-  _convertCanvasToImage(canvas: HTMLCanvasElement) {
+  #convertCanvasToImage(canvas: HTMLCanvasElement) {
     if (this.renderingState !== RenderingStates.FINISHED) {
-      throw new Error("_convertCanvasToImage: Rendering has not finished.");
+      throw new Error("#convertCanvasToImage: Rendering has not finished.");
     }
-    const reducedCanvas = this._reduceImage(canvas);
+    const reducedCanvas = this.#reduceImage(canvas);
 
+    // <pdf-slick>
+    // const image = document.createElement("img");
+    // image.className = "thumbnailImage";
+    // image.setAttribute("data-l10n-id", "pdfjs-thumb-page-canvas");
+    // image.setAttribute("data-l10n-args", this.#pageL10nArgs);
+    // image.src = reducedCanvas.toDataURL();
+    // this.image = image;
+
+    //this.div.setAttribute("data-loaded", 'true');
+    //this._placeholderImg.replaceWith(image);
+
+    // -------------
     this.src = reducedCanvas.toDataURL();
-
     this.div.setAttribute("data-loaded", "true");
     this.loaded = true;
-
-    // this.store.getState()._setThumbnail(this.id, this.src)
     this.store.getState()._setThumbnailView(this.id, this);
+    // </pdf-slick>
 
     // Zeroing the width and height causes Firefox to release graphics
     // resources immediately, which can greatly reduce memory consumption.
@@ -287,38 +326,38 @@ class PDFThumbnailView {
     reducedCanvas.height = 0;
   }
 
-  draw() {
+  async #finishRenderTask(renderTask: any, canvas: HTMLCanvasElement, error: any = null) {
+    // The renderTask may have been replaced by a new one, so only remove
+    // the reference to the renderTask if it matches the one that is
+    // triggering this callback.
+    if (renderTask === this.renderTask) {
+      this.renderTask = null;
+    }
+
+    if (error instanceof RenderingCancelledException) {
+      return;
+    }
+    this.renderingState = RenderingStates.FINISHED;
+    this.#convertCanvasToImage(canvas);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async draw() {
     if (this.renderingState !== RenderingStates.INITIAL) {
       console.error("Must be in new state before drawing");
-      return Promise.resolve();
+      return undefined;
     }
     const { pdfPage } = this;
 
     if (!pdfPage) {
       this.renderingState = RenderingStates.FINISHED;
-      return Promise.reject(new Error("pdfPage is not loaded"));
+      throw new Error("pdfPage is not loaded");
     }
 
     this.renderingState = RenderingStates.RUNNING;
-
-    const finishRenderTask = async (error: any = null) => {
-      // The renderTask may have been replaced by a new one, so only remove
-      // the reference to the renderTask if it matches the one that is
-      // triggering this callback.
-      if (renderTask === this.renderTask) {
-        this.renderTask = null;
-      }
-
-      if (error instanceof RenderingCancelledException) {
-        return;
-      }
-      this.renderingState = RenderingStates.FINISHED;
-      this._convertCanvasToImage(canvas);
-
-      if (error) {
-        throw error;
-      }
-    };
 
     // Render the thumbnail at a larger size and downsize the canvas (similar
     // to `setImage`), to improve consistency between thumbnails created by
@@ -326,7 +365,7 @@ class PDFThumbnailView {
     // NOTE: To primarily avoid increasing memory usage too much, but also to
     //   reduce downsizing overhead, we purposely limit the up-scaling factor.
     const { ctx, canvas, transform } =
-      this._getPageDrawContext(DRAW_UPSCALE_FACTOR);
+      this.#getPageDrawContext(DRAW_UPSCALE_FACTOR);
     const drawViewport = this.viewport.clone({
       scale: DRAW_UPSCALE_FACTOR * this.scale,
     });
@@ -348,17 +387,13 @@ class PDFThumbnailView {
       viewport: drawViewport,
       optionalContentConfigPromise: this._optionalContentConfigPromise,
       pageColors: this.pageColors,
-    } as unknown as Parameters<PDFPageProxy["render"]>[number];
+    } as Parameters<PDFPageProxy["render"]>[0];
     const renderTask = (this.renderTask = pdfPage.render(renderContext));
     renderTask.onContinue = renderContinueCallback;
 
     const resultPromise = renderTask.promise.then(
-      function () {
-        return finishRenderTask(null);
-      },
-      function (error) {
-        return finishRenderTask(error);
-      }
+      () => this.#finishRenderTask(renderTask, canvas),
+      error => this.#finishRenderTask(renderTask, canvas, error)
     );
     resultPromise.finally(() => {
       // Zeroing the width and height causes Firefox to release graphics
@@ -392,17 +427,14 @@ class PDFThumbnailView {
       return;
     }
     this.renderingState = RenderingStates.FINISHED;
-    this._convertCanvasToImage(canvas);
+    this.#convertCanvasToImage(canvas);
   }
 
-  /**
-   * @private
-   */
-  _reduceImage(img: HTMLCanvasElement) {
-    const { ctx, canvas } = this._getPageDrawContext();
+  #reduceImage(img: HTMLCanvasElement) {
+    const { ctx, canvas } = this.#getPageDrawContext(1, true);
 
     if (img.width <= 2 * canvas.width) {
-      ctx!.drawImage(
+      ctx.drawImage(
         img,
         0,
         0,
@@ -453,7 +485,7 @@ class PDFThumbnailView {
       reducedWidth >>= 1;
       reducedHeight >>= 1;
     }
-    ctx!.drawImage(
+    ctx.drawImage(
       reducedImage,
       0,
       0,
@@ -467,35 +499,24 @@ class PDFThumbnailView {
     return canvas;
   }
 
-  get _thumbPageTitle() {
-    return this.l10n.get("thumb_page_title", {
-      page: this.pageLabel ?? this.id,
-    });
-  }
-
-  get _thumbPageCanvas() {
-    return this.l10n.get("thumb_page_canvas", {
-      page: (this.pageLabel ?? this.id) as string,
-    });
+  get #pageL10nArgs() {
+    return JSON.stringify({ page: this.pageLabel ?? this.id });
   }
 
   /**
    * @param {string|null} label
    */
-  setPageLabel(label: string) {
+  setPageLabel(label: string | null) {
     this.pageLabel = typeof label === "string" ? label : null;
 
-    // this._thumbPageTitle.then((msg: string) => {
-    //   this.anchor.title = msg;
-    // });
+    // <pdf-slick>
+    // this.anchor.setAttribute("data-l10n-args", this.#pageL10nArgs);
 
     // if (this.renderingState !== RenderingStates.FINISHED) {
     //   return;
     // }
-
-    // this._thumbPageCanvas.then((msg: string) => {
-    //   this.image?.setAttribute("aria-label", msg);
-    // });
+    // this.image?.setAttribute("data-l10n-args", this.#pageL10nArgs);
+    // </pdf-slick>
   }
 }
 
