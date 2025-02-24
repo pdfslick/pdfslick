@@ -16,7 +16,7 @@
 </script>
 
 <button
-	class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+	class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 	onclick={() => {
 		isOpen = true;
 	}}
@@ -37,7 +37,7 @@
 	>
 		<div
 			class={{
-				'fixed inset-0 bg-black backdrop-blur-sm bg-opacity-5': true,
+				'fixed inset-0 bg-black/5 backdrop-blur-xs': true,
 				'ease-out duration-300 opacity-100': isOpen,
 				'ease-in duration-200 opacity-0': !isOpen
 			}}
@@ -51,7 +51,7 @@
 			<div class="flex min-h-full items-center justify-center p-4 text-center">
 				<div
 					class={{
-						'pointer-events-auto w-full max-w-lg transform overflow-hidden rounded-sm border border-slate-300 bg-white py-6 text-left align-middle shadow-sm transition-all': true,
+						'pointer-events-auto w-full max-w-lg transform overflow-hidden rounded-sm border border-slate-300 bg-white py-6 text-left align-middle shadow-xs transition-all': true,
 
 						'ease-out duration-300 opacity-100 scale-100': isOpen,
 						'ease-in duration-200 opacity-0 scale-95': !isOpen
@@ -219,7 +219,7 @@
 					<div class="mt-4 px-6 flex justify-center">
 						<button
 							type="button"
-							class="inline-flex justify-center rounded border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+							class="inline-flex justify-center rounded border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
 							onclick={() => {
 								isOpen = false;
 							}}

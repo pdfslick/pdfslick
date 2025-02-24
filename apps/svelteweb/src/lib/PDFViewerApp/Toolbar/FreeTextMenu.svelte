@@ -19,7 +19,7 @@
 >
 	<button
 		aria-label="Insert Text"
-		class="inline-flex enabled:hover:text-black text-slate-600 p-0.5 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+		class="inline-flex enabled:hover:text-black text-slate-600 p-0.5 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 		onclick={() => {
 			const mode = isFreetextMode ? AnnotationEditorType.NONE : AnnotationEditorType.FREETEXT;
 			$pdfSlickStore?.pdfSlick?.setAnnotationEditorMode(mode);
@@ -30,7 +30,7 @@
 
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger
-			class="inline-flex p-0.5 enabled:group-hover:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-sm transition-all focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+			class="inline-flex p-0.5 hover:group-hover:enabled:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-sm transition-all focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 		>
 			<iconify-icon height={12} icon="codicon:chevron-down"></iconify-icon>
 		</DropdownMenu.Trigger>
@@ -44,7 +44,7 @@
 						<div class="flex gap-1">
 							{#each colorNames as name}
 								<DropdownMenu.Item
-									class="p-2 cursor-pointer block rounded-full origin-center border border-transparent hover:scale-125 hover:border-blue-300 focus:ring-0 focus:outline-none focus:scale-125 focus:border-blue-300"
+									class="p-2 cursor-pointer block rounded-full origin-center border border-transparent hover:scale-125 hover:border-blue-300 focus:ring-0 focus:outline-hidden focus:scale-125 focus:border-blue-300"
 									style={`background-color: ${colors[name][s]}`}
 									onSelect={() => {
 										$pdfSlickStore?.pdfSlick?.setAnnotationEditorMode(

@@ -20,12 +20,12 @@
 </script>
 
 <div
-	class={`w-full h-9 flex items-center justify-between bg-slate-50 border-b border-b-slate-300 shadow-sm text-xs select-none sticky top-0 bg-opacity-100 backdrop-blur z-30`}
+	class={`w-full h-9 flex items-center justify-between bg-slate-50 border-b border-b-slate-300 shadow-xs text-xs select-none sticky top-0 backdrop-blur-sm z-30`}
 >
 	<div class="px-1 flex items-center space-x-1">
 		<button
 			aria-label={isThumbsbarOpen ? 'Close Thumbsbar' : 'Open Thumbsbar'}
-			class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+			class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 			onclick={() => isThumbsbarOpen.set(!$isThumbsbarOpen)}
 		>
 			<iconify-icon
@@ -52,7 +52,7 @@
 		<button
 			aria-label="Previous Page"
 			disabled={$pdfSlickStore?.pageNumber <= 1}
-			class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+			class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 			onclick={() => $pdfSlickStore?.pdfSlick?.viewer?.previousPage()}
 		>
 			<iconify-icon height={16} icon="codicon:chevron-up"></iconify-icon>
@@ -61,7 +61,7 @@
 		<button
 			aria-label="Next Page"
 			disabled={!$pdfSlickStore?.pdfSlick || $pdfSlickStore?.pageNumber >= $pdfSlickStore?.numPages}
-			class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+			class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 			onclick={() => $pdfSlickStore?.pdfSlick?.viewer?.nextPage()}
 		>
 			<iconify-icon height={16} icon="codicon:chevron-down"></iconify-icon>
@@ -86,7 +86,7 @@
 				<input
 					type="text"
 					bind:value={wantedPageNumber}
-					class="block w-12 text-right rounded-sm border border-slate-300 focus:shadow focus:border-blue-400 focus:ring-0 outline-none text-xs p-1 px-1.5 placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:italic"
+					class="block w-12 text-right rounded-sm border border-slate-300 focus:shadow-sm focus:border-blue-400 focus:ring-0 outline-hidden text-xs p-1 px-1.5 placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:italic"
 					onfocus={(e) => {
 						e.currentTarget.select();
 					}}
@@ -130,7 +130,7 @@
 
 		<div class="items-center space-x-1 hidden sm:flex">
 			<button
-				class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+				class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 				onclick={() => openPdfFileRef.click()}
 			>
 				<iconify-icon height={16} icon="codicon:diff-added"></iconify-icon>
@@ -140,7 +140,7 @@
 			</button>
 
 			<button
-				class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+				class="inline-flex enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
 				onclick={() => $pdfSlickStore?.pdfSlick?.downloadOrSave()}
 			>
 				<iconify-icon height={16} icon="codicon:desktop-download"></iconify-icon>

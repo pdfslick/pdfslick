@@ -69,11 +69,11 @@ const Toolbar = ({
     return (
         <>
             <div
-                class={`w-full h-9 flex items-center justify-between bg-slate-50 border-b border-b-slate-300 shadow-sm text-xs select-none sticky top-0 bg-opacity-100 backdrop-blur z-10`}
+                class={`w-full h-9 flex items-center justify-between bg-slate-50 border-b border-b-slate-300 shadow-xs text-xs select-none sticky top-0 backdrop-blur-sm z-10`}
             >
                 <div class="px-1 flex items-center space-x-1">
                     <button
-                        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent`}
+                        class={`enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent`}
                         onClick={() => setIsThumbsbarOpen(!isThumbsbarOpen())}
                     >
                         {isThumbsbarOpen() ? (
@@ -91,7 +91,7 @@ const Toolbar = ({
 
                     <button
                         disabled={store.pageNumber <= 1}
-                        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+                        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
                         onClick={() => store.pdfSlick?.viewer?.previousPage()}
                     >
                         <VsChevronUp class="h-4 w-4" />
@@ -99,7 +99,7 @@ const Toolbar = ({
 
                     <button
                         disabled={!store.pdfSlick || store.pageNumber >= store.numPages}
-                        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+                        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
                         onClick={() => store.pdfSlick?.viewer?.nextPage()}
                     >
                         <VsChevronDown class="h-4 w-4" />
@@ -125,7 +125,7 @@ const Toolbar = ({
                                 ref={pageNumberRef}
                                 type="text"
                                 value={wantedPageNumber()}
-                                class="block w-12 text-right rounded-sm border border-slate-300 focus:shadow focus:border-blue-400 focus:ring-0 outline-none text-xs p-1 px-1.5 placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:italic"
+                                class="block w-12 text-right rounded-xs border border-slate-300 focus:shadow-sm focus:border-blue-400 focus:ring-0 outline-hidden text-xs p-1 px-1.5 placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:italic"
                                 onFocus={() => pageNumberRef!.select()}
                                 onChange={(e) => {
                                     setWantedPageNumber(e.currentTarget.value);
@@ -167,7 +167,7 @@ const Toolbar = ({
 
                     <div class="items-center space-x-1 hidden sm:flex">
                         <button
-                            class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+                            class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
                             onClick={() => openPdfFileRef.click()}
                         >
                             <VsDiffAdded class="w-4 h-4" />
@@ -177,7 +177,7 @@ const Toolbar = ({
                         </button>
 
                         <button
-                            class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+                            class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
                             onClick={() => store.pdfSlick?.downloadOrSave()}
                         >
                             <VsDesktopDownload class="w-4 h-4" />

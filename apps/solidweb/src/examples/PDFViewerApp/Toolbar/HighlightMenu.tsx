@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { VsChevronDown } from "solid-icons/vs";
 import { TbHighlight } from 'solid-icons/tb'
 import { AnnotationEditorType, AnnotationEditorParamsType } from "pdfjs-dist";
@@ -38,10 +39,10 @@ const HighlightMenu = ({ store }: THighlightMenuProps) => {
 
     return (
         <div
-            class={`flex items-center rounded-sm group ${isHighlightMode() ? "bg-blue-100" : "hover:bg-slate-200/50"}`}
+            class={`flex items-center rounded-xs group ${isHighlightMode() ? "bg-blue-100" : "hover:bg-slate-200/50"}`}
         >
             <button
-                class={` enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent`}
+                class={` enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent`}
                 onClick={() => {
                     const mode = isHighlightMode()
                         ? AnnotationEditorType.NONE
@@ -55,7 +56,7 @@ const HighlightMenu = ({ store }: THighlightMenuProps) => {
             <DropdownMenu.Root modal={false}>
                 <DropdownMenu.Trigger
                     disabled={!store.pdfSlick}
-                    class="h-6 enabled:group-hover:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-sm transition-all focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+                    class="h-6 hover:group-hover:enabled:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 rounded-xs transition-all focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -67,7 +68,7 @@ const HighlightMenu = ({ store }: THighlightMenuProps) => {
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Portal>
                     <DropdownMenu.Content
-                        class="absolute right-0 z-30 mt-2 origin-top-right rounded-sm text-left bg-white divide-y divide-slate-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-content-hide ui-expanded:animate-content-show"
+                        class="absolute right-0 z-30 mt-2 origin-top-right rounded-xs text-left bg-white divide-y divide-slate-200 shadow-lg ring-1 ring-black/5 focus:outline-hidden animate-content-hide ui-expanded:animate-content-show"
                         role="menu"
                         aria-orientation="vertical"
                         tabindex="-1"
@@ -87,7 +88,7 @@ const HighlightMenu = ({ store }: THighlightMenuProps) => {
                                         relative
                                         hover:scale-125 
                                         focus:ring-0 
-                                        focus:outline-none 
+                                        focus:outline-hidden 
                                         focus:scale-125
                                         ${store.highlightDefaultColor === highlightColor.color
                                                 ? 'ring-2 ring-blue-500 ring-offset-2'

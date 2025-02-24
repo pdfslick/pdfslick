@@ -105,7 +105,7 @@ const ThumbnailsLayout = ({ pdfFilePath }: ThumbnailsLayoutProps) => {
       >
         <div
           className={clsx(
-            "absolute inset-0 bg-white bg-opacity-20 backdrop-blur-sm transition-opacity",
+            "absolute inset-0 bg-white/20 backdrop-blur-sm transition-opacity",
             {
               "opacity-100 ease-out duration-300": open,
               "opacity-0 ease-in duration-200": !open,

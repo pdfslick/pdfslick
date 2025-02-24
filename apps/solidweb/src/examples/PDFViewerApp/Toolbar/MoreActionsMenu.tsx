@@ -59,9 +59,9 @@ const MoreActionsMenu = ({ store }: MoreActionsMenuProps) => {
           class="absolute -top-[10000px]"
         />
       </div>
-      <DropdownMenu.Root isModal={false}>
+      <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger
-          class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+          class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -72,7 +72,7 @@ const MoreActionsMenu = ({ store }: MoreActionsMenuProps) => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            class="absolute right-2 w-52 z-30 mt-2 origin-top-right divide-y divide-slate-200 rounded text-left bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-content-hide ui-expanded:animate-content-show"
+            class="absolute right-2 w-52 z-30 mt-2 origin-top-right divide-y divide-slate-200 rounded-sm text-left bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden animate-content-hide ui-expanded:animate-content-show"
             role="menu"
             aria-orientation="vertical"
             tabindex="-1"
@@ -126,7 +126,7 @@ const MoreActionsMenu = ({ store }: MoreActionsMenuProps) => {
 
             <div class="py-1">
               <DropdownMenu.Item
-                isDisabled={store.pageNumber === 1}
+                disabled={store.pageNumber === 1}
                 onSelect={() => {
                   store.pdfSlick?.gotoPage(1);
                 }}
@@ -136,7 +136,7 @@ const MoreActionsMenu = ({ store }: MoreActionsMenuProps) => {
                 <span>Go to First Page</span>
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                isDisabled={store.pageNumber === store.numPages}
+                disabled={store.pageNumber === store.numPages}
                 onSelect={() => {
                   store.pdfSlick?.gotoPage(store.numPages);
                 }}

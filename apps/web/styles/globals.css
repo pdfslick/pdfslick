@@ -1,9 +1,39 @@
-@import "tailwindcss/base";
-@import "./fonts.css";
-@import "./prism.css";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-@import "@pdfslick/react/dist/pdf_viewer.css";
+@import 'tailwindcss';
+@config '../tailwind.config.js';
+
+@import './fonts.css' layer(utilities);
+@import './prism.css' layer(utilities);
+@import '@pdfslick/react/dist/pdf_viewer.css' layer(utilities);
+
+@utility hidescrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility customscrollbars {
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  &::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow:
+      inset 1px 1px 0px rgb(0 0 0 / 10%),
+      inset 0px -1px 0px rgb(0 0 0 / 7%);
+  }
+}
 
 @layer components {
   #__next {
@@ -12,29 +42,5 @@
   html,
   body {
     @apply h-full;
-  }
-  .hidescrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .customscrollbars::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-  }
-
-  .customscrollbars::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-    display: none;
-  }
-
-  .customscrollbars::-webkit-scrollbar-corner {
-    background-color: transparent;
-  }
-
-  .customscrollbars::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 0px rgb(0 0 0 / 10%),
-      inset 0px -1px 0px rgb(0 0 0 / 7%);
   }
 }
