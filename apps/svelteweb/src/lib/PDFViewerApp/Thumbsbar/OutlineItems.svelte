@@ -16,7 +16,7 @@
 					checked={false}
 					class="peer absolute -top-[10000px] -left-[10000px]"
 				/>
-				<div class="flex items-start peer-checked:[&>label]:rotate-90">
+				<div class="flex items-start [&>label]:peer-checked:rotate-90">
 					<label
 						for={`${item.title}-${ix}`}
 						class="cursor-pointer mt-1 hover:text-slate-900 rounded p-1 hover:bg-slate-200"
@@ -45,7 +45,7 @@
 					checked={false}
 					class="peer absolute -top-[10000px] -left-[10000px]"
 				/>
-				<div class="flex items-start peer-checked:[&>label]:rotate-90">
+				<div class="flex items-start [&>label]:peer-checked:rotate-90">
 					<span class="block w-6"></span>
 					<button
 						class="flex-1 rounded text-left hover:text-slate-900 p-1 hover:bg-slate-200"

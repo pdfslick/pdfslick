@@ -27,24 +27,24 @@ const ZoomSelector = ({ store }: TZoomSelectorProps) => {
     <div class="flex items-center space-x-1">
       <button
         disabled={!store.pdfSlick || store.scale <= 0.25}
-        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
         onClick={() => store.pdfSlick?.viewer?.decreaseScale()}
       >
         <VsRemove class="h-4 w-4 fill-current" />
         <HoverCard.Root openDelay={150} closeDelay={0}>
           <HoverCard.Trigger class="absolute inset-0" />
           <HoverCard.Portal>
-            <HoverCard.Content class="animate-content-hide z-50 py-1 px-2.5 text-xs ui-expanded:animate-content-show rounded shadow-md bg-neutral-800 border border-neutral-900 text-slate-100">
+            <HoverCard.Content class="animate-content-hide z-50 py-1 px-2.5 text-xs ui-expanded:animate-content-show rounded-sm shadow-md bg-neutral-800 border border-neutral-900 text-slate-100">
               <HoverCard.Arrow />
               <span class="space-y-1">
                 <span class="opacity-90 text-center block whitespace-nowrap">
                   Zoom Out
                 </span>
                 <span class="flex text-xs items-center justify-center opacity-75 text-center space-x-1">
-                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-sm">
+                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-xs">
                     ⌘
                   </span>
-                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-sm">
+                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-xs">
                     —
                   </span>
                 </span>
@@ -54,9 +54,9 @@ const ZoomSelector = ({ store }: TZoomSelectorProps) => {
         </HoverCard.Root>
       </button>
 
-      <DropdownMenu.Root isModal={false}>
+      <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger
-          class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-sm focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+          class="flex w-32 text-left items-center bg-slate-200/70 hover:bg-slate-200 py-1 rounded-xs focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -81,7 +81,7 @@ const ZoomSelector = ({ store }: TZoomSelectorProps) => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            class="absolute w-32 max-w-[142px] right-0 left-0 z-30 mt-1 origin-top-right divide-y divide-slate-200 rounded text-left bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-content-hide ui-expanded:animate-content-show"
+            class="absolute w-32 max-w-[142px] right-0 left-0 z-30 mt-1 origin-top-right divide-y divide-slate-200 rounded-sm text-left bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden animate-content-hide ui-expanded:animate-content-show"
             role="menu"
             aria-orientation="vertical"
             tabindex="-1"
@@ -117,24 +117,24 @@ const ZoomSelector = ({ store }: TZoomSelectorProps) => {
 
       <button
         disabled={!store.pdfSlick || store.scale >= 5}
-        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+        class="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-xs transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow-sm outline-hidden border border-transparent"
         onClick={() => store.pdfSlick?.viewer?.increaseScale()}
       >
         <VsAdd class="h-4 w-4 fill-current" />
         <HoverCard.Root openDelay={150} closeDelay={0}>
           <HoverCard.Trigger class="absolute inset-0" />
           <HoverCard.Portal>
-            <HoverCard.Content class="animate-content-hide z-50 py-1 px-2.5 text-xs ui-expanded:animate-content-show rounded shadow-md bg-neutral-800 border border-neutral-900 text-slate-100">
+            <HoverCard.Content class="animate-content-hide z-50 py-1 px-2.5 text-xs ui-expanded:animate-content-show rounded-sm shadow-md bg-neutral-800 border border-neutral-900 text-slate-100">
               <HoverCard.Arrow />
               <span class="space-y-1">
                 <span class="opacity-90 text-center block whitespace-nowrap">
                   Zoom In
                 </span>
                 <span class="flex text-xs items-center justify-center opacity-75 text-center space-x-1">
-                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-sm">
+                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-xs">
                     ⌘
                   </span>
-                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-sm">
+                  <span class="w-5 h-5 flex items-center justify-center bg-white/10 rounded-xs">
                     +
                   </span>
                 </span>

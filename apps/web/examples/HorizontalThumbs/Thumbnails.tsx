@@ -41,7 +41,7 @@ const Thumbnails = ({ usePDFSlickStore, thumbsRef }: ThumbnailsProps) => {
                   >
                     <div
                       className={clsx("box-border relative border", {
-                        "border-slate-300 border-solid bg-slate-400 bg-opacity-5 shadow-sm":
+                        "border-slate-300 border-solid bg-slate-400/5 shadow-sm":
                           !loaded,
                         "border-slate-300 border-solid hover:border-blue-400 shadow hover:shadow":
                           loaded && pageNumber !== currentPage,

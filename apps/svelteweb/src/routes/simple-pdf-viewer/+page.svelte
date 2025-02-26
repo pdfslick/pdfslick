@@ -100,7 +100,7 @@
 	<div class="fixed w-full h-12 bottom-0 right-0 z-50 pointer-events-none">
 		<div class="flex justify-center">
 			<div
-				class="inline-flex rounded shadow justify-center border border-slate-300 bg-white divide-x divide-x-slate-100"
+				class="inline-flex rounded shadow-sm justify-center border border-slate-300 bg-white divide-x divide-x-slate-100"
 			>
 				<button
 					on:click={onGotoPrevious}

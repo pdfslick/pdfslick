@@ -47,7 +47,7 @@ const Thumbnails = (props: ThumbnailsProps) => {
                     onClick={() => props.store.pdfSlick?.gotoPage(pageNumber)}
                     class="p-0.5"
                     classList={{
-                      "bg-blue-400 shadow":
+                      "bg-blue-400 shadow-sm":
                         loaded && pageNumber === props.store.pageNumber,
                       "bg-transparent":
                         pageNumber !== props.store.pageNumber || !loaded,
@@ -56,9 +56,9 @@ const Thumbnails = (props: ThumbnailsProps) => {
                     <div
                       class="box-border relative border"
                       classList={{
-                        "border-slate-300 border-solid bg-slate-400 bg-opacity-5 shadow-sm":
+                        "border-slate-300 border-solid bg-slate-400/5 shadow-xs":
                           !loaded,
-                        "border-slate-300 border-solid hover:border-blue-400 shadow hover:shadow":
+                        "border-slate-300 border-solid hover:border-blue-400 shadow-sm hover:shadow-sm":
                           loaded && pageNumber !== props.store.pageNumber,
                         "border-transparent border-solid shadow-md":
                           loaded && pageNumber === props.store.pageNumber,

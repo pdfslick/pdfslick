@@ -48,7 +48,7 @@ export default function Fab({
           className="absolute -top-[10000px]"
         />
       </div>
-      <div className="absolute flex space-x-2 items-center bottom-2 right-3 transition-opacity z-20 bg-slate-100 bg-opacity-0 backdrop-blur-sm border border-slate-300 shadow-sm rounded px-2 py-1">
+      <div className="absolute flex space-x-2 items-center bottom-2 right-3 transition-opacity z-20 bg-slate-100/0 backdrop-blur-sm border border-slate-300 shadow-sm rounded px-2 py-1">
         <Logo className="h-3" />
         <Menu as="div" className="text-sm flex relative">
           <Menu.Button className="enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500 disabled:text-slate-300 p-1 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent">

@@ -135,7 +135,7 @@
 			<div></div>
 			<div class="flex justify-center">
 				<div
-					class="inline-flex rounded shadow justify-center border border-slate-300 bg-white divide-x divide-x-slate-100"
+					class="inline-flex rounded shadow-sm justify-center border border-slate-300 bg-white divide-x divide-x-slate-100"
 				>
 					<button
 						on:click={onGotoPrevious}
@@ -234,7 +234,7 @@
 				</div>
 			</div>
 			<div class="flex justify-end">
-				<div class="inline-flex rounded shadow justify-center border border-slate-300 bg-white">
+				<div class="inline-flex rounded shadow-sm justify-center border border-slate-300 bg-white">
 					<label
 						for="upload-file"
 						id="uploadBtn"

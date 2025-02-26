@@ -17,7 +17,7 @@ const Tooltip = ({
       classList={{
         "absolute z-10 inline-block text-xs transition-opacity duration-300":
           true,
-        "rounded-sm shadow opacity-0 invisible": true,
+        "rounded-xs shadow-sm opacity-0 invisible": true,
         "text-gray-500 bg-slate-50 border border-slate-300": true,
         "group-hover:visible group-hover:opacity-100": true,
 

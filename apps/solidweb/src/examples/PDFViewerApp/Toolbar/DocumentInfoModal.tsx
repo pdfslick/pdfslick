@@ -48,7 +48,7 @@ export default function DocumentInfoModal(props: DocumentInfoModalProps) {
         }}
       >
         <div
-          class="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-5"
+          class="fixed inset-0 bg-black/5 backdrop-blur-xs"
           classList={{
             "ease-out duration-300 opacity-100": props.isOpen(),
             "ease-in duration-200 opacity-0": !props.isOpen(),
@@ -60,7 +60,7 @@ export default function DocumentInfoModal(props: DocumentInfoModalProps) {
           <div class="flex min-h-full items-center justify-center p-4 text-center">
             <div
               ref={ref}
-              class="w-full max-w-lg transform overflow-hidden rounded-sm border border-slate-300 bg-white py-6 text-left align-middle shadow-sm transition-all"
+              class="w-full max-w-lg transform overflow-hidden rounded-xs border border-slate-300 bg-white py-6 text-left align-middle shadow-xs transition-all"
               classList={{
                 "ease-out duration-300 opacity-100 scale-100": props.isOpen(),
                 "ease-in duration-200 opacity-0 scale-95": !props.isOpen(),
@@ -224,7 +224,7 @@ export default function DocumentInfoModal(props: DocumentInfoModalProps) {
               <div class="mt-4 px-6 flex justify-center">
                 <button
                   type="button"
-                  class="inline-flex justify-center rounded border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  class="inline-flex justify-center rounded-sm border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   onClick={props.closeModal}
                 >
                   Close
