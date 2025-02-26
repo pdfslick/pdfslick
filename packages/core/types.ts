@@ -4,6 +4,7 @@ import { StoreApi } from "zustand";
 import { PDFSlick, type PDFException } from "./PDFSlick";
 import { PDFThumbnailView } from "./lib";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
+import { IPDFSlickPrintDialog } from "./PDFSlickPrintDialog";
 
 export type TPDFDocumentOutline = {
   title: string;
@@ -125,6 +126,7 @@ export type PDFSlickInputArgs = {
   store?: StoreApi<PDFSlickState>;
   options?: PDFSlickOptions;
   onError?: (err: PDFException) => void;
+  printDialog?: IPDFSlickPrintDialog;
 };
 
 export type TEventBusName =

@@ -6,7 +6,6 @@ import {
     AnnotationEditorType,
     AnnotationMode,
     PDFDocumentProxy,
-    version,
     PDFDateString,
     AbortException,
     MissingPDFException,
@@ -42,11 +41,8 @@ import type {
 import {
     PDFThumbnailViewer,
     PDFRenderingQueue,
-    PDFPrintServiceFactory,
     PDFPresentationMode,
 } from "./lib";
-import { PDFRenderingQueue as TPDFRenderingQueue } from "pdfjs-dist/types/web/pdf_page_view";
-import { PDFThumbnailViewer as TPDFThumbnailViewer } from "pdfjs-dist/types/web/pdf_thumbnail_viewer";
 
 import { StoreApi } from "zustand/vanilla";
 import { create as createStore } from "./store";
@@ -58,6 +54,8 @@ import {
     isValidScrollMode,
     isValidRotation,
 } from "./lib/ui_utils";
+import { PDFSlickPrintService } from "./PDFSlickPrintService";
+import { PDFSlickPrintDialog } from "./PDFSlickPrintDialog";
 
 export type PDFException =
     | AbortException
@@ -92,12 +90,12 @@ function getPageName(
 }
 
 export class PDFSlick {
-    #renderingQueue: TPDFRenderingQueue;
-
+    #renderingQueue: PDFRenderingQueue;
     #container: HTMLDivElement;
     #viewerContainer: HTMLDivElement | undefined;
     #thumbsContainer: HTMLDivElement | undefined;
-    printService: any;
+    #printService: PDFSlickPrintService;
+
     url: string | ArrayBuffer | undefined;
     eventBus: EventBus;
     linkService: PDFLinkService;
@@ -128,6 +126,8 @@ export class PDFSlick {
 
     #onError: ((err: PDFException) => void) | undefined;
 
+    #eventAbortController: AbortController | undefined | null;
+
     constructor({
         container,
         viewer,
@@ -135,6 +135,7 @@ export class PDFSlick {
         store = createStore(),
         options,
         onError,
+        printDialog,
     }: PDFSlickInputArgs) {
         this.#container = container;
         this.#viewerContainer = viewer;
@@ -145,10 +146,8 @@ export class PDFSlick {
         this.downloadManager = new DownloadManager();
 
         this.textLayerMode = options?.textLayerMode ?? TextLayerMode.ENABLE;
-        this.#annotationMode =
-            options?.annotationMode ?? AnnotationMode.ENABLE_FORMS;
-        this.#annotationEditorMode =
-            options?.annotationEditorMode ?? AnnotationEditorType.NONE;
+        this.#annotationMode = options?.annotationMode ?? AnnotationMode.ENABLE_FORMS;
+        this.#annotationEditorMode = options?.annotationEditorMode ?? AnnotationEditorType.NONE;
         this.annotationEditorHighlightColors = options?.annotationEditorHighlightColors ?? "yellow=#FFFF98,green=#53FFBC,blue=#80EBFF,pink=#FFCBE6,red=#FF4F5F"
         this.removePageBorders = options?.removePageBorders ?? false;
         this.singlePageViewer = options?.singlePageViewer ?? false;
@@ -176,8 +175,7 @@ export class PDFSlick {
         }
         this.store = store;
 
-        const renderingQueue =
-            new PDFRenderingQueue() as unknown as TPDFRenderingQueue;
+        const renderingQueue = new PDFRenderingQueue();
         renderingQueue.onIdle = this._cleanup.bind(this);
         renderingQueue.isThumbnailViewEnabled = true;
         this.#renderingQueue = renderingQueue;
@@ -195,7 +193,7 @@ export class PDFSlick {
             ...(viewer && { viewer }),
             eventBus,
             linkService,
-            renderingQueue,
+            renderingQueue: renderingQueue as unknown as PDFViewerOptions['renderingQueue'],
             textLayerMode: this.textLayerMode,
             annotationEditorHighlightColors: this.annotationEditorHighlightColors,
             l10n: this.l10n,
@@ -216,13 +214,13 @@ export class PDFSlick {
                 eventBus,
                 linkService,
                 renderingQueue,
-                l10n: this.l10n,
                 pageColors: this.pageColors,
+                enableHWA: undefined,
                 store: store,
                 thumbnailWidth: this.thumbnailWidth,
             });
             renderingQueue.setThumbnailViewer(
-                this.thumbnailViewer as unknown as TPDFThumbnailViewer
+                this.thumbnailViewer
             );
         }
 
@@ -239,13 +237,19 @@ export class PDFSlick {
         this.viewer = pdfViewer;
         this.linkService.setViewer(pdfViewer);
 
+        this.#printService = new PDFSlickPrintService({
+            eventBus,
+            slick: this,
+            printDialog: printDialog ?? PDFSlickPrintDialog.create(),
+        });
+
         const scaleValue = options?.scaleValue ?? "auto";
         this.store.setState({ scaleValue });
     }
 
     async loadDocument(
-      url: string | URL | ArrayBuffer,
-      options?: { filename?: string; onProgress?: (_: OnProgressParameters) => void; },
+        url: string | URL | ArrayBuffer,
+        options?: { filename?: string; onProgress?: (_: OnProgressParameters) => void; },
     ) {
         if (this.url && typeof this.url === "string") {
             try {
@@ -265,8 +269,7 @@ export class PDFSlick {
                 this.url = url;
             }
 
-            const filename =
-                options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
+            const filename = options?.filename ?? getPdfFilenameFromUrl(this.url?.toString());
             this.filename = filename;
 
             const pdfDocumentLoader = getDocument({
@@ -276,7 +279,7 @@ export class PDFSlick {
             });
 
             if (!!options?.onProgress) {
-              pdfDocumentLoader.onProgress = options.onProgress;
+                pdfDocumentLoader.onProgress = options.onProgress;
             }
 
             const pdfDocument = await pdfDocumentLoader.promise;
@@ -464,9 +467,8 @@ export class PDFSlick {
     }
 
     forceRendering(isThumbnailViewEnabled: boolean = true) {
-        this.#renderingQueue.printing = !!this.printService;
+        this.#renderingQueue.printing = !!this.#printService.printing;
         this.#renderingQueue.isThumbnailViewEnabled = isThumbnailViewEnabled;
-        // @ts-ignore
         this.#renderingQueue.renderHighestPriority();
     }
 
@@ -540,90 +542,7 @@ export class PDFSlick {
     }
 
     get supportsPrinting() {
-        return PDFPrintServiceFactory.instance.supportsPrinting;
-    }
-
-    beforePrint() {
-        // this._printAnnotationStoragePromise = this.pdfScriptingManager
-        //   .dispatchWillPrint()
-        //   .catch(() => {
-        //     /* Avoid breaking printing; ignoring errors. */
-        //   })
-        //   .then(() => {
-        //     return this.document?.annotationStorage.print;
-        //   });
-
-        if (this.printService) {
-            // There is no way to suppress beforePrint/afterPrint events,
-            // but PDFPrintService may generate double events -- this will ignore
-            // the second event that will be coming from native window.print().
-            return;
-        }
-
-        if (!this.supportsPrinting) {
-            // this.l10n.get("printing_not_supported").then(msg => {
-            //   this._otherError(msg);
-            // });
-            return;
-        }
-
-        // The beforePrint is a sync method and we need to know layout before
-        // returning from this method. Ensure that we can get sizes of the pages.
-        if (!this.viewer.pageViewsReady) {
-            this.l10n.get("printing_not_ready", null).then((msg) => {
-                // eslint-disable-next-line no-alert
-                window.alert(msg);
-            });
-            return;
-        }
-
-        const pagesOverview = this.viewer.getPagesOverview();
-        const printContainer = document.getElementById("printContainer")!;
-        const printResolution = this.printResolution;
-        const optionalContentConfigPromise =
-            this.viewer.optionalContentConfigPromise;
-
-        const printService = PDFPrintServiceFactory.instance.createPrintService(
-            this.document!,
-            pagesOverview,
-            printContainer,
-            printResolution,
-            optionalContentConfigPromise,
-            null, // this._printAnnotationStoragePromise,
-            this.l10n
-        );
-        this.printService = printService;
-        this.forceRendering();
-        // Disable the editor-indicator during printing (fixes bug 1790552).
-        // this.setTitle();
-
-        printService.layout();
-
-        // if (this._hasAnnotationEditors) {
-        //   this.externalServices.reportTelemetry({
-        //     type: "editing",
-        //     data: { type: "print" },
-        //   });
-        // }
-    }
-
-    afterPrint() {
-        // if (this._printAnnotationStoragePromise) {
-        //   this._printAnnotationStoragePromise.then(() => {
-        //     this.pdfScriptingManager.dispatchDidPrint();
-        //   });
-        //   this._printAnnotationStoragePromise = null;
-        // }
-
-        if (this.printService) {
-            this.printService.destroy();
-            this.printService = null;
-
-            this.document?.annotationStorage.resetModified();
-        }
-        this.forceRendering();
-        // Re-enable the editor-indicator after printing (fixes bug 1790552).
-        // this.setTitle();
+        return this.#printService.supportsPrinting;
     }
 
     requestPresentationMode() {
@@ -631,31 +550,27 @@ export class PDFSlick {
     }
 
     triggerPrinting() {
-        if (!this.supportsPrinting) {
-            return;
-        }
-        window.print();
+        this.#printService.print();
     }
 
     #initInternalEventListeners() {
-        this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this));
-        this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this));
-        this.eventBus._on("pagechanging", this.#onPageChanging.bind(this));
-        this.eventBus._on("pagerendered", this.#onPageRendered.bind(this));
-        this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this));
-        this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this));
-        this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this));
+        this.#eventAbortController = new AbortController();
+        const { signal } = this.#eventAbortController;
+        const opts: any = { signal };
 
-        this.eventBus._on("beforeprint", this.beforePrint.bind(this));
-        this.eventBus._on("afterprint", this.afterPrint.bind(this));
+        this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this), opts);
+        this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this), opts);
+        this.eventBus._on("pagechanging", this.#onPageChanging.bind(this), opts);
+        this.eventBus._on("pagerendered", this.#onPageRendered.bind(this), opts);
+        this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this), opts);
+        this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this), opts);
+        this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this), opts);
+    }
 
-        window.onbeforeprint = (e) => {
-            this.eventBus.dispatch("beforeprint", { source: window });
-        };
-
-        window.onafterprint = (e) => {
-            this.eventBus.dispatch("afterprint", { source: window });
-        };
+    unbindEvents() {
+        this.#eventAbortController?.abort();
+        this.#eventAbortController = null;
+        this.#printService.unbindEvents();
     }
 
     async #onDocumentReady({ source }: TEventBusEvent) {
@@ -729,7 +644,6 @@ export class PDFSlick {
     }
 
     setAnnotationEditorMode(annotationEditorMode: number) {
-        
         this.viewer.annotationEditorMode = { mode: annotationEditorMode }
         this.dispatch("switchannotationeditormode", {
             source: this,
@@ -743,15 +657,12 @@ export class PDFSlick {
             | { type: number; value: any }
             | { type: number; value: any }[]
     ) {
-
-
         const pairs = Array.isArray(annotationEditorParams)
             ? annotationEditorParams
             : [annotationEditorParams];
 
         for (const params of pairs) {
-            this.dispatch("switchannotationeditorparams",
-            {
+            this.dispatch("switchannotationeditorparams", {
                 source: this,
                 type: params.type,
                 value: params.value,

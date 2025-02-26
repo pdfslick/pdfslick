@@ -18,8 +18,7 @@ export default function PDFViewerApp({ pdfFilePath }: PDFViewerAppProps) {
     PDFSlickViewer,
   } = usePDFSlick(pdfFilePath, {
     getDocumentParams: {
-      // rangeChunkSize: 65536,
-      disableAutoFetch: true,
+      disableAutoFetch: false, /** pages need to be loaded for printing, otherwise we get `Expected print service to be initialized.` */
       disableFontFace: false,
       disableRange: false,
       disableStream: true,
