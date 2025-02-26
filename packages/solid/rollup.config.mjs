@@ -1,3 +1,6 @@
 import withSolid from "rollup-preset-solid";
 
-export default withSolid();
+/** @type {import('rollup').RollupOptions} */
+const config = withSolid();
+
+export default config;
