@@ -109,6 +109,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>PDFSlick Svelte Demo — Custom Viewport</title>
+</svelte:head>
+
 <input
 	accept=".pdf"
 	bind:files

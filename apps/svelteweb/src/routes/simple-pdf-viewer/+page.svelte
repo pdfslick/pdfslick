@@ -86,6 +86,10 @@
 	const zoomIn = () => pdfSlick?.increaseScale();
 </script>
 
+<svelte:head>
+	<title>PDFSlick Svelte Demo — Simple PDF Viewer</title>
+</svelte:head>
+
 <div class="absolute inset-0 bg-slate-200/70 pdfSlick">
 	<div class="flex-1 relative h-full" id="container">
 		<div

@@ -86,6 +86,10 @@
 	const zoomIn = () => pdfSlick?.increaseScale();
 </script>
 
+<svelte:head>
+	<title>PDFSlick Svelte Demo — Dark Mode</title>
+</svelte:head>
+
 <div class="absolute inset-0 pdfSlick">
 	<div class="flex-1 relative h-full" id="container">
 		<div
