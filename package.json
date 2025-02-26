@@ -46,7 +46,7 @@
     "eslint-config-custom": "0.0.0",
     "npm-check-updates": "^17.1.14",
     "prettier": "latest",
-    "turbo": "^2.4.2"
+    "turbo": "^2.4.4"
   },
   "engines": {
     "node": ">=20"
