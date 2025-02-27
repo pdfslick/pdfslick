@@ -37,7 +37,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
-    "version-packages": "turbo run build lint && changeset version",
+    "version-packages": "turbo run build && changeset version",
     "publish-packages": "changeset publish",
     "update-deps": "ncu -ws -i"
   },
