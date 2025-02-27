@@ -1,5 +1,16 @@
 # @pdfslick/react
 
+## 2.2.0
+
+### Minor Changes
+
+- Fix printing, update tailwind v4 in demos
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@2.2.0
+
 ## 2.1.3
 
 ### Patch Changes
