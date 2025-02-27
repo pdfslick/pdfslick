@@ -5,10 +5,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "eslint": "^8.56.0",
-    "eslint-config-next": "^14.2.11",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-turbo": "^2.4.0",
+    "eslint": "^9.21.0",
+    "eslint-config-next": "^15.2.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-config-turbo": "^2.4.4",
     "eslint-plugin-react": "^7.37.4"
   },
   "devDependencies": {

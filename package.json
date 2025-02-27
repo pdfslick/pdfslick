@@ -44,7 +44,7 @@
   "devDependencies": {
     "concurrently": "^9.1.2",
     "eslint-config-custom": "0.0.0",
-    "npm-check-updates": "^17.1.14",
+    "npm-check-updates": "^17.1.15",
     "prettier": "latest",
     "turbo": "^2.4.4"
   },
@@ -52,7 +52,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@changesets/cli": "^2.28.0",
+    "@changesets/cli": "^2.28.1",
     "rollup": "^4.34.8"
   },
   "publishConfig": {
