@@ -13,6 +13,7 @@ import {
   VscLayoutSidebarLeftOff,
   VscDesktopDownload,
   VscDiffAdded,
+  VscSearch,
 } from "react-icons/vsc";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 import ZoomSelector from "./ZoomSelector";
@@ -22,6 +23,7 @@ import DocumentInfo from "./DocumentInfo";
 import MoreActionsMenu from "./MoreActionsMenu";
 import Splitter from "./Splitter";
 import Tooltip from "../Tooltip";
+import SearchBar from "./SearchBar";
 
 type TToolbarProps = {
   usePDFSlickStore: TUsePDFSlickStore;
@@ -144,6 +146,10 @@ const Toolbar = ({
             </form>
             <span> of {numPages}</span>
           </div>
+
+          <Splitter />
+
+          <SearchBar {...{ usePDFSlickStore }} />
         </div>
 
         <div className="px-1 space-x-1 flex items-center justify-end">
