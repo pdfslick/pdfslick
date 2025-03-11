@@ -187,12 +187,14 @@ export class PDFSlick {
             externalLinkRel: "noopener noreferrer nofollow",
             ignoreDestinationZoom: false,
         });
+        const findController = new PDFFindController({ eventBus, linkService });
 
         const viewerOptions: PDFViewerOptions = {
             container,
             ...(viewer && { viewer }),
             eventBus,
             linkService,
+            findController,
             renderingQueue: renderingQueue as unknown as PDFViewerOptions['renderingQueue'],
             textLayerMode: this.textLayerMode,
             annotationEditorHighlightColors: this.annotationEditorHighlightColors,
@@ -234,6 +236,7 @@ export class PDFSlick {
 
         this.eventBus = eventBus;
         this.linkService = linkService;
+        this.findController = findController;
         this.viewer = pdfViewer;
         this.linkService.setViewer(pdfViewer);
 
