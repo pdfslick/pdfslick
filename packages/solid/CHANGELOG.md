@@ -1,5 +1,16 @@
 # @pdfslick/solid
 
+## 2.3.0
+
+### Minor Changes
+
+- Add find controller
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@2.3.0
+
 ## 2.2.0
 
 ### Minor Changes
