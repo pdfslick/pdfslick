@@ -8,10 +8,9 @@ import {
     PDFDocumentProxy,
     PDFDateString,
     AbortException,
-    MissingPDFException,
+    ResponseException,
     InvalidPDFException,
     RenderingCancelledException,
-    UnexpectedResponseException,
     AnnotationEditorParamsType
 } from "pdfjs-dist";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
@@ -59,10 +58,9 @@ import { PDFSlickPrintDialog } from "./PDFSlickPrintDialog";
 
 export type PDFException =
     | AbortException
-    | MissingPDFException
+    | ResponseException
     | InvalidPDFException
-    | RenderingCancelledException
-    | UnexpectedResponseException;
+    | RenderingCancelledException;
 
 GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.mjs',

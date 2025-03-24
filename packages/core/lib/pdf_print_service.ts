@@ -51,7 +51,7 @@ function getXfaHtmlForPrinting(
     });
     const viewport = getXfaPageViewport(xfaPage, { scale });
 
-    builder.render(viewport, "print");
+    builder.render({ viewport, intent: "print" });
     page.append(builder.div!);
   }
 }
