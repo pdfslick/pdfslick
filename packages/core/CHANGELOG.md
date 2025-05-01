@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 3.0.0
+
+### Major Changes
+
+- Update to pdfjs v5
+
 ## 2.3.0
 
 ### Minor Changes
