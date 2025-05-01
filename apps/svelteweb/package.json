@@ -1,6 +1,6 @@
 {
 	"name": "svelteweb",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -38,7 +38,7 @@
 		"wrangler": "^3.111.0"
 	},
 	"dependencies": {
-		"@pdfslick/core": "^2.0.0",
+		"@pdfslick/core": "^3.0.0",
 		"@tailwindcss/postcss": "^4.0.9",
 		"d3-drag": "^3.0.0",
 		"d3-selection": "^3.0.0",
