@@ -102,6 +102,10 @@ Provided with the PDF Document path and PDFSlick options object, the `usePDFSlic
 
 [More on using PDFSlick with React](https://pdfslick.dev/docs/react) | [Checkout the React Examples](./apps/web/examples)
 
+## Author
+
+PDFSlick was conceived and developed, and is currently maintained by [Vancho Stojkov](https://github.com/van100j), who embarked on this project with the vision of simplifying PDF integration for modern web frameworks, leveraging the power of PDF.js while providing a developer-friendly API.
+
 ## Thanks
 
 - [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo

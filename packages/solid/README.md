@@ -96,6 +96,10 @@ Provided with the PDF Document path and options object, the `usePDFSlick()` hook
 
 [More on using PDFSlick with Solid](https://pdfslick.dev/docs/solid) | [Checkout the SolidJS Examples](./apps/solidweb/src/examples)
 
+## Author
+
+PDFSlick was conceived and developed, and is currently maintained by [Vancho Stojkov](https://github.com/van100j), who embarked on this project with the vision of simplifying PDF integration for modern web frameworks, leveraging the power of PDF.js while providing a developer-friendly API.
+
 ## Thanks
 
 - [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
