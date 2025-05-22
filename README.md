@@ -324,6 +324,10 @@ Depending on your needs, at this you might find it useful to continue with learn
 
 [Learn more about PDFSlick](https://pdfslick.dev) | [Checkout the Examples](https://pdfslick.dev/examples)
 
+## Author
+
+PDFSlick was conceived and developed, and is currently maintained by [Vancho Stojkov](https://github.com/van100j), who embarked on this project with the vision of simplifying PDF integration for modern web frameworks, leveraging the power of PDF.js while providing a developer-friendly API.
+
 ## Thanks
 
 - [Vane Kosturanov](https://kosturanov.com/portfolio/logo-branding-design) for designing the logo
