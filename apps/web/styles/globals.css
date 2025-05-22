@@ -44,3 +44,9 @@
     @apply h-full;
   }
 }
+
+@layer utilities {
+  :root {
+    color-scheme: light;
+  }
+}
