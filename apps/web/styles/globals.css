@@ -45,8 +45,3 @@
   }
 }
 
-@layer utilities {
-  :root {
-    color-scheme: light;
-  }
-}
