@@ -111,9 +111,15 @@ export type PDFSlickOptions = {
   annotationEditorHighlightColors?: string,
   l10n?: any;
   maxCanvasPixels?: number;
+  maxCanvasDim?: number;
+  capCanvasAreaFactor?: number;
   printResolution?: number;
   thumbnailWidth?: number;
   scaleValue?: string;
+  enableHWA?: boolean;
+  enableDetailCanvas?: boolean;
+  enableOptimizedPartialRendering?: boolean;
+  minDurationToUpdateCanvas?: number;
   filename?: string;
   getDocumentParams?: DocumentInitParameters;
   onProgress?: (opts: OnProgressParameters) => void;

@@ -44,15 +44,15 @@
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && copyfiles -u 3 \"../core/dist/pdf_viewer.css\" ./dist"
   },
   "devDependencies": {
-    "@types/react": "^18.3.5",
-    "concurrently": "^9.1.2",
+    "@types/react": "^19.2.5",
+    "concurrently": "^9.2.1",
     "copyfiles": "^2.4.1",
-    "eslint": "^9.21.0",
+    "eslint": "^9.39.1",
     "eslint-config-custom": "0.0.0",
-    "react": "^18.3.1",
+    "react": "^19.2.0",
     "tsconfig": "0.0.0",
-    "typescript": "5.7.3",
-    "wait-on": "^8.0.2"
+    "typescript": "5.9.3",
+    "wait-on": "^9.0.3"
   },
   "peerDependencies": {
     "react": ">=17",
@@ -61,7 +61,7 @@
   "dependencies": {
     "@pdfslick/core": "^3.0.0",
     "react-use": "^17.6.0",
-    "use-sync-external-store": "^1.4.0"
+    "use-sync-external-store": "^1.6.0"
   },
   "publishConfig": {
     "provenance": true

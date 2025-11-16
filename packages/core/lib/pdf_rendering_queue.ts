@@ -15,16 +15,14 @@
 
 /** @typedef {import("./interfaces").IRenderableView} IRenderableView */
 /** @typedef {import("./pdf_viewer").PDFViewer} PDFViewer */
-// eslint-disable-next-line max-len
 /** @typedef {import("./pdf_thumbnail_viewer").PDFThumbnailViewer} PDFThumbnailViewer */
 
 import { RenderingCancelledException } from "pdfjs-dist";
-import { type getVisibleElements, RenderingStates } from "./ui_utils";
-import { PDFThumbnailView } from "./pdf_thumbnail_view";
 import { IRenderableView } from "pdfjs-dist/types/web/interfaces.js";
 import { PDFThumbnailViewer } from "./pdf_thumbnail_viewer";
 
-import { PDFViewer, PDFPageView } from "pdfjs-dist/web/pdf_viewer.mjs";
+import { PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
+import { getVisibleElements, RenderingStates } from "./ui_utils";
 
 const CLEANUP_TIMEOUT = 30000;
 
@@ -116,19 +114,23 @@ class PDFRenderingQueue {
    * @param {boolean} scrolledDown
    * @param {boolean} [preRenderExtra]
    */
-  getHighestPriority(
-    visible: ReturnType<typeof getVisibleElements<PDFThumbnailView>>,
-    views: PDFThumbnailView[],
+  getHighestPriority<
+    T extends { div: HTMLElement; id: number; detailView?: IRenderableView } & IRenderableView
+  >(
+    visible: ReturnType<typeof getVisibleElements<T>>,
+    views: T[],
     scrolledDown: boolean,
-    preRenderExtra = false
-  ): PDFThumbnailView | null {
+    preRenderExtra = false,
+    ignoreDetailViews = false
+  ): IRenderableView | null {
     /**
      * The state has changed. Figure out which page has the highest priority to
      * render next (if any).
      *
      * Priority:
      * 1. visible pages
-     * 2. if last scrolled down, the page after the visible pages, or
+     * 2. zoomed-in partial views of visible pages, unless `ignoreDetailViews`
+     * 3. if last scrolled down, the page after the visible pages, or
      *    if last scrolled up, the page before the visible pages
      */
     const visibleViews = visible.views,
@@ -143,6 +145,16 @@ class PDFRenderingQueue {
         return view;
       }
     }
+
+    if (!ignoreDetailViews) {
+      for (let i = 0; i < numVisible; i++) {
+        const { detailView } = visibleViews[i].view;
+        if (detailView && !this.isViewFinished(detailView)) {
+          return detailView;
+        }
+      }
+    }
+
     const firstId = visible.first.id,
       lastId = visible.last.id;
 
