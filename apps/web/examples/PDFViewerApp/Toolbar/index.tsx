@@ -63,7 +63,7 @@ const Toolbar = ({
   return (
     <>
       <div
-        className={`w-full h-9 flex items-center justify-between bg-slate-50 border-b border-b-slate-300 shadow-sm text-xs select-none sticky top-0 backdrop-blur z-10`}
+        className={`w-full text-slate-500 h-9 flex items-center justify-between bg-slate-50 border-b border-b-slate-300 shadow-sm text-xs select-none sticky top-0 backdrop-blur z-10`}
       >
         <div className="px-1 flex items-center space-x-1">
           <button
