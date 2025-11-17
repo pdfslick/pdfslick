@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import { MathClamp } from "pdfjs-dist";
+
 const DEFAULT_SCALE_VALUE = "auto";
 const DEFAULT_SCALE = 1.0;
 const DEFAULT_SCALE_DELTA = 1.1;
@@ -82,35 +84,6 @@ const CursorTool = {
 const AutoPrintRegExp = /\bprint\s*\(/;
 
 /**
- * Scale factors for the canvas, necessary with HiDPI displays.
- */
-class OutputScale {
-  sx: number;
-  sy: number;
-
-  constructor() {
-    const pixelRatio = window.devicePixelRatio || 1;
-
-    /**
-     * @type {number} Horizontal scale.
-     */
-    this.sx = pixelRatio;
-
-    /**
-     * @type {number} Vertical scale.
-     */
-    this.sy = pixelRatio;
-  }
-
-  /**
-   * @type {boolean} Returns `true` when scaling is required, `false` otherwise.
-   */
-  get scaled() {
-    return this.sx !== 1 || this.sy !== 1;
-  }
-}
-
-/**
  * Scrolls specified element into view of its parent.
  * @param {HTMLElement} element - The element to be visible.
  * @param {Object} [spot] - An object with optional top and left properties,
@@ -152,7 +125,17 @@ function scrollIntoView(element: HTMLElement, spot: any, scrollMatches = false) 
       offsetY += spot.top;
     }
     if (spot.left !== undefined) {
-      offsetX += spot.left;
+      if (scrollMatches) {
+        const elementWidth = element.getBoundingClientRect().width;
+        const padding = MathClamp(
+          (parent.clientWidth - elementWidth) / 2,
+          20,
+          400
+        );
+        offsetX += spot.left - padding;
+      } else {
+        offsetX += spot.left;
+      }
       parent.scrollLeft = offsetX;
     }
   }
@@ -592,10 +575,11 @@ function getVisibleElements<T extends { div: HTMLElement; id: number }>({
       continue;
     }
 
-    const hiddenHeight =
-      Math.max(0, top - currentHeight) + Math.max(0, viewBottom - bottom);
-    const hiddenWidth =
-      Math.max(0, left - currentWidth) + Math.max(0, viewRight - right);
+    const minY = Math.max(0, top - currentHeight);
+    const minX = Math.max(0, left - currentWidth);
+
+    const hiddenHeight = minY + Math.max(0, viewBottom - bottom);
+    const hiddenWidth = minX + Math.max(0, viewRight - right);
 
     const fractionHeight = (viewHeight - hiddenHeight) / viewHeight,
       fractionWidth = (viewWidth - hiddenWidth) / viewWidth;
@@ -605,6 +589,18 @@ function getVisibleElements<T extends { div: HTMLElement; id: number }>({
       id: view.id,
       x: currentWidth,
       y: currentHeight,
+      visibleArea:
+        // We only specify which part of the page is visible when it's not
+        // the full page, as there is no point in handling a partial page
+        // rendering otherwise.
+        percent === 100
+          ? null
+          : {
+              minX,
+              minY,
+              maxX: Math.min(viewRight, right) - currentWidth,
+              maxY: Math.min(viewBottom, bottom) - currentHeight,
+            },
       view,
       percent,
       widthPercent: (fractionWidth * 100) | 0,
@@ -711,7 +707,7 @@ class ProgressBar {
   }
 
   set percent(val) {
-    this.#percent = clamp(val, 0, 100);
+    this.#percent = MathClamp(val, 0, 100);
 
     if (isNaN(val)) {
       this.#classList.add("indeterminate");
@@ -896,7 +892,6 @@ export {
   MIN_SCALE,
   normalizeWheelEventDelta,
   normalizeWheelEventDirection,
-  OutputScale,
   parseQueryString,
   PresentationModeState,
   ProgressBar,

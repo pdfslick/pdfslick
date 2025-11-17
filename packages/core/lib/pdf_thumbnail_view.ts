@@ -14,20 +14,23 @@
  */
 
 // eslint-disable-next-line max-len
+/** @typedef {import("../src/display/optional_content_config").OptionalContentConfig} OptionalContentConfig */
+/** @typedef {import("../src/display/display_utils").PageViewport} PageViewport */
 /** @typedef {import("./event_utils").EventBus} EventBus */
 /** @typedef {import("./interfaces").IL10n} IL10n */
 /** @typedef {import("./interfaces").IPDFLinkService} IPDFLinkService */
 /** @typedef {import("./interfaces").IRenderableView} IRenderableView */
 /** @typedef {import("./pdf_rendering_queue").PDFRenderingQueue} PDFRenderingQueue */
 
-import { OutputScale, RenderingStates } from "./ui_utils";
+import { RenderingStates } from "./ui_utils";
 import {
   RenderingCancelledException,
   PDFPageProxy,
   PageViewport,
   RenderTask,
+  OutputScale,
 } from "pdfjs-dist";
-import { PDFViewer, PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer.mjs";
+import { PDFPageView, EventBus } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { StoreApi } from "zustand/vanilla";
 import type { PDFSlickState } from "../types";
 import { OptionalContentConfig, PDFViewerOptions } from "pdfjs-dist/types/web/pdf_viewer";
@@ -36,6 +39,13 @@ import type { PDFRenderingQueue } from "./pdf_rendering_queue";
 const DRAW_UPSCALE_FACTOR = 2; // See comment in `PDFThumbnailView.draw` below.
 const MAX_NUM_SCALING_STEPS = 3;
 const THUMBNAIL_WIDTH = 98; // px
+
+function zeroCanvas(c: HTMLCanvasElement) {
+  // Zeroing the width and height causes Firefox to release graphics
+  // resources immediately, which can greatly reduce memory consumption.
+  c.width = 0;
+  c.height = 0;
+}
 
 /**
  * @typedef {Object} PDFThumbnailViewOptions
@@ -48,6 +58,12 @@ const THUMBNAIL_WIDTH = 98; // px
  *   The default value is `null`.
  * @property {IPDFLinkService} linkService - The navigation/linking service.
  * @property {PDFRenderingQueue} renderingQueue - The rendering queue object.
+ * @property {number} [maxCanvasPixels] - The maximum supported canvas size in
+ *   total pixels, i.e. width * height. Use `-1` for no limit, or `0` for
+ *   CSS-only zooming. The default value is 4096 * 8192 (32 mega-pixels).
+ * @property {number} [maxCanvasDim] - The maximum supported canvas dimension,
+ *   in either width or height. Use `-1` for no limit.
+ *   The default value is 32767.
  * @property {Object} [pageColors] - Overwrites background and foreground colors
  *   with user defined ones in order to improve readability in high contrast
  *   mode.
@@ -74,12 +90,8 @@ class TempImageFactory {
   }
 
   static destroyCanvas() {
-    const tempCanvas = this.#tempCanvas;
-    if (tempCanvas) {
-      // Zeroing the width and height causes Firefox to release graphics
-      // resources immediately, which can greatly reduce memory consumption.
-      tempCanvas.width = 0;
-      tempCanvas.height = 0;
+    if (this.#tempCanvas) {
+      zeroCanvas(this.#tempCanvas);
     }
     this.#tempCanvas = null;
   }
@@ -93,6 +105,8 @@ type PDFThumbnailViewOptions = {
   optionalContentConfigPromise?: Promise<OptionalContentConfig>
   linkService: NonNullable<PDFViewerOptions['linkService']>;
   renderingQueue: PDFRenderingQueue;
+  maxCanvasPixels?: number;
+  maxCanvasDim?: number;
   pageColors: { background: any; foreground: any } | null;
   enableHWA?: boolean;
   store: StoreApi<PDFSlickState>;
@@ -109,6 +123,8 @@ class PDFThumbnailView {
   _optionalContentConfigPromise: PDFThumbnailViewOptions['optionalContentConfigPromise'] | null;
   linkService: PDFThumbnailViewOptions['linkService'];
   renderingQueue: PDFThumbnailViewOptions['renderingQueue'];
+  maxCanvasPixels: number;
+  maxCanvasDim: number
   pageColors: PDFThumbnailViewOptions['pageColors'];
   enableHWA: boolean | null;
 
@@ -146,6 +162,8 @@ class PDFThumbnailView {
     optionalContentConfigPromise,
     linkService,
     renderingQueue,
+    maxCanvasPixels,
+    maxCanvasDim,
     pageColors,
     enableHWA,
     store,
@@ -160,6 +178,8 @@ class PDFThumbnailView {
     this.viewport = defaultViewport;
     this.pdfPageRotate = defaultViewport.rotation;
     this._optionalContentConfigPromise = optionalContentConfigPromise || null;
+    this.maxCanvasPixels = maxCanvasPixels ?? 4096 * 8192;
+    this.maxCanvasDim = maxCanvasDim || 32767;
     this.pageColors = pageColors || null;
     this.enableHWA = enableHWA || false;
 
@@ -285,9 +305,17 @@ class PDFThumbnailView {
       willReadFrequently: !enableHWA,
     })!;
     const outputScale = new OutputScale();
+    const width = upscaleFactor * this.canvasWidth,
+      height = upscaleFactor * this.canvasHeight;
 
-    canvas.width = (upscaleFactor * this.canvasWidth * outputScale.sx) | 0;
-    canvas.height = (upscaleFactor * this.canvasHeight * outputScale.sy) | 0;
+    outputScale.limitCanvas(
+      width,
+      height,
+      this.maxCanvasPixels,
+      this.maxCanvasDim
+    );
+    canvas.width = (width * outputScale.sx) | 0;
+    canvas.height = (height * outputScale.sy) | 0;
 
     const transform = outputScale.scaled
       ? [outputScale.sx, 0, 0, outputScale.sy, 0, 0]
@@ -326,31 +354,12 @@ class PDFThumbnailView {
     reducedCanvas.height = 0;
   }
 
-  async #finishRenderTask(renderTask: any, canvas: HTMLCanvasElement, error: any = null) {
-    // The renderTask may have been replaced by a new one, so only remove
-    // the reference to the renderTask if it matches the one that is
-    // triggering this callback.
-    if (renderTask === this.renderTask) {
-      this.renderTask = null;
-    }
-
-    if (error instanceof RenderingCancelledException) {
-      return;
-    }
-    this.renderingState = RenderingStates.FINISHED;
-    this.#convertCanvasToImage(canvas);
-
-    if (error) {
-      throw error;
-    }
-  }
-
   async draw() {
     if (this.renderingState !== RenderingStates.INITIAL) {
       console.error("Must be in new state before drawing");
       return undefined;
     }
-    const { pdfPage } = this;
+    const { pageColors, pdfPage } = this;
 
     if (!pdfPage) {
       this.renderingState = RenderingStates.FINISHED;
@@ -382,33 +391,49 @@ class PDFThumbnailView {
     };
 
     const renderContext = {
+      canvas: canvas,
       canvasContext: ctx,
       transform,
       viewport: drawViewport,
       optionalContentConfigPromise: this._optionalContentConfigPromise,
-      pageColors: this.pageColors,
+      pageColors,
     } as Parameters<PDFPageProxy["render"]>[0];
     const renderTask = (this.renderTask = pdfPage.render(renderContext));
     renderTask.onContinue = renderContinueCallback;
 
-    const resultPromise = renderTask.promise.then(
-      () => this.#finishRenderTask(renderTask, canvas),
-      error => this.#finishRenderTask(renderTask, canvas, error)
-    );
-    resultPromise.finally(() => {
-      // Zeroing the width and height causes Firefox to release graphics
-      // resources immediately, which can greatly reduce memory consumption.
-      canvas.width = 0;
-      canvas.height = 0;
+    let error = null;
+    try {
+      await renderTask.promise;
+    } catch (e) {
+      if (e instanceof RenderingCancelledException) {
+        zeroCanvas(canvas);
+        return;
+      }
+      error = e;
+    } finally {
+      // The renderTask may have been replaced by a new one, so only remove
+      // the reference to the renderTask if it matches the one that is
+      // triggering this callback.
+      if (renderTask === this.renderTask) {
+        this.renderTask = null;
+      }
+    }
+    this.renderingState = RenderingStates.FINISHED;
 
-      this.eventBus.dispatch("thumbnailrendered", {
-        source: this,
-        pageNumber: this.id,
-        pdfPage: this.pdfPage,
-      });
+    this.#convertCanvasToImage(canvas);
+    zeroCanvas(canvas);
+
+    
+
+    this.eventBus.dispatch("thumbnailrendered", {
+      source: this,
+      pageNumber: this.id,
+      pdfPage,
     });
 
-    return resultPromise;
+    if (error) {
+      throw error;
+    }
   }
 
   setImage(pageView: PDFPageView) {
@@ -430,6 +455,24 @@ class PDFThumbnailView {
     this.#convertCanvasToImage(canvas);
   }
 
+  #getReducedImageDims(canvas: HTMLCanvasElement) {
+    const width = canvas.width << MAX_NUM_SCALING_STEPS,
+      height = canvas.height << MAX_NUM_SCALING_STEPS;
+
+    const outputScale = new OutputScale();
+    // Here we're not actually "rendering" to the canvas and the `OutputScale`
+    // is thus only used to limit the canvas size, hence the identity scale.
+    outputScale.sx = outputScale.sy = 1;
+
+    outputScale.limitCanvas(
+      width,
+      height,
+      this.maxCanvasPixels,
+      this.maxCanvasDim
+    );
+    return [(width * outputScale.sx) | 0, (height * outputScale.sy) | 0];
+  }
+
   #reduceImage(img: HTMLCanvasElement) {
     const { ctx, canvas } = this.#getPageDrawContext(1, true);
 
@@ -448,8 +491,7 @@ class PDFThumbnailView {
       return canvas;
     }
     // drawImage does an awful job of rescaling the image, doing it gradually.
-    let reducedWidth = canvas.width << MAX_NUM_SCALING_STEPS;
-    let reducedHeight = canvas.height << MAX_NUM_SCALING_STEPS;
+    let [reducedWidth, reducedHeight] = this.#getReducedImageDims(canvas);
     const [reducedImage, reducedImageCtx] = TempImageFactory.getCanvas(
       reducedWidth,
       reducedHeight

@@ -14,6 +14,7 @@
  */
 
 /** @typedef {import("../src/display/api").PDFDocumentProxy} PDFDocumentProxy */
+/** @typedef {import("../src/display/api").PDFPageProxy} PDFPageProxy */
 /** @typedef {import("./event_utils").EventBus} EventBus */
 /** @typedef {import("./interfaces").IL10n} IL10n */
 /** @typedef {import("./interfaces").IPDFLinkService} IPDFLinkService */
@@ -45,6 +46,12 @@ const THUMBNAIL_SELECTED_CLASS = "selected";
  * @property {EventBus} eventBus - The application event bus.
  * @property {IPDFLinkService} linkService - The navigation/linking service.
  * @property {PDFRenderingQueue} renderingQueue - The rendering queue object.
+ * @property {number} [maxCanvasPixels] - The maximum supported canvas size in
+ *   total pixels, i.e. width * height. Use `-1` for no limit, or `0` for
+ *   CSS-only zooming. The default value is 4096 * 8192 (32 mega-pixels).
+ * @property {number} [maxCanvasDim] - The maximum supported canvas dimension,
+ *   in either width or height. Use `-1` for no limit.
+ *   The default value is 32767.
  * @property {Object} [pageColors] - Overwrites background and foreground colors
  *   with user defined ones in order to improve readability in high contrast
  *   mode.
@@ -52,6 +59,8 @@ const THUMBNAIL_SELECTED_CLASS = "selected";
  *   events.
  * @property {boolean} [enableHWA] - Enables hardware acceleration for
  *   rendering. The default value is `false`.
+ * @property {StoreApi<PDFSlickState>} store - The PDFSlick store.
+ * @property {number} thumbnailWidth - The width of the thumbnails.
  */
 
 type PDFThumbnailViewerOptions = {
@@ -59,6 +68,8 @@ type PDFThumbnailViewerOptions = {
   eventBus: EventBus;
   linkService: NonNullable<PDFViewerOptions['linkService']>;
   renderingQueue: PDFRenderingQueue;
+  maxCanvasPixels?: number;
+  maxCanvasDim?: number;
   pageColors: { background: any; foreground: any } | null;
   abortSignal?: AbortSignal;
   enableHWA: boolean | undefined;
@@ -74,6 +85,8 @@ class PDFThumbnailViewer {
   eventBus: EventBus;
   linkService: PDFThumbnailViewerOptions['linkService'];
   renderingQueue: PDFRenderingQueue;
+  maxCanvasPixels: number;
+  maxCanvasDim: number;
   pageColors: { background: any; foreground: any } | null;
   enableHWA: boolean;
   scroll: ReturnType<typeof watchScroll>;
@@ -95,6 +108,8 @@ class PDFThumbnailViewer {
     eventBus,
     linkService,
     renderingQueue,
+    maxCanvasPixels,
+    maxCanvasDim,
     pageColors,
     abortSignal,
     enableHWA,
@@ -105,6 +120,8 @@ class PDFThumbnailViewer {
     this.eventBus = eventBus;
     this.linkService = linkService;
     this.renderingQueue = renderingQueue;
+    this.maxCanvasPixels = maxCanvasPixels || 4096 * 8192;
+    this.maxCanvasDim = maxCanvasDim || 32767;
     this.pageColors = pageColors || null;
     this.enableHWA = enableHWA || false;
 
@@ -251,6 +268,8 @@ class PDFThumbnailViewer {
             optionalContentConfigPromise,
             linkService: this.linkService,
             renderingQueue: this.renderingQueue,
+            maxCanvasPixels: this.maxCanvasPixels,
+            maxCanvasDim: this.maxCanvasDim,
             pageColors: this.pageColors,
             enableHWA: this.enableHWA,
             store: this.store,
@@ -340,10 +359,12 @@ class PDFThumbnailViewer {
     const thumbView = this.renderingQueue.getHighestPriority(
       visibleThumbs,
       this._thumbnails,
-      scrollAhead
+      scrollAhead,
+      /* preRenderExtra */ false,
+      /* ignoreDetailViews */ true
     );
     if (thumbView) {
-      this.#ensurePdfPageLoaded(thumbView).then(() => {
+      this.#ensurePdfPageLoaded(thumbView as PDFThumbnailView).then(() => {
         this.renderingQueue.renderView(thumbView);
       });
       return true;

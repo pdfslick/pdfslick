@@ -22,7 +22,7 @@ import {
     DownloadManager,
     PDFFindController,
     PDFPageView,
-    PDFSinglePageViewer
+    PDFSinglePageViewer,
 } from "pdfjs-dist/web/pdf_viewer.mjs";
 
 import { IL10n, PDFViewerOptions } from "pdfjs-dist/types/web/pdf_viewer";
@@ -118,8 +118,14 @@ export class PDFSlick {
     annotationEditorHighlightColors: string | undefined;
     textLayerMode: number;
     maxCanvasPixels: number;
+    maxCanvasDim: number;
+    capCanvasAreaFactor: number;
     printResolution: number;
     thumbnailWidth: number;
+    enableHWA: boolean;
+    enableDetailCanvas: boolean
+    enableOptimizedPartialRendering: boolean;
+    minDurationToUpdateCanvas: number;
     getDocumentParams: DocumentInitParameters;
 
     #onError: ((err: PDFException) => void) | undefined;
@@ -152,9 +158,15 @@ export class PDFSlick {
         this.enablePrintAutoRotate = options?.enablePrintAutoRotate ?? false;
         this.useOnlyCssZoom = options?.useOnlyCssZoom ?? false;
         this.pageColors = options?.pageColors ?? null;
-        this.maxCanvasPixels = options?.maxCanvasPixels ?? 16777216;
+        this.maxCanvasPixels = options?.maxCanvasPixels ?? 2 ** 24;
+        this.maxCanvasDim = options?.maxCanvasDim ?? 32767
+        this.capCanvasAreaFactor = options?.capCanvasAreaFactor ?? 200;
         this.printResolution = options?.printResolution ?? 96;
         this.thumbnailWidth = options?.thumbnailWidth ?? 125;
+        this.enableHWA = options?.enableHWA ?? false;
+        this.enableDetailCanvas = options?.enableDetailCanvas ?? true;
+        this.enableOptimizedPartialRendering = options?.enableOptimizedPartialRendering ?? false;
+        this.minDurationToUpdateCanvas = options?.minDurationToUpdateCanvas ?? 500;
         this.getDocumentParams = options?.getDocumentParams ?? {};
 
         if (
@@ -201,6 +213,13 @@ export class PDFSlick {
             annotationEditorMode: this.#annotationEditorMode,
             removePageBorders: this.removePageBorders,
             imageResourcesPath: "/images/",
+            enableHWA: this.enableHWA,
+            enableDetailCanvas: this.enableDetailCanvas,
+            enableOptimizedPartialRendering: this.enableOptimizedPartialRendering,
+            minDurationToUpdateCanvas: this.minDurationToUpdateCanvas,
+            maxCanvasPixels: this.useOnlyCssZoom === true ? 0 : this.maxCanvasPixels,
+            maxCanvasDim: this.maxCanvasDim,
+            capCanvasAreaFactor: this.capCanvasAreaFactor,
         };
 
         const pdfViewer = this.singlePageViewer
@@ -214,10 +233,14 @@ export class PDFSlick {
                 eventBus,
                 linkService,
                 renderingQueue,
+                maxCanvasPixels: this.useOnlyCssZoom === true ? 0 : this.maxCanvasPixels,
+                maxCanvasDim: this.maxCanvasDim,
                 pageColors: this.pageColors,
-                enableHWA: undefined,
+                enableHWA: this.enableHWA,
                 store: store,
                 thumbnailWidth: this.thumbnailWidth,
+                abortSignal: this.#eventAbortController?.signal,
+
             });
             renderingQueue.setThumbnailViewer(
                 this.thumbnailViewer
@@ -490,7 +513,7 @@ export class PDFSlick {
         try {
             // this._ensureDownloadComplete();
 
-            const data = await this.document!.getData();
+            const data = (await this.document!.getData()).slice(0);
             const blob = new Blob([data], { type: "application/pdf" });
 
             await this.downloadManager?.download(blob, url, filename);
@@ -511,7 +534,7 @@ export class PDFSlick {
         try {
             // this._ensureDownloadComplete();
 
-            const data = await this.document!.saveDocument();
+            const data = (await this.document!.saveDocument()).slice(0);
             const blob = new Blob([data], { type: "application/pdf" });
 
             await this.downloadManager?.download(blob, url, filename);
@@ -579,9 +602,8 @@ export class PDFSlick {
             (await this.document?.getOutline()) as unknown as TPDFDocumentOutline;
 
         const scaleValue = this.store.getState().scaleValue;
-        // source._setScale(scaleValue, {}); // page-fit, page-actual, auto, page-width
-        source.currentScale = 1;
-        source.currentScaleValue = "auto";
+        // source.currentScale = 1;
+        source.currentScaleValue = scaleValue ?? "auto";
         this.store.setState({
             documentOutline,
             pageNumber: 1,
@@ -678,7 +700,7 @@ export class PDFSlick {
 
         this.setAnnotationEditorParams([
             {
-                type: AnnotationEditorParamsType.HIGHLIGHT_DEFAULT_COLOR,
+                type: AnnotationEditorParamsType.HIGHLIGHT_COLOR,
                 value: color,
             },
         ]);

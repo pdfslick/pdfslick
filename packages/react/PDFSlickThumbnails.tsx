@@ -75,7 +75,7 @@ export function PDFSlickThumbnails({
             rotation: view.rotation,
             pageLabel: view.pageLabel,
             loaded: view.loaded,
-          }),
+          }) as any,
           view.div
         )
       )}
