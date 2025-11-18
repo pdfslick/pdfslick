@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/core",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "source": "./index.ts",
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",

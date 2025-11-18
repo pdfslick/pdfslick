@@ -1,6 +1,6 @@
 {
   "name": "@pdfslick/solid",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "source": "./index.tsx",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -71,7 +71,7 @@
     "solid-js": ">=1.5.0"
   },
   "dependencies": {
-    "@pdfslick/core": "^3.0.0",
+    "@pdfslick/core": "^3.1.0",
     "@solid-primitives/resize-observer": "^2.1.3"
   },
   "publishConfig": {
