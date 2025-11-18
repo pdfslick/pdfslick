@@ -682,10 +682,6 @@ const animationStarted = new Promise(function (resolve) {
 
 const docStyle = document.documentElement.style;
 
-function clamp(v: number, min: number, max: number) {
-  return Math.min(Math.max(v, min), max);
-}
-
 class ProgressBar {
   #classList: DOMTokenList;
 

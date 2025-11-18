@@ -22,7 +22,7 @@ import {
     DownloadManager,
     PDFFindController,
     PDFPageView,
-    PDFSinglePageViewer,
+    PDFSinglePageViewer
 } from "pdfjs-dist/web/pdf_viewer.mjs";
 
 import { IL10n, PDFViewerOptions } from "pdfjs-dist/types/web/pdf_viewer";
