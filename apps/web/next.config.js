@@ -8,10 +8,19 @@ const nextConfig = {
     unoptimized: true,
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md'],
+  turbopack: {},
   experimental: {
     scrollRestoration: true,
-    esmExternals: 'loose',
+    // esmExternals: 'loose',
   },
+  // rewrites: async () => [
+  //   {
+  //     source: "/docs/:slug",
+  //     destination: "/d/:slug.html",
+  //   }
+  // ]
 }
 // module.exports = withMarkdoc({ mode: 'static' })(nextConfig)
-module.exports = withMarkdoc()(nextConfig)
+module.exports = withMarkdoc({
+  dir: process.cwd(), // Required for Turbopack file resolution
+})(nextConfig)
