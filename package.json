@@ -58,5 +58,5 @@
   "publishConfig": {
     "provenance": true
   },
-  "packageManager": "npm@11.1.0"
+  "packageManager": "npm@11.6.2"
 }
