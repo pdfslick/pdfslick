@@ -1,5 +1,16 @@
 # @pdfslick/solid
 
+## 3.1.0
+
+### Minor Changes
+
+- Fix styles for dark mode, add props related to canvas resolution, add detail view render
+
+### Patch Changes
+
+- Updated dependencies
+  - @pdfslick/core@3.1.0
+
 ## 3.0.0
 
 ### Major Changes
