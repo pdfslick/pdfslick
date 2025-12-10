@@ -2,7 +2,7 @@ export const examples = [
   {
     name: "Comments",
     href: "/examples/comments",
-    imageSrc: "/assets/examples/PDFSlick_Comments.jpg",
+    imageSrc: "/assets/examples/PDFSlick_Comments.png",
     short: "Comments in PDF",
     description:
       "Comments in PDF",
