@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
+import { VscPinnedDirty } from "react-icons/vsc";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -14,8 +15,8 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     const [pins, setPins] = useState<
         Array<{ id: string; pageNumber: number; x: number; y: number }>
     >([]);
-    const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
-    
+    const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
+
     useEffect(() => {
         const container = (pdfSlick as any)?.viewer?.container as HTMLElement | undefined;
         if (!container) return;
@@ -64,7 +65,7 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                 }
                 onClick={togglePinsMode}
             >
-                Pins
+                <VscPinnedDirty className="h-4 w-4" />
             </button>
             {pins.map((pin) => {
                 const pageView = (pdfSlick as any).viewer?.getPageView?.(pin.pageNumber - 1);
@@ -78,19 +79,37 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                             top: `${pin.y}%`,
                             left: `${pin.x}%`,
                             transform: "translate(-50%, -50%)",
+                            cursor: 'pointer'
+                        }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedPinId(pin.id);
                         }}
                         onContextMenu={(e) => { // onContextMenu = right click
-                            // stop the usual behaviour (open context menu) and remove pin
-                            e.preventDefault(); 
-                            setPins((prev) => prev.filter((p) => p.id !== pin.id));
-                        }}
+                            e.preventDefault(); // stop the usual behaviour (open context menu)
+                            e.stopPropagation();
+                            setPins((prev) => prev.filter((p) => p.id !== pin.id)); // remove pin from array
+                        }} // right click to delete (will be removed in the future)
                     >
-                        <div>
-                            <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
-                            <div onClick={(e) => e.stopPropagation()}>
-                                <Comment isOpenend={openCommentPinId === pin.id} onClose={() => setOpenCommentPinId(null)} />
-                            </div>
-                        </div>
+                        <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
+                        {selectedPinId === pin.id && ( // placeholder rectangle to delete pin
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '20px',
+                                    left: '0',
+                                    width: '30px',
+                                    height: '30px',
+                                    background: 'grey',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // prevent triggering pin selection again from parent div
+                                    setPins((prev) => prev.filter((p) => p.id !== pin.id));
+                                    setSelectedPinId(null);
+                                }}
+                            />
+                        )}
                     </div>,
                     container
                 );
