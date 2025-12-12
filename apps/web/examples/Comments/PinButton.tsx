@@ -12,6 +12,8 @@ type PinButtonProps = {
 export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
+    const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
+
     const [pins, setPins] = useState<
         Array<{ id: string; pageNumber: number; x: number; y: number }>
     >([]);
@@ -91,7 +93,13 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                             setPins((prev) => prev.filter((p) => p.id !== pin.id)); // remove pin from array
                         }} // right click to delete (will be removed in the future)
                     >
-                        <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
+                        <div>
+                            <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
+                            <div onClick={(e) => e.stopPropagation()}>
+                                <Comment isOpenend={openCommentPinId === pin.id} onClose={() => setOpenCommentPinId(null)} />
+                            </div>
+                        </div>
+
                         {selectedPinId === pin.id && ( // placeholder rectangle to delete pin
                             <div
                                 style={{
