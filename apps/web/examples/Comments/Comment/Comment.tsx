@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-export default function Comment() {
-    const [userName, setUserName] = useState("Henk Janssen");
+export default function Comment({ isOpenend, onClose }: { isOpenend: boolean, onClose: () => void }) {
+    const [userName] = useState("Henk Janssen");
     const [comment, setComment] = useState("");
-    const [isOpen, setIsOpen] = useState(true);
 
     function handleClose() {
-        setIsOpen(false);
+        console.log("handleClose function called.");
+        onClose();
+        setComment("");
     }
 
     function handleSubmit() {
@@ -17,7 +18,7 @@ export default function Comment() {
     
   return (
     <div className={`fixed left-4 top-4 bg-gray-800 z-10 p-3 rounded shadow-lg ${
-        isOpen ? 'visible' : 'invisible'
+        isOpenend ? 'visible' : 'invisible'
       }`}>
         <div className="flex justify-between items-center">
             <p className="text-white text-xs">{userName}</p>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 import { AnnotationEditorType } from "pdfjs-dist";
+import Comment from "./Comment/Comment";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -13,7 +14,8 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     const [pins, setPins] = useState<
         Array<{ id: string; pageNumber: number; x: number; y: number }>
     >([]);
-
+    const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
+    
     useEffect(() => {
         const container = (pdfSlick as any)?.viewer?.container as HTMLElement | undefined;
         if (!container) return;
@@ -30,10 +32,12 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                 if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
                     const px = ((x - rect.left) / rect.width) * 100;
                     const py = ((y - rect.top) / rect.height) * 100;
+                    const newId = `${Date.now()}-${Math.random()}`;
                     setPins((prev) => [
                         ...prev,
-                        { id: `${Date.now()}-${Math.random()}`, pageNumber: i + 1, x: px, y: py },
+                        { id: newId, pageNumber: i + 1, x: px, y: py },
                     ]);
+                    setOpenCommentPinId(newId);
                     break;
                 }
             }
@@ -81,7 +85,12 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                             setPins((prev) => prev.filter((p) => p.id !== pin.id));
                         }}
                     >
-                        <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
+                        <div>
+                            <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
+                            <div onClick={(e) => e.stopPropagation()}>
+                                <Comment isOpenend={openCommentPinId === pin.id} onClose={() => setOpenCommentPinId(null)} />
+                            </div>
+                        </div>
                     </div>,
                     container
                 );

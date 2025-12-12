@@ -7,7 +7,6 @@ import Outline from "./Outline";
 import Thumbnails from "./Thumbnails";
 import ButtonsBar from "./ButtonsBar";
 import Attachments from "./Attachments";
-import Comment from "../Comment/Comment";
 
 type ThumbsbarProps = {
   usePDFSlickStore: TUsePDFSlickStore;
@@ -95,7 +94,6 @@ const Thumbsbar = ({
           />
         )}
       </div>
-      <Comment />
     </>
   );
 };
