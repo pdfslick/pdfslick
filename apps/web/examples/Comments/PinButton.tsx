@@ -5,11 +5,11 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscPinnedDirty } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
-import { getAnnotations, storeAnnotation, storeComment } from "./storage/localStorage";
+import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment } from "./storage/localStorage";
 import { initDocuments } from "./storage/localStorage";
 
 import { Annotation } from "./storage/models/Annotation";
-import type { AnnotationType } from "./storage/models/Annotation";
+import FloatingComment from "./Comment/FloatingComment";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -18,19 +18,12 @@ type PinButtonProps = {
 export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
+    const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
-
-    const [pinColor, setPinColor] = useState("#ef4444"); // Default red color
-    const [pins, setPins] = useState<
-        Array<{ id: string; pageNumber: number; x: number; y: number; color: string }> // Added extra color property
-    >([]);
     const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
 
     useEffect(() => {
         initDocuments();
-        const annotations = getAnnotations();
-        console.log(annotations);
-
         const container = (pdfSlick as any)?.viewer?.container as HTMLElement | undefined;
         if (!container) return;
         const onClick = (e: MouseEvent) => {
@@ -62,9 +55,9 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
 
                     storeAnnotation(newAnnotation);
 
-                    setPins((prev) => [
+                    setAnnotations((prev) => [
                         ...prev,
-                        { id: newId, pageNumber: i + 1, x: px, y: py, color: pinColor },
+                        newAnnotation,
                     ]);
                     setOpenCommentPinId(newId);
                     break;
@@ -94,43 +87,44 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                 <button
                     type="button"
                     className="enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
-                    onClick={togglePinsMode}
+                    onClick={() => { togglePinsMode(); setAnnotations(getAnnotations()); }}
                 >
                     <VscPinnedDirty className="h-4 w-4" />
                 </button>
                 <PinMenu usePDFSlickStore={usePDFSlickStore} setPinColor={setPinColor} />
             </div>
-            {pins.map((pin) => {
-                const pageView = (pdfSlick as any).viewer?.getPageView?.(pin.pageNumber - 1);
+            {annotations.map((annotation) => {
+                const pageView = (pdfSlick as any).viewer?.getPageView?.(annotation.page - 1);
                 const container = pageView?.div as HTMLElement | undefined;
+                const [x, y] = annotation.coordinates.split(',').map(Number);
                 if (!container) return null;
                 return createPortal(
                     <div
-                        key={pin.id}
+                        key={annotation.annotation_id}
                         className="absolute"
                         style={{
-                            top: `${pin.y}%`,
-                            left: `${pin.x}%`,
+                            top: `${y}%`,
+                            left: `${x}%`,
                             transform: "translate(-50%, -50%)",
                             cursor: 'pointer'
                         }}
                         onClick={(e) => {
                             e.stopPropagation();
-                            setSelectedPinId(pin.id);
+                            setSelectedPinId(annotation.annotation_id);
                         }}
                         onContextMenu={(e) => { // onContextMenu = right click
                             e.preventDefault(); // stop the usual behaviour (open context menu)
                             e.stopPropagation();
-                            setPins((prev) => prev.filter((p) => p.id !== pin.id)); // remove pin from array
+                            setAnnotations((prev) => prev.filter((a) => a.annotation_id !== annotation.annotation_id)); // remove pin from array
                         }} // right click to delete (will be removed in the future)
                     >
                         <div>
                             <div style={{ width: 15, height: 15, borderRadius: "50%", background: pin.color }} />
                             <div onClick={(e) => e.stopPropagation()}>
-                                <Comment isOpenend={openCommentPinId === pin.id} annotationId={pin.id} onClose={() => setOpenCommentPinId(null)} onSubmit={storeComment} />
+                                <Comment isOpenend={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={storeComment} />
                             </div>
                         </div>
-                        {selectedPinId === pin.id && ( // placeholder rectangle to delete pin
+                        {selectedPinId === annotation.annotation_id && ( // placeholder rectangle to delete pin
                             <div
                                 style={{
                                     position: 'absolute',
@@ -143,10 +137,12 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                                 }}
                                 onClick={(e) => {
                                     e.stopPropagation(); // prevent triggering pin selection again from parent div
-                                    setPins((prev) => prev.filter((p) => p.id !== pin.id));
+                                    setAnnotations((prev) => prev.filter((a) => a.annotation_id !== annotation.annotation_id));
                                     setSelectedPinId(null);
                                 }}
-                            />
+                            >
+                                <FloatingComment comments={getCommentsFromAnnotation(annotation.annotation_id)}/>
+                            </div>
                         )}
                     </div>,
                     container
