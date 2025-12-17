@@ -1,6 +1,14 @@
 import { useState } from "react";
+import { Comment as CommentModel } from "../storage/models/Comment";
 
-export default function Comment({ isOpenend, onClose }: { isOpenend: boolean, onClose: () => void }) {
+type CommentProps = {
+    isOpenend: boolean;
+    annotationId: string;
+    onClose: () => void;
+    onSubmit: (newComment: CommentModel) => void;
+};
+
+export default function Comment({ isOpenend, annotationId, onClose, onSubmit }: CommentProps) {
     const [userName] = useState("Henk Janssen");
     const [comment, setComment] = useState("");
 
@@ -11,7 +19,16 @@ export default function Comment({ isOpenend, onClose }: { isOpenend: boolean, on
     }
 
     function handleSubmit() {
-        console.log("The following comment was submitted: ", comment);
+        const newComment: CommentModel = {
+            comment_id: crypto.randomUUID(),
+            annotation_id: annotationId,
+            user_id: "null", //TODO: Get the user_id from the user that is logged in.
+            contents: comment,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+        };
+
+        onSubmit(newComment); 
         setComment("");
         handleClose();
     }

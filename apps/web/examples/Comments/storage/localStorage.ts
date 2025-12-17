@@ -1,10 +1,28 @@
 import { Annotation } from "./models/Annotation";
 import { Document } from "./models/Document";
 import { pdfDocs } from "../../../components/pdfDocs";
+import type { Comment as CommentModel } from './models/Comment';
 
 const ANNOTATION_KEY = 'annotations';
 const DOCUMENT_KEY = 'documents';
+const COMMENT_KEY = 'comments';
 
+//COMMENTS
+//--------------------------------
+export function getComments(): CommentModel[] {
+    const comments = localStorage.getItem(COMMENT_KEY);
+    return comments ? JSON.parse(comments) : [];
+}
+
+export function storeComment(comment: CommentModel) {
+    console.log("Storing comment: ", comment);
+    const existingComments = getComments();
+    existingComments.push(comment);
+    localStorage.setItem(COMMENT_KEY, JSON.stringify(existingComments));
+}
+
+//ANNOTATIONS
+//--------------------------------
 export function getAnnotations(): Annotation[] {
     const annotations = localStorage.getItem(ANNOTATION_KEY);
     return annotations ? JSON.parse(annotations) : [];
@@ -22,6 +40,8 @@ export function deleteAnnotation(annotationId: string) {
     localStorage.setItem(ANNOTATION_KEY, JSON.stringify(filteredAnnotations));
 }
 
+//DOCUMENTS
+//--------------------------------
 export function getDocuments(): Document[] {
     const documents = localStorage.getItem(DOCUMENT_KEY);
     return documents ? JSON.parse(documents) : [];

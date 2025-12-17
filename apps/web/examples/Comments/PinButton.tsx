@@ -5,6 +5,11 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscPinnedDirty } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
+import { getAnnotations, storeAnnotation, storeComment } from "./storage/localStorage";
+import { initDocuments } from "./storage/localStorage";
+
+import { Annotation } from "./storage/models/Annotation";
+import type { AnnotationType } from "./storage/models/Annotation";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -22,6 +27,10 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
 
     useEffect(() => {
+        initDocuments();
+        const annotations = getAnnotations();
+        console.log(annotations);
+
         const container = (pdfSlick as any)?.viewer?.container as HTMLElement | undefined;
         if (!container) return;
         const onClick = (e: MouseEvent) => {
@@ -37,7 +46,22 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                 if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
                     const px = ((x - rect.left) / rect.width) * 100;
                     const py = ((y - rect.top) / rect.height) * 100;
-                    const newId = `${Date.now()}-${Math.random()}`;
+                    const newId = crypto.randomUUID();
+
+                    const newAnnotation: Annotation = {
+                        annotation_id: newId,
+                        user_id: "null", //TODO: Get the user_id from the user that is logged in.
+                        document_id: "null", //TODO: Get the document_id from the document that is open.
+                        annotation_type: "pin", //TODO: Use the AnnotationType enum.
+                        coordinates: `${px},${py}`,
+                        page: i + 1,
+                        color: "red", //TODO: Use the selected color from the color picker.
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
+                    };
+
+                    storeAnnotation(newAnnotation);
+
                     setPins((prev) => [
                         ...prev,
                         { id: newId, pageNumber: i + 1, x: px, y: py, color: pinColor },
@@ -103,10 +127,9 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                         <div>
                             <div style={{ width: 15, height: 15, borderRadius: "50%", background: pin.color }} />
                             <div onClick={(e) => e.stopPropagation()}>
-                                <Comment isOpenend={openCommentPinId === pin.id} onClose={() => setOpenCommentPinId(null)} />
+                                <Comment isOpenend={openCommentPinId === pin.id} annotationId={pin.id} onClose={() => setOpenCommentPinId(null)} onSubmit={storeComment} />
                             </div>
                         </div>
-
                         {selectedPinId === pin.id && ( // placeholder rectangle to delete pin
                             <div
                                 style={{

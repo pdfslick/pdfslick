@@ -1,4 +1,4 @@
-export type AnnotationType = 'highlight' | 'comment' | 'drawing';
+export type AnnotationType = 'highlight' | 'comment' | 'drawing' | 'pin';
 
 export interface Annotation {
     annotation_id: string;
@@ -10,4 +10,4 @@ export interface Annotation {
     color: string;
     created_at: string;
     updated_at: string;
-  }
+}
