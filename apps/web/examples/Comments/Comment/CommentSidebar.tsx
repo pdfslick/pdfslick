@@ -8,7 +8,7 @@ type CommentSidebarProps = {
 export default function CommentSidebar({ comments, isOpen }: CommentSidebarProps) {
     if (!isOpen) return null;
     return (
-        <div className="bg-gray-100 p-2 rounded-md shadow-md max-h-screen overflow-y-auto">
+        <div className="bg-gray-100 p-2 rounded-md shadow-md max-h-64 overflow-y-auto">
             <h1 className="text-large font-medium">Comments</h1>
                 {comments.map((comment) => (
                     <div key={comment.comment_id} className="border-b border-black-200 p-2">
