@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { usePDFSlick } from "@pdfslick/react";
 import Toolbar from "./Toolbar";
 import Thumbsbar from "./Thumbsbar";
+import CommentSidebar from "./Comment/CommentSidebar";
+import { getComments } from "./storage/localStorage";
 
 type CommentsProps = {
   pdfFilePath: string;
@@ -9,6 +11,7 @@ type CommentsProps = {
 
 export default function Comments({ pdfFilePath }: CommentsProps) {
   const [isThumbsbarOpen, setIsThumbsbarOpen] = useState(false);
+  const [isCommentSidebarOpen, setIsCommentSidebarOpen] = useState(true);
   const [loadedPerc, setLoadedPerc] = useState(0);
   const {
     isDocumentLoaded,
@@ -47,6 +50,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
           <div className="flex-1 relative h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
           </div>
+          <CommentSidebar comments={getComments() } isOpen={isCommentSidebarOpen} />
         </div>
       </div>
       {loadedPerc < 100 && (
