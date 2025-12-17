@@ -154,7 +154,6 @@ const Toolbar = ({
         <div className="px-1 space-x-1 flex items-center justify-end">
           <PinButton {...{ usePDFSlickStore }} />
 
-
           <Splitter />
 
           <div className="items-center space-x-1 hidden sm:flex">

@@ -4,6 +4,7 @@ import type { TUsePDFSlickStore } from "@pdfslick/react";
 import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscPinnedDirty } from "react-icons/vsc";
+import PinMenu from "./Toolbar/PinMenu";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -14,8 +15,9 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
     const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
 
+    const [pinColor, setPinColor] = useState("#ef4444"); // Default red color
     const [pins, setPins] = useState<
-        Array<{ id: string; pageNumber: number; x: number; y: number }>
+        Array<{ id: string; pageNumber: number; x: number; y: number; color: string }> // Added extra color property
     >([]);
     const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
 
@@ -38,7 +40,7 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                     const newId = `${Date.now()}-${Math.random()}`;
                     setPins((prev) => [
                         ...prev,
-                        { id: newId, pageNumber: i + 1, x: px, y: py },
+                        { id: newId, pageNumber: i + 1, x: px, y: py, color: pinColor },
                     ]);
                     setOpenCommentPinId(newId);
                     break;
@@ -58,17 +60,22 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
 
     return (
         <>
-            <button
-                type="button"
-                className={
+            <div
+                className={`flex items-center rounded-sm group ${
                     mode === AnnotationEditorType.STAMP
-                        ? "px-2 py-1 rounded-sm bg-blue-100 border border-blue-200 text-blue-700"
-                        : "px-2 py-1 rounded-sm border border-transparent enabled:hover:bg-slate-200 enabled:hover:text-black text-slate-500"
-                }
-                onClick={togglePinsMode}
+                        ? "bg-blue-100"
+                        : "hover:bg-slate-200/50"
+                }`}
             >
-                <VscPinnedDirty className="h-4 w-4" />
-            </button>
+                <button
+                    type="button"
+                    className="enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
+                    onClick={togglePinsMode}
+                >
+                    <VscPinnedDirty className="h-4 w-4" />
+                </button>
+                <PinMenu usePDFSlickStore={usePDFSlickStore} setPinColor={setPinColor} />
+            </div>
             {pins.map((pin) => {
                 const pageView = (pdfSlick as any).viewer?.getPageView?.(pin.pageNumber - 1);
                 const container = pageView?.div as HTMLElement | undefined;
@@ -94,7 +101,7 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                         }} // right click to delete (will be removed in the future)
                     >
                         <div>
-                            <div style={{ width: 15, height: 15, borderRadius: "50%", background: "red" }} />
+                            <div style={{ width: 15, height: 15, borderRadius: "50%", background: pin.color }} />
                             <div onClick={(e) => e.stopPropagation()}>
                                 <Comment isOpenend={openCommentPinId === pin.id} onClose={() => setOpenCommentPinId(null)} />
                             </div>
