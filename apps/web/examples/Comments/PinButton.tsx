@@ -12,9 +12,10 @@ import FloatingComment from "./Comment/FloatingComment";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
+    refreshComments: () => void;
 };
 
-export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
+export default function PinButton({ usePDFSlickStore, refreshComments }: PinButtonProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
@@ -30,6 +31,7 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
         console.log("handleDelete from PinButton");
         deleteComment(commentId);
         setSelectedPinId(null);
+        refreshComments();
     }
 
     function handleDeletePin(pinId: string) {
@@ -38,6 +40,7 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
         deleteCommentsFromAnnotation(pinId);
         setSelectedPinId(null);
         setAnnotations(getAnnotations());
+        refreshComments();
     }
 
     useEffect(() => {
@@ -139,7 +142,7 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
                         <div>
                             <div style={{ width: 15, height: 15, borderRadius: "50%", background: pin.color }} />
                             <div onClick={(e) => e.stopPropagation()}>
-                                <Comment isOpenend={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={storeComment} />
+                                <Comment isOpenend={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={(comment) => { storeComment(comment); refreshComments(); }} />
                             </div>
                         </div>
                         {selectedPinId === annotation.annotation_id && ( // placeholder rectangle to delete pin

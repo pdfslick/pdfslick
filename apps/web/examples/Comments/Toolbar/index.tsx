@@ -28,12 +28,14 @@ type TToolbarProps = {
   usePDFSlickStore: TUsePDFSlickStore;
   isThumbsbarOpen: boolean;
   setIsThumbsbarOpen: (s: boolean) => void;
+  refreshComments: () => void;
 };
 
 const Toolbar = ({
   usePDFSlickStore,
   isThumbsbarOpen,
   setIsThumbsbarOpen,
+  refreshComments,
 }: TToolbarProps) => {
   const pageNumberRef = useRef() as MutableRefObject<HTMLInputElement>;
   const openPdfFileRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -152,7 +154,7 @@ const Toolbar = ({
         </div>
 
         <div className="px-1 space-x-1 flex items-center justify-end">
-          <PinButton {...{ usePDFSlickStore }} />
+          <PinButton {...{ usePDFSlickStore, refreshComments }} />
 
           <Splitter />
 
