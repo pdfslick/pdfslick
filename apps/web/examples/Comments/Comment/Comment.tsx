@@ -13,7 +13,6 @@ export default function Comment({ isOpenend, annotationId, onClose, onSubmit }: 
     const [comment, setComment] = useState("");
 
     function handleClose() {
-        console.log("handleClose function called.");
         onClose();
         setComment("");
     }

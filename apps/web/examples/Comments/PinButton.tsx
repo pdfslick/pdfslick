@@ -5,7 +5,7 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscPinnedDirty, VscTrash } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
-import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation } from "./storage/localStorage";
+import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
 import { initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
 import FloatingComment from "./Comment/FloatingComment";
@@ -13,29 +13,39 @@ import FloatingComment from "./Comment/FloatingComment";
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
     refreshComments: () => void;
+    selectedCommentId: string | null;
 };
 
-export default function PinButton({ usePDFSlickStore, refreshComments }: PinButtonProps) {
+export default function PinButton({ usePDFSlickStore, refreshComments, selectedCommentId }: PinButtonProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
-    const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
+    const [selectedPinId, setSelectedPinId] = useState<string | null>();
 
+    useEffect(() => {
+        if (selectedCommentId) {
+            handleSelectComment(selectedCommentId);
+        }
+    }, [selectedCommentId]);
+
+    function handleSelectComment(commentId: string) {
+        const annotation = getAnnotationFromComment(commentId);
+        if (annotation) {
+            setSelectedPinId(annotation.annotation_id);
+        }
+    }
     function handleClose() {
-        console.log("handleClose from PinButton");
         setSelectedPinId(null);
     }
 
     function handleDelete(commentId: string) {
-        console.log("handleDelete from PinButton");
         deleteComment(commentId);
         setSelectedPinId(null);
         refreshComments();
     }
 
     function handleDeletePin(pinId: string) {
-        console.log("handleDeletePin from PinButton");
         deleteAnnotation(pinId);
         deleteCommentsFromAnnotation(pinId);
         setSelectedPinId(null);

@@ -13,12 +13,18 @@ type CommentsProps = {
 export default function Comments({ pdfFilePath }: CommentsProps) {
   const [isThumbsbarOpen, setIsThumbsbarOpen] = useState(false);
   const [isCommentSidebarOpen, setIsCommentSidebarOpen] = useState(true);
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>();
   const [loadedPerc, setLoadedPerc] = useState(0);
   const [comments, setComments] = useState<CommentModel[]>(getComments());
 
   const refreshComments = useCallback(() => {
     setComments(getComments());
   }, []);
+
+  const handleSelectComment = useCallback((commentId: string) => {
+    setSelectedCommentId(commentId);
+  }, []);
+
   const {
     isDocumentLoaded,
     viewerRef,
@@ -48,7 +54,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
     <>
       <div className="absolute inset-0 bg-slate-200/70 flex flex-col pdfSlick">
         <Toolbar
-          {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, refreshComments }}
+          {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, refreshComments, selectedCommentId: selectedCommentId ?? null }}
         />
         <div className="flex-1 flex">
           <Thumbsbar {...{ thumbsRef, usePDFSlickStore, isThumbsbarOpen }} />
@@ -56,7 +62,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
           <div className="flex-1 relative h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
           </div>
-          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} />
+          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={(commentId) => handleSelectComment(commentId)} />
         </div>
       </div>
       {loadedPerc < 100 && (

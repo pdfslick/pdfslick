@@ -23,24 +23,31 @@ export function getCommentsFromAnnotation(annotationId: string): CommentModel[] 
 }
 
 export function storeComment(comment: CommentModel) {
-    console.log("Storing comment: ", comment);
     const existingComments = getComments();
     existingComments.push(comment);
     localStorage.setItem(COMMENT_KEY, JSON.stringify(existingComments));
 }
 
 export function deleteComment(commentId: string) {
-    console.log("Deleting comment: ", commentId);
     const existingComments = getComments();
     const filteredComments = existingComments.filter((comment: CommentModel) => comment.comment_id !== commentId);
     localStorage.setItem(COMMENT_KEY, JSON.stringify(filteredComments));
 }
 
 export function deleteCommentsFromAnnotation(annotationId: string) {
-    console.log("Deleting comments from annotation: ", annotationId);
     const existingComments = getComments();
     const filteredComments = existingComments.filter((comment: CommentModel) => comment.annotation_id !== annotationId);
     localStorage.setItem(COMMENT_KEY, JSON.stringify(filteredComments));
+}
+
+export function getAnnotationFromComment(commentId: string): Annotation | null {
+    const existingComments = getComments();
+    const existingComment = existingComments.find((comment: CommentModel) => comment.comment_id === commentId);
+    const existingAnnotations = getAnnotations()
+    const existingAnnotation = existingAnnotations.find((annotation: Annotation) => annotation.annotation_id === existingComment?.annotation_id);
+
+    if (!existingAnnotation) return null;
+    return existingAnnotation;
 }
 
 //ANNOTATIONS
@@ -57,7 +64,6 @@ export function storeAnnotation(annotation: Annotation) {
 }
 
 export function deleteAnnotation(annotationId: string) {
-    console.log("Deleting annotation: ", annotationId);
     const existingAnnotations = getAnnotations();
     const filteredAnnotations = existingAnnotations.filter((annotation) => annotation.annotation_id !== annotationId);
     localStorage.setItem(ANNOTATION_KEY, JSON.stringify(filteredAnnotations));

@@ -13,12 +13,10 @@ export default function FloatingComment({ comments, onClose, onDelete }: Floatin
     const [selectedCommentId] = useState<string | null>(comments[0]?.comment_id ?? null);
 
     function handleClose() {
-        console.log("handleClose");
         onClose();
     }
 
     function handleDelete(commentId: string) {
-        console.log("handleDelete");
         onDelete(commentId);
     }
 
