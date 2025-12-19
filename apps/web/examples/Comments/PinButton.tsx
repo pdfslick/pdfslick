@@ -64,6 +64,17 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
         if (!container) return;
         const onClick = (e: MouseEvent) => {
             if (mode !== AnnotationEditorType.STAMP) return;
+            
+            if (openCommentPinId) {
+                setOpenCommentPinId(null);
+                return;
+            }
+            
+            if (selectedPinId) {
+                setSelectedPinId(null);
+                return;
+            }
+            
             const x = e.clientX;
             const y = e.clientY;
             const numPages = pdfSlick?.document?.numPages ?? 0;
@@ -102,7 +113,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
         };
         container.addEventListener("click", onClick);
         return () => container.removeEventListener("click", onClick);
-    }, [pdfSlick, mode]);
+    }, [pdfSlick, mode, openCommentPinId, selectedPinId]);
 
     const togglePinsMode = () => {
         if (!pdfSlick) return;
@@ -147,6 +158,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                         onClick={(e) => {
                             e.stopPropagation();
                             setSelectedPinId(annotation.annotation_id);
+                            setOpenCommentPinId(null);
                         }}
                         onContextMenu={(e) => { // onContextMenu = right click
                             e.preventDefault(); // stop the usual behaviour (open context menu)
