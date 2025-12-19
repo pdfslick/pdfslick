@@ -42,7 +42,7 @@ export default function Comment({ isOpenend, annotationId, onClose, onSubmit }: 
             <p onClick={handleClose} className="cursor-pointer">❌</p>
         </div>
         <div className="flex flex-col">
-            <input type="text" className="border border-slate-300 rounded p-2" value={comment} onChange={(e) => setComment(e.target.value)} />
+            <input type="text" className="border border-slate-300 rounded p-2" value={comment} onChange={(e) => setComment(e.target.value)} onKeyDown={(e) => e.stopPropagation()} />
             <button className="bg-gray-600 hover:bg-gray-500 text-white mt-2 rounded" onClick={handleSubmit}>Submit</button>
         </div>
   </div>

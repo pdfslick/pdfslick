@@ -29,6 +29,13 @@ export function storeComment(comment: CommentModel) {
     localStorage.setItem(COMMENT_KEY, JSON.stringify(existingComments));
 }
 
+export function deleteComment(commentId: string) {
+    console.log("Deleting comment: ", commentId);
+    const existingComments = getComments();
+    const filteredComments = existingComments.filter((comment: CommentModel) => comment.comment_id !== commentId);
+    localStorage.setItem(COMMENT_KEY, JSON.stringify(filteredComments));
+}
+
 //ANNOTATIONS
 //--------------------------------
 export function getAnnotations(): Annotation[] {
@@ -43,6 +50,7 @@ export function storeAnnotation(annotation: Annotation) {
 }
 
 export function deleteAnnotation(annotationId: string) {
+    console.log("Deleting annotation: ", annotationId);
     const existingAnnotations = getAnnotations();
     const filteredAnnotations = existingAnnotations.filter((annotation) => annotation.annotation_id !== annotationId);
     localStorage.setItem(ANNOTATION_KEY, JSON.stringify(filteredAnnotations));
