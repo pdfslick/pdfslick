@@ -36,6 +36,13 @@ export function deleteComment(commentId: string) {
     localStorage.setItem(COMMENT_KEY, JSON.stringify(filteredComments));
 }
 
+export function deleteCommentsFromAnnotation(annotationId: string) {
+    console.log("Deleting comments from annotation: ", annotationId);
+    const existingComments = getComments();
+    const filteredComments = existingComments.filter((comment: CommentModel) => comment.annotation_id !== annotationId);
+    localStorage.setItem(COMMENT_KEY, JSON.stringify(filteredComments));
+}
+
 //ANNOTATIONS
 //--------------------------------
 export function getAnnotations(): Annotation[] {

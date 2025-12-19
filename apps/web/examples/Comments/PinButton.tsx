@@ -5,7 +5,7 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscPinnedDirty, VscTrash } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
-import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation } from "./storage/localStorage";
+import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation } from "./storage/localStorage";
 import { initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
 import FloatingComment from "./Comment/FloatingComment";
@@ -35,9 +35,9 @@ export default function PinButton({ usePDFSlickStore }: PinButtonProps) {
     function handleDeletePin(pinId: string) {
         console.log("handleDeletePin from PinButton");
         deleteAnnotation(pinId);
+        deleteCommentsFromAnnotation(pinId);
         setSelectedPinId(null);
         setAnnotations(getAnnotations());
-        // Remove the attached comments from the pin/annotation.
     }
 
     useEffect(() => {
