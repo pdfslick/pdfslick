@@ -53,6 +53,11 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
         refreshComments();
     }
 
+    function handleAddComment() {
+        setOpenCommentPinId(selectedPinId ?? "");
+        handleClose();
+    }
+
     useEffect(() => {
         initDocuments();
         const container = (pdfSlick as any)?.viewer?.container as HTMLElement | undefined;
@@ -175,7 +180,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                             >
                                 <VscTrash style={{width: '30px', height: '30px', color: 'white'}} />
                             </div>
-                            <FloatingComment comments={getCommentsFromAnnotation(annotation.annotation_id)} onClose={() => handleClose()} onDelete={(commentId: string) => handleDelete(commentId)}/>
+                            <FloatingComment comments={getCommentsFromAnnotation(annotation.annotation_id)} onClose={() => handleClose()} onDelete={(commentId: string) => handleDelete(commentId)} onAddComment={() => handleAddComment()}/>
                         </div>
                         )}
                     </div>,

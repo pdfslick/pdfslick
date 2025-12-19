@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Comment as CommentModel } from "../storage/models/Comment";
-import { VscClose, VscTrash } from "react-icons/vsc";
+import { VscClose, VscComment, VscTrash } from "react-icons/vsc";
 
 type FloatingCommentProps = {
     comments: CommentModel[] | null;
     onClose: () => void;
     onDelete: (commentId: string) => void;
+    onAddComment: () => void;
 };
 
-export default function FloatingComment({ comments, onClose, onDelete }: FloatingCommentProps) {
+export default function FloatingComment({ comments, onClose, onDelete, onAddComment }: FloatingCommentProps) {
     if (!comments) return null;
     const [selectedCommentId] = useState<string | null>(comments[0]?.comment_id ?? null);
 
@@ -20,15 +21,22 @@ export default function FloatingComment({ comments, onClose, onDelete }: Floatin
         onDelete(commentId);
     }
 
+    function handleAddComment() {
+        onAddComment();
+    }
+
   return (
     <div>
         <div className="fixed left-4 top-4 bg-gray-800 z-10 p-3 rounded shadow-lg text-white">
             <div className="flex justify-between gap-4">
-                <div onClick={(e) => { e.stopPropagation(); handleClose(); }} className="cursor-pointer">
+                <div onClick={(e) => { e.stopPropagation(); handleClose(); }} className="cursor-pointer hover:text-gray-400">
                     <VscClose className="h-4 w-4" />
                 </div>
-                <div onClick={(e) => { e.stopPropagation(); handleDelete(selectedCommentId ?? ""); }} className="cursor-pointer">
-                    <VscTrash className="h-4 w-4" onClick={() => handleDelete(selectedCommentId ?? "")} />
+                <div onClick={(e) => { e.stopPropagation(); handleDelete(selectedCommentId ?? ""); }} className="cursor-pointer hover:text-gray-400">
+                    <VscTrash className="h-4 w-4"/>
+                </div>
+                <div onClick={(e) => { e.stopPropagation(); handleAddComment(); }} className="cursor-pointer hover:text-gray-400">
+                    <VscComment className="h-4 w-4" />
                 </div>
             </div>
             {comments.map((comment) => (
