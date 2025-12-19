@@ -4,7 +4,7 @@ import { useState } from "react";
 type CommentSidebarProps = {
     comments: CommentModel[];
     isOpen: boolean;
-    onSelectComment: (commentId: string) => void;
+    onSelectComment: (commentId: string | null) => void;
 };
 
 export default function CommentSidebar({ comments, isOpen, onSelectComment }: CommentSidebarProps) {
@@ -13,6 +13,7 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment }: Co
     function handleSelectComment(commentId: string) {
         if (commentId === selectedCommentId) {
             setSelectedCommentId(null);
+            onSelectComment(null);
             return;
         }
 

@@ -21,7 +21,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
     setComments(getComments());
   }, []);
 
-  const handleSelectComment = useCallback((commentId: string) => {
+  const handleSelectComment = useCallback((commentId: string | null) => {
     setSelectedCommentId(commentId);
   }, []);
 
@@ -62,7 +62,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
           <div className="flex-1 relative h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
           </div>
-          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={(commentId) => handleSelectComment(commentId)} />
+          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={handleSelectComment} />
         </div>
       </div>
       {loadedPerc < 100 && (

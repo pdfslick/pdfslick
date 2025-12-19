@@ -24,12 +24,15 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
     const [selectedPinId, setSelectedPinId] = useState<string | null>();
 
     useEffect(() => {
-        if (selectedCommentId) {
-            handleSelectComment(selectedCommentId);
-        }
+        handleSelectComment(selectedCommentId);
     }, [selectedCommentId]);
 
-    function handleSelectComment(commentId: string) {
+    function handleSelectComment(commentId: string | null) {
+        if (commentId == null) {
+            setSelectedPinId(null);
+            return;
+        }
+
         const annotation = getAnnotationFromComment(commentId);
         if (annotation) {
             setSelectedPinId(annotation.annotation_id);
