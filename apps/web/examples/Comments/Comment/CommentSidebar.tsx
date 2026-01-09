@@ -1,6 +1,6 @@
 import type { Comment as CommentModel } from "../storage/models/Comment";
 import { useState } from "react";
-import { CgCloseO } from "react-icons/cg";
+import { VscClose, VscChevronDown } from "react-icons/vsc";
 
 type CommentSidebarProps = {
     comments: CommentModel[];
@@ -26,12 +26,14 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment }: Co
     return (
         <div className="comments-panel p-6 overflow-y-auto">
 
-            <CgCloseO className="comments-panel-close" />
+            <VscClose className="comments-panel-close" />
             <h1 className="w-32 h-7 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
             
             <div className="mt-6 mb-4 flex items-center gap-2">
                 <div className="text-base" style={{ color: '#45556C' }}>Sort by:</div>
-                <div className="w-40 h-8 bg-white rounded-sm border border-[#CAD5E2] ml-2" />
+                <div className="w-40 h-8 bg-white rounded-sm border border-[#CAD5E2] ml-2 flex items-center justify-end px-2">
+                    <VscChevronDown className="w-3 h-3" style={{ color: '#696969' }} />
+                </div>
             </div>
 
             {comments.map((comment) => (
