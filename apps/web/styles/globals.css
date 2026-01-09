@@ -47,8 +47,9 @@
   /* Comment Box Styles */
 
   
+
   .comment-box {
-    @apply w-72 h-43 left-0 top-0 absolute bg-white rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
+    @apply w-73 h-43 left-0 top-0 absolute bg-white rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
   }
 
   .comment-title {
@@ -63,11 +64,15 @@
     @apply w-58 h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300;
   }
 
+  .comment-save-container {
+    @apply w-16 h-4 left-[210px] top-[141px] absolute relative rounded-sm cursor-pointer;
+  }
+
   .comment-save {
-    @apply w-16 h-4 left-[210px] top-[146px] absolute bg-white rounded-sm shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 cursor-pointer;
+    @apply w-16 h-4.5 left-0 top-0 absolute bg-white rounded-sm shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 cursor-pointer;
   }
 
   .comment-save-text {
-    @apply left-[228px] top-[146px] absolute justify-center text-gray-400 text-xs font-normal font-['Inter'];
+    @apply left-[18px] top-[1px] absolute justify-center text-gray-400 text-xs font-normal font-['Inter'];
   }
 }
