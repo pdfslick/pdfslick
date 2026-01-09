@@ -49,3 +49,8 @@ Comments/index.tsx          ← Main component (state + localStorage)
 - `Pin/PinActions.tsx` - Selected pin actions
 - `Pin/PinDeleteButton.tsx` - Delete button
 - `Pin/hooks/usePinPlacement.tsx` - Click handling hook
+
+## Future Plan
+
+- Introduce `PinContext` / `CommentsContext` to eliminate prop drilling through multiple layers
+- Extract state from `index.tsx` into custom hooks (`useAnnotations`, `useComments`)
