@@ -126,4 +126,12 @@
   .comment-footer {
     @apply flex justify-end;
   }
+
+  .comments-panel {
+    @apply w-80 h-[calc(100%-5rem)] bg-slate-50 rounded shadow-[0px_2px_2px_0px_rgba(0,0,0,0.10)] border border-[#CAD5E2] my-4 mr-4;
+  }
+
+  .comments-panel-close {
+    @apply w-4 h-4 right-[28px] top-[28px] absolute cursor-pointer text-[#62748E] hover:text-black;
+  }
 }

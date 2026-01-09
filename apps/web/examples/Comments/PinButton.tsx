@@ -121,7 +121,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
         };
         container.addEventListener("click", onClick);
         return () => container.removeEventListener("click", onClick);
-    }, [pdfSlick, mode, openCommentPinId, selectedPinId]);
+    }, [pdfSlick, mode, openCommentPinId, selectedPinId, pinColor]);
 
     const togglePinsMode = () => {
         if (!pdfSlick) return;
