@@ -1,6 +1,5 @@
 import { Annotation } from "./models/Annotation";
 import { Document } from "./models/Document";
-import { pdfDocs } from "../../../components/pdfDocs";
 import type { Comment as CommentModel } from './models/Comment';
 
 const ANNOTATION_KEY = 'annotations';
@@ -81,23 +80,3 @@ export function storeDocument(document: Document) {
     existingDocuments.push(document);
     localStorage.setItem(DOCUMENT_KEY, JSON.stringify(existingDocuments));
 }
-
-export function initDocuments() {
-    //IMPORTANT NOTE: These PDF-file names are hardcoded in the pdfDocs.ts file. (pdfDocs.ts is already part of PDFSlick).
-    const entries = Object.entries(pdfDocs);
-
-    if (!localStorage.getItem(DOCUMENT_KEY)) {
-        const documents: Document[] = entries.map(([_, doc]) => ({
-          document_id: crypto.randomUUID(),
-          document_name: doc.title ?? doc.name,
-          document_url: doc.url,
-          document_filetype: 'pdf',
-          document_size: doc.size ?? 0,
-          amount_of_pages: 0,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }));
-      
-        localStorage.setItem(DOCUMENT_KEY, JSON.stringify(documents));
-    }
-  }

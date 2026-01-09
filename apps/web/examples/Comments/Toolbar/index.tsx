@@ -28,24 +28,18 @@ type TToolbarProps = {
   usePDFSlickStore: TUsePDFSlickStore;
   isThumbsbarOpen: boolean;
   setIsThumbsbarOpen: (s: boolean) => void;
-  refreshComments: () => void;
-  selectedCommentId: string | null;
-  replyCommentId: string | null;
-  onReplyHandled: () => void;
-  isCommentSidebarOpen: boolean;
-  setIsCommentSidebarOpen: (s: boolean) => void;
+  isPinModeActive: boolean;
+  onPinToggle: () => void;
+  setPinColor: (color: string) => void;
 };
 
 const Toolbar = ({
   usePDFSlickStore,
   isThumbsbarOpen,
   setIsThumbsbarOpen,
-  refreshComments,
-  selectedCommentId,
-  replyCommentId,
-  onReplyHandled,
-  isCommentSidebarOpen,
-  setIsCommentSidebarOpen,
+  isPinModeActive,
+  onPinToggle,
+  setPinColor,
 }: TToolbarProps) => {
   const pageNumberRef = useRef() as MutableRefObject<HTMLInputElement>;
   const openPdfFileRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -164,8 +158,12 @@ const Toolbar = ({
         </div>
 
         <div className="px-1 space-x-1 flex items-center justify-end">
-          <PinButton {...{ usePDFSlickStore, refreshComments, selectedCommentId, replyCommentId, onReplyHandled, isCommentSidebarOpen, setIsCommentSidebarOpen }} />
-
+          <PinButton 
+              isActive={isPinModeActive}
+              onToggle={onPinToggle}
+              usePDFSlickStore={usePDFSlickStore}
+              setPinColor={setPinColor}
+          />
           <Splitter />
 
           <div className="items-center space-x-1 hidden sm:flex">
