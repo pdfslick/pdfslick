@@ -5,7 +5,9 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscTrash, VscComment } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
+import { VscTrash } from "react-icons/vsc";
 import { BsPinAngle } from "react-icons/bs";
+import { IoMdPin } from "react-icons/io";
 import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
 import { initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
@@ -184,7 +186,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                         }} // right click to delete (will be removed in the future)
                     >
                         <div>
-                            <div style={{ width: 15, height: 15, borderRadius: "50%", background: pin.color }} />
+                            <IoMdPin style={{ fontSize: '24px', color: annotation.color, filter: 'drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3))' }} />
                             <div onClick={(e) => e.stopPropagation()}>
                                 <Comment isOpened={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={(comment) => { storeComment(comment); refreshComments(); }} />
                             </div>
