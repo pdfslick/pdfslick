@@ -8,8 +8,13 @@ type CommentSidebarProps = {
     onSelectComment: (commentId: string | null) => void;
 };
 
+type SortOption = "date" | "page";
+
 export default function CommentSidebar({ comments, isOpen, onSelectComment }: CommentSidebarProps) {
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+    // For dropdown menu
+    const [sortBy, setSortBy] = useState<SortOption>("page");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     function handleSelectComment(commentId: string) {
         if (commentId === selectedCommentId) {
@@ -31,8 +36,38 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment }: Co
             
             <div className="mt-6 mb-4 flex items-center gap-2">
                 <div className="text-base" style={{ color: '#45556C' }}>Sort by:</div>
-                <div className="w-40 h-8 bg-white rounded-sm border border-[#CAD5E2] ml-2 flex items-center justify-end px-2">
-                    <VscChevronDown className="w-3 h-3" style={{ color: '#696969' }} />
+                
+                {/* Dropdown menu */}
+                <div className="relative ml-2">
+                    <button
+                        className="w-40 h-8 bg-white rounded-sm border border-[#CAD5E2] flex items-center justify-between px-2 hover:bg-gray-50"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    >
+                        <span className="text-sm font-light font-['Inter'] text-neutral-500 capitalize">{sortBy}</span>
+                        <VscChevronDown className="w-3 h-3" style={{ color: '#696969' }} />
+                    </button>
+                    {isDropdownOpen && (
+                        <div className="absolute top-full mt-1 w-40 bg-white rounded-sm border border-[#CAD5E2] shadow-lg z-10">
+                            <button
+                                className="w-full px-3 py-1 justify-start text-neutral-500 text-sm font-light font-['Inter'] text-left hover:bg-gray-100"
+                                onClick={() => {
+                                    setSortBy("date");
+                                    setIsDropdownOpen(false);
+                                }}
+                            >
+                                Date
+                            </button>
+                            <button
+                                className="w-full px-3 py-1 justify-start text-neutral-500 text-sm font-light font-['Inter'] text-left hover:bg-gray-100"
+                                onClick={() => {
+                                    setSortBy("page");
+                                    setIsDropdownOpen(false);
+                                }}
+                            >
+                                Page
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
