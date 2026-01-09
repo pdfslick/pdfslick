@@ -12,6 +12,7 @@ import { initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
 import FloatingComment from "./Comment/CommentOverlay";
 import Pin from "./Pin/Pin";
+import PinDeleteButton from "./Pin/PinDeleteButton";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -207,24 +208,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                         </div>
                         {selectedPinId === annotation.annotation_id && ( // placeholder rectangle to delete pin
                         <div>
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    bottom: '15px',
-                                    left: '15px',
-                                    width: '30px',
-                                    height: '30px',
-                                    background: '',
-                                    cursor: 'pointer'
-                                }}
-                                onClick={(e) => {
-                                    e.stopPropagation(); // prevent triggering pin selection again from parent div
-                                    handleDeletePin(annotation.annotation_id);
-                                    setSelectedPinId(null);
-                                }}
-                            >
-                                <VscTrash style={{width: '25px', height: '25px', color: '#6b7e98', background: '#e3e6eb', borderRadius: '5%', border: '1px solid #6b7e98', padding: '5px', justifyContent: 'center', alignItems: 'center'}} />
-                            </div>
+                            <PinDeleteButton handleDeletePin={handleDeletePin} setSelectedPinId={setSelectedPinId} annotationId={annotation.annotation_id} />
                             <FloatingComment comments={getCommentsFromAnnotation(annotation.annotation_id)} onClose={() => handleClose()} onDelete={(commentId: string) => handleDelete(commentId)} onAddComment={() => handleAddComment()}/>
                         </div>
                         )}
