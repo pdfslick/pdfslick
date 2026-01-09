@@ -186,7 +186,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                         }} // right click to delete (will be removed in the future)
                     >
                         <div>
-                            <IoMdPin style={{ fontSize: '24px', color: annotation.color, filter: 'drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3))' }} />
+                            <IoMdPin style={{ fontSize: '24px', color: annotation.color, filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.25))' }} />
                             <div onClick={(e) => e.stopPropagation()}>
                                 <Comment isOpened={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={(comment) => { storeComment(comment); refreshComments(); }} />
                             </div>
