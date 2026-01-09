@@ -54,7 +54,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
     <>
       <div className="absolute inset-0 bg-slate-200/70 flex flex-col pdfSlick">
         <Toolbar
-          {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, refreshComments, selectedCommentId: selectedCommentId ?? null }}
+          {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, refreshComments, selectedCommentId: selectedCommentId ?? null, isCommentSidebarOpen, setIsCommentSidebarOpen }}
         />
         <div className="flex-1 flex">
           <Thumbsbar {...{ thumbsRef, usePDFSlickStore, isThumbsbarOpen }} />

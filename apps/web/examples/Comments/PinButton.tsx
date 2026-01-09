@@ -3,8 +3,9 @@ import { createPortal } from "react-dom";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
-import { VscPinnedDirty, VscTrash } from "react-icons/vsc";
+import { VscTrash, VscComment } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
+import { BsPinAngle } from "react-icons/bs";
 import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
 import { initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
@@ -14,9 +15,11 @@ type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
     refreshComments: () => void;
     selectedCommentId: string | null;
+    isCommentSidebarOpen: boolean;
+    setIsCommentSidebarOpen: (s: boolean) => void;
 };
 
-export default function PinButton({ usePDFSlickStore, refreshComments, selectedCommentId }: PinButtonProps) {
+export default function PinButton({ usePDFSlickStore, refreshComments, selectedCommentId, isCommentSidebarOpen, setIsCommentSidebarOpen }: PinButtonProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
@@ -127,21 +130,32 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
 
     return (
         <>
-            <div
-                className={`flex items-center rounded-sm group ${
-                    mode === AnnotationEditorType.STAMP
-                        ? "bg-blue-100"
-                        : "hover:bg-slate-200/50"
-                }`}
-            >
+            <div className="flex items-center rounded-sm">
                 <button
                     type="button"
-                    className="enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
-                    onClick={() => { togglePinsMode(); setAnnotations(getAnnotations()); }}
+                    className={`enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent hover:bg-slate-200/50 ${
+                        isCommentSidebarOpen ? "bg-blue-100" : ""
+                    }`}
+                    onClick={() => setIsCommentSidebarOpen(!isCommentSidebarOpen)}
                 >
-                    <VscPinnedDirty className="h-4 w-4" />
+                    <VscComment className="h-4 w-4" />
                 </button>
-                <PinMenu usePDFSlickStore={usePDFSlickStore} setPinColor={setPinColor} />
+                <div
+                    className={`flex items-center rounded-sm group ${
+                        mode === AnnotationEditorType.STAMP
+                            ? "bg-blue-100"
+                            : ""
+                    }`}
+                >
+                    <button
+                        type="button"
+                        className="enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent hover:bg-slate-200/50"
+                        onClick={() => { togglePinsMode(); setAnnotations(getAnnotations()); }}
+                    >
+                        <BsPinAngle className="h-4 w-4" />
+                    </button>
+                    <PinMenu usePDFSlickStore={usePDFSlickStore} setPinColor={setPinColor} />
+                </div>
             </div>
             {annotations.map((annotation) => {
                 const pageView = (pdfSlick as any).viewer?.getPageView?.(annotation.page - 1);

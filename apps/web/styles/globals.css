@@ -65,7 +65,12 @@
   }
 
   .comment-input {
-    @apply w-58 h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300 text-sm;
+    @apply w-58 min-h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300 text-sm resize-y;
+    field-sizing: content;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: auto;
   }
 
   .comment-btn-container {
@@ -117,5 +122,4 @@
   .comment-footer {
     @apply flex justify-end;
   }
-
 }
