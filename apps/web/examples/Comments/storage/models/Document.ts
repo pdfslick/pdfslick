@@ -1,6 +1,6 @@
 export interface Document {
     document_id: string;
-    user_id?: string;           //Current user_id is optional, since we are not logged in yet.
+    user_id?: string;           //TODO: Make user_id required. Current user_id is optional, since we are not logged in yet.
     document_name: string;
     document_url: string;
     document_filetype: string;
