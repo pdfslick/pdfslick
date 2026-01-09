@@ -27,7 +27,7 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment }: Co
             <h1 className="text-large font-medium">Comments</h1>
                 {comments.map((comment) => (
                     <div key={comment.comment_id} className={`border-b border-black-200 p-2 cursor-pointer hover:bg-gray-200 ${selectedCommentId === comment.comment_id ? "bg-gray-200" : "bg-white"}`} onClick={() => handleSelectComment(comment.comment_id)}>
-                        <h1 className="text-sm font-medium">User: {comment.user_id}</h1>
+                        <h1 className="text-sm font-medium">User: {comment.user_name}</h1>
                         <h2 className="text-sm font-small">Comment: {comment.contents}</h2>
                         <p className="text-xs text-gray-500">Created at: {comment.created_at}</p>
                     </div>  

@@ -2,6 +2,13 @@ import { useState } from "react";
 import { Comment as CommentModel } from "../storage/models/Comment";
 import { VscClose, VscComment, VscTrash } from "react-icons/vsc";
 
+function getInitials(name: string) {
+    if (!name) return "";
+    const parts = name.split(" ");
+    const initials = parts.map(part => part[0]?.toUpperCase()).join("");
+    return initials.slice(0, 2); // Limit to 2 characters
+}
+
 type FloatingCommentProps = {
     comments: CommentModel[] | null;
     onClose: () => void;
@@ -26,44 +33,46 @@ export default function FloatingComment({ comments, onClose, onDelete, onAddComm
         onAddComment();
     }
 
-  return (
-    <div className="comment-box h-38 p-4 z-10">
-      <div className="comment-header">
-        <div className="comment-author">
-          <img 
-            className="comment-author-avatar" 
-            src="https://placehold.co/40x40" 
-            alt="User avatar"
-          />
-          <div>
-            <div className="comment-authorname">Albert Flores</div>
-            <div className="comment-date">{new Date(selectedComment.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} {new Date(selectedComment.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
-          </div>
-        </div>
-        <div className="comment-actions">
-          <VscTrash 
-            onClick={(e) => { e.stopPropagation(); handleDelete(selectedCommentId ?? ""); }} 
-            className="comment-icon text-xl cursor-pointer" 
-          />
-          <VscClose 
-            onClick={(e) => { e.stopPropagation(); handleClose(); }} 
-            className="comment-icon text-xl cursor-pointer" 
-          />
-        </div>
-      </div>
-      <div className="comment-divider"></div>
-      <div className="comment-content">
-        {selectedComment?.contents || ""}
-      </div>
-      <div className="comment-footer">
-        <div 
-          onClick={(e) => { e.stopPropagation(); handleAddComment(); }}
-          className="comment-btn-container"
-        >
-          <span className="comment-btn-text">Reply</span>
-        </div>
-      </div>
-    </div>
-  )
 
+    return (
+        <div className="comment-box flex flex-col p-4 h-38 z-10">
+            <div className="comment-header">
+                <div className="comment-author">
+                    {/* Avatar with initials */}
+                    <div 
+                        className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full" 
+                        style={{ width: "40px", height: "40px" }}
+                    >
+                        {getInitials(selectedComment.user_name)}
+                    </div>
+                    <div>
+                        <div className="comment-authorname">{selectedComment.user_name}</div>
+                        <div className="comment-date">{new Date(selectedComment.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} {new Date(selectedComment.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
+                    </div>
+                </div>
+                <div className="comment-actions">
+                    <VscTrash 
+                        onClick={(e) => { e.stopPropagation(); handleDelete(selectedCommentId ?? ""); }} 
+                        className="comment-icon text-xl cursor-pointer" 
+                    />
+                    <VscClose 
+                        onClick={(e) => { e.stopPropagation(); handleClose(); }} 
+                        className="comment-icon text-xl cursor-pointer" 
+                    />
+                </div>
+            </div>
+            <div className="comment-divider"></div>
+            <div className="comment-content">
+                {selectedComment?.contents || ""}
+            </div>
+            <div className="comment-footer">
+                <div 
+                    onClick={(e) => { e.stopPropagation(); handleAddComment(); }}
+                    className="comment-btn-container"
+                >
+                    <span className="comment-btn-text">Reply</span>
+                </div>
+            </div>
+        </div>
+    );
 }

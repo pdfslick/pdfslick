@@ -53,19 +53,23 @@
   /* Comment Box Styles */
 
   .comment-box {
-    @apply w-73 h-43 left-3 top-3 absolute bg-[#ffffff] rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
+    @apply w-73 absolute left-3 top-3 bg-[#ffffff] rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
   }
 
   .comment-title {
-    @apply left-[17px] top-[12px] absolute justify-center text-black text-base font-normal font-['Inter'];
+    @apply text-black text-base font-normal font-['Inter'];
   }
 
   .comment-close {
-    @apply w-4 h-4 left-[260px] top-[14px] absolute cursor-pointer text-[#62748E] hover:text-black;
+    @apply w-4 h-4 text-[#62748E] hover:text-black;
+  }
+
+  .comment-name-input {
+    @apply w-[calc(100%-20px)] h-5 bg-white rounded-sm border border-slate-300 text-sm px-2;
   }
 
   .comment-input {
-    @apply w-58 min-h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300 text-sm resize-y;
+    @apply w-[calc(100%-20px)] min-h-14 bg-white rounded-sm border border-slate-300 text-sm resize-y px-2;
     field-sizing: content;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -74,7 +78,7 @@
   }
 
   .comment-btn-container {
-    @apply absolute bottom-3 right-5 w-16 h-4.5 rounded-sm cursor-pointer bg-white shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center;
+    @apply w-16 h-6 rounded-sm cursor-pointer bg-white shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center;
   }
 
   .comment-btn-text {
