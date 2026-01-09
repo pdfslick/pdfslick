@@ -43,4 +43,31 @@
   body {
     @apply h-full;
   }
+
+  /* Comment Box Styles */
+
+  
+  .comment-box {
+    @apply w-72 h-43 left-0 top-0 absolute bg-white rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
+  }
+
+  .comment-title {
+    @apply left-[17px] top-[12px] absolute justify-center text-black text-base font-normal font-['Inter'];
+  }
+
+  .comment-close {
+    @apply w-4 h-4 left-[260px] top-[14px] absolute cursor-pointer text-[#62748E] hover:text-black;
+  }
+
+  .comment-input {
+    @apply w-58 h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300;
+  }
+
+  .comment-save {
+    @apply w-16 h-4 left-[210px] top-[146px] absolute bg-white rounded-sm shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 cursor-pointer;
+  }
+
+  .comment-save-text {
+    @apply left-[228px] top-[146px] absolute justify-center text-gray-400 text-xs font-normal font-['Inter'];
+  }
 }

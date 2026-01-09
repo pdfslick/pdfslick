@@ -1,15 +1,15 @@
 import { useState } from "react";
+import { CgCloseO } from "react-icons/cg";
 import { Comment as CommentModel } from "../storage/models/Comment";
 
 type CommentProps = {
-    isOpenend: boolean;
+    isOpened: boolean;
     annotationId: string;
     onClose: () => void;
     onSubmit: (newComment: CommentModel) => void;
 };
 
-export default function Comment({ isOpenend, annotationId, onClose, onSubmit }: CommentProps) {
-    const [userName] = useState("Henk Janssen");
+export default function Comment({ isOpened, annotationId, onClose, onSubmit }: CommentProps) {
     const [comment, setComment] = useState("");
 
     function handleClose() {
@@ -33,17 +33,14 @@ export default function Comment({ isOpenend, annotationId, onClose, onSubmit }: 
     }
     
   return (
-    <div className={`fixed left-4 top-4 bg-gray-800 z-10 p-3 rounded shadow-lg ${
-        isOpenend ? 'visible' : 'invisible'
+    <div className={`comment-box ${ 
+        isOpened ? 'visible' : 'invisible'
       }`}>
-        <div className="flex justify-between items-center">
-            <p className="text-white text-xs">{userName}</p>
-            <p onClick={handleClose} className="cursor-pointer">❌</p>
-        </div>
-        <div className="flex flex-col">
-            <input type="text" className="border border-slate-300 rounded p-2" value={comment} onChange={(e) => setComment(e.target.value)} onKeyDown={(e) => e.stopPropagation()} />
-            <button className="bg-gray-600 hover:bg-gray-500 text-white mt-2 rounded" onClick={handleSubmit}>Submit</button>
-        </div>
+        <div className="comment-title">Add a comment</div>
+        <CgCloseO className="comment-close" onClick={handleClose} />
+        <textarea className="comment-input" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Type here..." />
+        <div className="comment-save" onClick={handleSubmit} />
+        <div className="comment-save-text">Save</div>
   </div>
   )
 
