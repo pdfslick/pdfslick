@@ -39,9 +39,9 @@ export default function Comment({ isOpened, annotationId, onClose, onSubmit }: C
         <div className="comment-title">Add a comment</div>
         <CgCloseO className="comment-close" onClick={handleClose} />
         <textarea className="comment-input" value={comment} onChange={(e) => setComment(e.target.value)} onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(); } }} placeholder="Type here..." />
-        <div className="comment-save-container" onClick={handleSubmit}>
-          <div className="comment-save" />
-          <div className="comment-save-text">Save</div>
+        <div className="comment-btn-container" onClick={handleSubmit}>
+          <div className="comment-btn" />
+          <div className="comment-btn-text">Save</div>
         </div>
   </div>
   )

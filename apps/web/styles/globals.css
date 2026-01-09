@@ -44,12 +44,16 @@
     @apply h-full;
   }
 
+
+  /* Pin icon Styles */
+
+  .pin-icon {
+    @apply w-5 h-5 text-[#6b7e98] hover:text-[#100F0F] cursor-pointer;
+  }
   /* Comment Box Styles */
 
-  
-
   .comment-box {
-    @apply w-73 h-43 left-0 top-0 absolute bg-white rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
+    @apply w-73 h-43 left-3 top-3 absolute bg-[#ffffff] rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300;
   }
 
   .comment-title {
@@ -61,18 +65,57 @@
   }
 
   .comment-input {
-    @apply w-58 h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300;
+    @apply w-58 h-14 left-[16px] top-[55px] absolute bg-white rounded-sm border border-slate-300 text-sm;
   }
 
-  .comment-save-container {
-    @apply w-16 h-4 left-[210px] top-[141px] absolute relative rounded-sm cursor-pointer;
+  .comment-btn-container {
+    @apply absolute bottom-3 right-5 w-16 h-4.5 rounded-sm cursor-pointer bg-white shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center;
   }
 
-  .comment-save {
-    @apply w-16 h-4.5 left-0 top-0 absolute bg-white rounded-sm shadow-[-1px_1px_2px_0px_rgba(0,0,0,0.07)] border border-slate-300 cursor-pointer;
+  .comment-btn-text {
+    @apply text-gray-400 text-[13px] font-normal font-['Inter'];
   }
 
-  .comment-save-text {
-    @apply left-[18px] top-[1px] absolute justify-center text-gray-400 text-xs font-normal font-['Inter'];
+  /* View Comment Styles */
+
+  .comment-header {
+    @apply flex items-center justify-between mb-3;
   }
+
+  .comment-author {
+    @apply flex items-center gap-3;
+  }
+
+  .comment-author-avatar {
+    @apply w-10 h-10 rounded-full;
+  }
+
+  .comment-authorname {
+    @apply text-black text-lg font-normal font-['Inter'];
+  }
+
+  .comment-date {
+    @apply text-neutral-500 text-sm font-light font-['Inter'];
+  }
+
+  .comment-actions {
+    @apply flex gap-2 mt-[-40];
+  }
+
+  .comment-icon {
+    @apply w-5 h-5 text-[#62748E] hover:text-[#100F0F] cursor-pointer;
+  }
+
+  .comment-divider {
+    @apply w-71 h-0 border-t border-slate-300 mb-3;
+  }
+
+  .comment-content {
+    @apply w-60 text-black text-base font-light font-['Inter'] mb-4 ml-1;
+  }
+
+  .comment-footer {
+    @apply flex justify-end;
+  }
+
 }

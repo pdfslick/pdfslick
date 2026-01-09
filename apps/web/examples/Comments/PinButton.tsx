@@ -180,11 +180,11 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                             <div
                                 style={{
                                     position: 'absolute',
-                                    bottom: '20px',
-                                    left: '20px',
+                                    bottom: '15px',
+                                    left: '15px',
                                     width: '30px',
                                     height: '30px',
-                                    background: 'red',
+                                    background: '',
                                     cursor: 'pointer'
                                 }}
                                 onClick={(e) => {
@@ -193,7 +193,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                                     setSelectedPinId(null);
                                 }}
                             >
-                                <VscTrash style={{width: '30px', height: '30px', color: 'white'}} />
+                                <VscTrash style={{width: '25px', height: '25px', color: '#6b7e98', background: '#e3e6eb', borderRadius: '5%', border: '1px solid #6b7e98', padding: '5px', justifyContent: 'center', alignItems: 'center'}} />
                             </div>
                             <FloatingComment comments={getCommentsFromAnnotation(annotation.annotation_id)} onClose={() => handleClose()} onDelete={(commentId: string) => handleDelete(commentId)} onAddComment={() => handleAddComment()}/>
                         </div>
