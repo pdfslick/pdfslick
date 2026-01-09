@@ -10,7 +10,8 @@ import { IoMdPin } from "react-icons/io";
 import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
 import { initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
-import FloatingComment from "./Comment/FloatingComment";
+import FloatingComment from "./Comment/CommentOverlay";
+import Pin from "./Pin/Pin";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -199,7 +200,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                         }} // right click to delete (will be removed in the future)
                     >
                         <div>
-                            <IoMdPin style={{ fontSize: '24px', color: annotation.color, filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.25))' }} />
+                            <Pin color={annotation.color} />
                             <div onClick={(e) => e.stopPropagation()}>
                                 <Comment isOpened={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={(comment) => { storeComment(comment); refreshComments(); }} />
                             </div>
