@@ -2,18 +2,11 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 import { AnnotationEditorType } from "pdfjs-dist";
-import Comment from "./Comment/Comment";
-import { VscTrash, VscComment } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
-import { BsPinAngle } from "react-icons/bs";
-import { IoMdPin } from "react-icons/io";
-import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
-import { initDocuments } from "./storage/localStorage";
+import { VscPinnedDirty } from "react-icons/vsc";
+import { getAnnotations, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment, initDocuments } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
-import FloatingComment from "./Comment/CommentOverlay";
-import Pin from "./Pin/Pin";
-import PinDeleteButton from "./Pin/PinDeleteButton";
-import PinActions from "./Pin/PinActions";
+import PinPlacement from "./Pin/PinPlacement";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -178,37 +171,22 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
             {annotations.map((annotation) => {
                 const pageView = (pdfSlick as any).viewer?.getPageView?.(annotation.page - 1);
                 const container = pageView?.div as HTMLElement | undefined;
-                const [x, y] = annotation.coordinates.split(',').map(Number);
                 if (!container) return null;
                 return createPortal(
-                    <div
+                    <PinPlacement
                         key={annotation.annotation_id}
-                        className="absolute z-[100002]"
-                        style={{
-                            top: `${y}%`,
-                            left: `${x}%`,
-                            transform: "translate(-50%, -50%)",
-                            cursor: 'pointer'
-                        }}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedPinId(annotation.annotation_id);
-                            setOpenCommentPinId(null);
-                        }}
-                        onContextMenu={(e) => { // onContextMenu = right click
-                            e.preventDefault(); // stop the usual behaviour (open context menu)
-                            e.stopPropagation();
-                            setAnnotations((prev) => prev.filter((a) => a.annotation_id !== annotation.annotation_id)); // remove pin from array
-                        }} // right click to delete (will be removed in the future)
-                    >
-                        <div>
-                            <Pin color={annotation.color} />
-                            <div onClick={(e) => e.stopPropagation()}>
-                                <Comment isOpened={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={(comment) => { storeComment(comment); refreshComments(); }} />
-                            </div>
-                        </div>
-                        <PinActions handleClose={handleClose} handleAddComment={handleAddComment} handleDeletePin={handleDeletePin} handleDeleteComment={handleDelete} selectedPinId={selectedPinId} setSelectedPinId={setSelectedPinId} annotationId={annotation.annotation_id} />
-                    </div>,
+                        annotation={annotation}
+                        isSelected={selectedPinId === annotation.annotation_id}
+                        isCommentOpen={openCommentPinId === annotation.annotation_id}
+                        onSelect={() => { setSelectedPinId(annotation.annotation_id); setOpenCommentPinId(null); }}
+                        onDeselect={() => setSelectedPinId(null)}
+                        onRemove={() => setAnnotations(prev => prev.filter(a => a.annotation_id !== annotation.annotation_id))}
+                        onCommentClose={() => setOpenCommentPinId(null)}
+                        onCommentSubmit={(comment) => { storeComment(comment); refreshComments(); }}
+                        onDeletePin={() => handleDeletePin(annotation.annotation_id)}
+                        onDeleteComment={handleDelete}
+                        onAddComment={handleAddComment}
+                    />,
                     container
                 );
             })}
