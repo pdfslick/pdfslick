@@ -13,6 +13,7 @@ import { Annotation } from "./storage/models/Annotation";
 import FloatingComment from "./Comment/CommentOverlay";
 import Pin from "./Pin/Pin";
 import PinDeleteButton from "./Pin/PinDeleteButton";
+import PinActions from "./Pin/PinActions";
 
 type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
@@ -30,7 +31,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
     const [pinColor, setPinColor] = useState("#ef4444");
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
-    const [selectedPinId, setSelectedPinId] = useState<string | null>();
+    const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
 
     useEffect(() => {
         handleSelectComment(selectedCommentId);
@@ -206,12 +207,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                                 <Comment isOpened={openCommentPinId === annotation.annotation_id} annotationId={annotation.annotation_id} onClose={() => setOpenCommentPinId(null)} onSubmit={(comment) => { storeComment(comment); refreshComments(); }} />
                             </div>
                         </div>
-                        {selectedPinId === annotation.annotation_id && ( // placeholder rectangle to delete pin
-                        <div>
-                            <PinDeleteButton handleDeletePin={handleDeletePin} setSelectedPinId={setSelectedPinId} annotationId={annotation.annotation_id} />
-                            <FloatingComment comments={getCommentsFromAnnotation(annotation.annotation_id)} onClose={() => handleClose()} onDelete={(commentId: string) => handleDelete(commentId)} onAddComment={() => handleAddComment()}/>
-                        </div>
-                        )}
+                        <PinActions handleClose={handleClose} handleAddComment={handleAddComment} handleDeletePin={handleDeletePin} handleDeleteComment={handleDelete} selectedPinId={selectedPinId} setSelectedPinId={setSelectedPinId} annotationId={annotation.annotation_id} />
                     </div>,
                     container
                 );
