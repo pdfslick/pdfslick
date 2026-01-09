@@ -152,6 +152,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
             onDeletePin={handleDeletePin}
             onDeleteComment={handleDeleteComment}
             onAddComment={handleAddComment}
+            comments={comments}
             />
           </div>
           <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onClose={() => setIsCommentSidebarOpen(false)} onSelectComment={handleSelectComment} onDeleteComment={handleDeleteComment} onReplyComment={handleReplyComment} />

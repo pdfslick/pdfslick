@@ -3,6 +3,7 @@ import type { TUsePDFSlickStore } from "@pdfslick/react";
 import { AnnotationEditorType } from "pdfjs-dist";
 import { getAnnotations, storeAnnotation, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment, storeComment } from "../storage/localStorage";
 import { Annotation } from "../storage/models/Annotation";
+import { Comment } from "../storage/models/Comment";
 import usePinPlacement from "../Pin/hooks/usePinPlacement";
 import PinLayer from "../Pin/PinLayer";
 import PinButton from "../PinButton";
@@ -11,9 +12,10 @@ type PinManagerProps = {
     usePDFSlickStore: TUsePDFSlickStore;
     refreshComments: () => void;
     selectedCommentId: string | null;
+    comments: Comment[];
 };
 
-export default function PinManager({ usePDFSlickStore, refreshComments, selectedCommentId }: PinManagerProps) {
+export default function PinManager({ usePDFSlickStore, refreshComments, selectedCommentId, comments }: PinManagerProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
     const [pinColor, setPinColor] = useState("#ef4444"); // Default red color
@@ -105,6 +107,7 @@ export default function PinManager({ usePDFSlickStore, refreshComments, selected
                 onDeletePin={handleDeletePin}
                 onDeleteComment={handleDelete}
                 onAddComment={handleAddComment}
+                comments={comments}
             />
         </div>
     

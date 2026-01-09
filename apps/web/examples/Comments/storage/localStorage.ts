@@ -13,14 +13,6 @@ export function getComments(): CommentModel[] {
     return comments ? JSON.parse(comments) : [];
 }
 
-export function getCommentsFromAnnotation(annotationId: string): CommentModel[] | null {
-    const existingComments = getComments();
-    const existingCommentsFromAnnotation = existingComments.filter((comment: CommentModel) => comment.annotation_id === annotationId);
-
-    if (!existingCommentsFromAnnotation) return null;
-    return existingCommentsFromAnnotation;
-}
-
 export function storeComment(comment: CommentModel) {
     const existingComments = getComments();
     existingComments.push(comment);

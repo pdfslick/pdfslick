@@ -17,9 +17,10 @@ type PinLayerProps = {
     onDeletePin: (annotationId: string) => void;
     onDeleteComment: (commentId: string) => void;
     onAddComment: () => void;
+    comments: Comment[];
 };
 
-export default function PinLayer({ usePDFSlickStore, annotations, selectedPinId, openCommentPinId, onPinSelect, onPinDeselect, onPinRemove, onCommentClose, onCommentSubmit, onDeletePin, onDeleteComment, onAddComment }: PinLayerProps) {
+export default function PinLayer({ usePDFSlickStore, annotations, selectedPinId, openCommentPinId, onPinSelect, onPinDeselect, onPinRemove, onCommentClose, onCommentSubmit, onDeletePin, onDeleteComment, onAddComment, comments }: PinLayerProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
 
     return (
@@ -42,6 +43,7 @@ export default function PinLayer({ usePDFSlickStore, annotations, selectedPinId,
                         onDeletePin={() => onDeletePin(annotation.annotation_id)}
                         onDeleteComment={onDeleteComment}
                         onAddComment={() => onAddComment()}
+                        comments={comments.filter(c => c.annotation_id === annotation.annotation_id)}
                     />,
                     container
                 );
