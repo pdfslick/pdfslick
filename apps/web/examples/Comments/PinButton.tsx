@@ -5,7 +5,6 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscTrash, VscComment } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
-import { VscTrash, VscComment } from "react-icons/vsc";
 import { BsPinAngle } from "react-icons/bs";
 import { IoMdPin } from "react-icons/io";
 import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
@@ -17,13 +16,16 @@ type PinButtonProps = {
     usePDFSlickStore: TUsePDFSlickStore;
     refreshComments: () => void;
     selectedCommentId: string | null;
+    replyCommentId: string | null;
+    onReplyHandled: () => void;
     isCommentSidebarOpen: boolean;
     setIsCommentSidebarOpen: (s: boolean) => void;
 };
 
-export default function PinButton({ usePDFSlickStore, refreshComments, selectedCommentId, isCommentSidebarOpen, setIsCommentSidebarOpen }: PinButtonProps) {
+export default function PinButton({ usePDFSlickStore, refreshComments, selectedCommentId, replyCommentId, onReplyHandled, isCommentSidebarOpen, setIsCommentSidebarOpen }: PinButtonProps) {
     const pdfSlick = usePDFSlickStore((s) => s.pdfSlick);
     const mode = usePDFSlickStore((s) => s.annotationEditorMode);
+    const [pinColor, setPinColor] = useState("#ef4444");
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
     const [selectedPinId, setSelectedPinId] = useState<string | null>();
@@ -31,6 +33,17 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
     useEffect(() => {
         handleSelectComment(selectedCommentId);
     }, [selectedCommentId]);
+
+    useEffect(() => {
+        if (replyCommentId) {
+            const annotation = getAnnotationFromComment(replyCommentId);
+            if (annotation) {
+                setOpenCommentPinId(annotation.annotation_id);
+                setSelectedPinId(null); // Close any selected pin
+                onReplyHandled();
+            }
+        }
+    }, [replyCommentId, onReplyHandled]);
 
     function handleSelectComment(commentId: string | null) {
         if (commentId == null) {

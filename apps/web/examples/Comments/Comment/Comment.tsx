@@ -26,7 +26,6 @@ export default function Comment({ isOpened, annotationId, onClose, onSubmit }: C
     function handleClose() {
         onClose();
         setComment("");
-        // Don't reset userName since we want to remember it
     }
 
     function handleUserNameChange(value: string) {

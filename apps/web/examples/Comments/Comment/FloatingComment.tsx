@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { Comment as CommentModel } from "../storage/models/Comment";
 import { VscClose, VscComment, VscTrash } from "react-icons/vsc";
+import { FaReply } from "react-icons/fa";
 
 function getInitials(name: string) {
     if (!name) return "";
@@ -18,11 +18,11 @@ type FloatingCommentProps = {
 
 export default function FloatingComment({ comments, onClose, onDelete, onAddComment }: FloatingCommentProps) {
     if (!comments || comments.length === 0) return null;
-    const [selectedCommentId] = useState<string | null>(comments[0]?.comment_id ?? null);
-    const selectedComment = comments.find(c => c.comment_id === selectedCommentId) || comments[0];
+
+    const sortedComments = [...comments].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
     function handleClose() {
-        onClose();
+        onClose();1
     }
 
     function handleDelete(commentId: string) {
@@ -36,35 +36,45 @@ export default function FloatingComment({ comments, onClose, onDelete, onAddComm
 
     return (
         <div className="comment-box flex flex-col p-4">
-            <div className="comment-header">
-                <div className="comment-author">
-                    {/* Avatar with initials */}
-                    <div 
-                        className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full" 
-                        style={{ width: "40px", height: "40px" }}
-                    >
-                        {getInitials(selectedComment.user_name)}
+            {sortedComments.map((comment, index) => (
+                <div key={comment.comment_id}>
+                    <div className="comment-header">
+                        <div className="comment-author">
+                            {/* Avatar with initials */}
+                            <div 
+                                className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full" 
+                                style={{ width: "40px", height: "40px" }}
+                            >
+                                {getInitials(comment.user_name)}
+                            </div>
+                            <div>
+                                <div className="comment-authorname cursor-text flex items-center gap-2">
+                                    {comment.user_name}
+                                    {index > 0 && <FaReply className="text-gray-500 -rotate-275 text-xs" />}
+                                </div>
+                                <div className="comment-date cursor-text">{new Date(comment.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} {new Date(comment.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
+                            </div>
+                        </div>
+                        <div className="comment-actions">
+                            <VscTrash 
+                                onClick={(e) => { e.stopPropagation(); handleDelete(comment.comment_id); }} 
+                                className="comment-icon text-xl cursor-pointer" 
+                            />
+                            {index === 0 && (
+                                <VscClose 
+                                    onClick={(e) => { e.stopPropagation(); handleClose(); }} 
+                                    className="comment-icon text-xl cursor-pointer" 
+                                />
+                            )}
+                        </div>
                     </div>
-                    <div>
-                        <div className="comment-authorname cursor-text">{selectedComment.user_name}</div>
-                        <div className="comment-date cursor-text">{new Date(selectedComment.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} {new Date(selectedComment.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
+                    <div className="comment-divider"></div>
+                    <div className="comment-content cursor-text">
+                        {comment.contents}
                     </div>
+                    {index < sortedComments.length - 1 && <div className="my-2 -mx-4 w-[calc(100%+2rem)] border-t border-gray-300"></div>}
                 </div>
-                <div className="comment-actions">
-                    <VscTrash 
-                        onClick={(e) => { e.stopPropagation(); handleDelete(selectedCommentId ?? ""); }} 
-                        className="comment-icon text-xl cursor-pointer" 
-                    />
-                    <VscClose 
-                        onClick={(e) => { e.stopPropagation(); handleClose(); }} 
-                        className="comment-icon text-xl cursor-pointer" 
-                    />
-                </div>
-            </div>
-            <div className="comment-divider"></div>
-            <div className="comment-content cursor-text">
-                {selectedComment?.contents ? selectedComment.contents.slice(0, 70) + (selectedComment.contents.length > 70 ? '...' : '') : ""}
-            </div>
+            ))}
             <div className="comment-footer">
                 <div 
                     onClick={(e) => { e.stopPropagation(); handleAddComment(); }}

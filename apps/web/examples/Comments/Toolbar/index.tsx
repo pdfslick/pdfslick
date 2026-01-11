@@ -30,6 +30,8 @@ type TToolbarProps = {
   setIsThumbsbarOpen: (s: boolean) => void;
   refreshComments: () => void;
   selectedCommentId: string | null;
+  replyCommentId: string | null;
+  onReplyHandled: () => void;
   isCommentSidebarOpen: boolean;
   setIsCommentSidebarOpen: (s: boolean) => void;
 };
@@ -40,6 +42,8 @@ const Toolbar = ({
   setIsThumbsbarOpen,
   refreshComments,
   selectedCommentId,
+  replyCommentId,
+  onReplyHandled,
   isCommentSidebarOpen,
   setIsCommentSidebarOpen,
 }: TToolbarProps) => {
@@ -160,7 +164,7 @@ const Toolbar = ({
         </div>
 
         <div className="px-1 space-x-1 flex items-center justify-end">
-          <PinButton {...{ usePDFSlickStore, refreshComments, selectedCommentId, isCommentSidebarOpen, setIsCommentSidebarOpen }} />
+          <PinButton {...{ usePDFSlickStore, refreshComments, selectedCommentId, replyCommentId, onReplyHandled, isCommentSidebarOpen, setIsCommentSidebarOpen }} />
 
           <Splitter />
 

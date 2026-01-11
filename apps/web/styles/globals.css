@@ -120,7 +120,7 @@
   }
 
   .comment-divider {
-    @apply w-71 h-0 border-t border-slate-300 mb-3;
+    @apply w-full h-0 border-t border-slate-300 mb-3;
   }
 
   .comment-content {
