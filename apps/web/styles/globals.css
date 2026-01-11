@@ -120,7 +120,7 @@
   }
 
   .comment-content {
-    @apply w-60 text-black text-base font-light font-['Inter'] mb-4 ml-1;
+    @apply w-full text-black text-base font-light font-['Inter'] mb-4 ml-1;
   }
 
   .comment-footer {

@@ -35,7 +35,7 @@ export default function FloatingComment({ comments, onClose, onDelete, onAddComm
 
 
     return (
-        <div className="comment-box flex flex-col p-4 h-38 z-10">
+        <div className="comment-box flex flex-col p-4">
             <div className="comment-header">
                 <div className="comment-author">
                     {/* Avatar with initials */}
@@ -46,8 +46,8 @@ export default function FloatingComment({ comments, onClose, onDelete, onAddComm
                         {getInitials(selectedComment.user_name)}
                     </div>
                     <div>
-                        <div className="comment-authorname">{selectedComment.user_name}</div>
-                        <div className="comment-date">{new Date(selectedComment.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} {new Date(selectedComment.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
+                        <div className="comment-authorname cursor-text">{selectedComment.user_name}</div>
+                        <div className="comment-date cursor-text">{new Date(selectedComment.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} {new Date(selectedComment.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
                     </div>
                 </div>
                 <div className="comment-actions">
@@ -62,8 +62,8 @@ export default function FloatingComment({ comments, onClose, onDelete, onAddComm
                 </div>
             </div>
             <div className="comment-divider"></div>
-            <div className="comment-content">
-                {selectedComment?.contents || ""}
+            <div className="comment-content cursor-text">
+                {selectedComment?.contents ? selectedComment.contents.slice(0, 70) + (selectedComment.contents.length > 70 ? '...' : '') : ""}
             </div>
             <div className="comment-footer">
                 <div 

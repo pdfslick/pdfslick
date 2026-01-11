@@ -3,7 +3,7 @@ import { usePDFSlick } from "@pdfslick/react";
 import Toolbar from "./Toolbar";
 import Thumbsbar from "./Thumbsbar";
 import CommentSidebar from "./Comment/CommentSidebar";
-import { getComments } from "./storage/localStorage";
+import { getComments, deleteComment } from "./storage/localStorage";
 import type { Comment as CommentModel } from "./storage/models/Comment";
 
 type CommentsProps = {
@@ -23,6 +23,16 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
 
   const handleSelectComment = useCallback((commentId: string | null) => {
     setSelectedCommentId(commentId);
+  }, []);
+
+  const handleDeleteComment = useCallback((commentId: string) => {
+    deleteComment(commentId);
+    refreshComments();
+  }, [refreshComments]);
+
+  const handleReplyComment = useCallback((commentId: string) => {
+    // For now, do nothing or alert
+    alert('Reply to comment ' + commentId);
   }, []);
 
   const {
@@ -62,7 +72,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
           <div className="flex- h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
           </div>
-          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={handleSelectComment} />
+          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={handleSelectComment} onDeleteComment={handleDeleteComment} onReplyComment={handleReplyComment} />
         </div>
       </div>
       {loadedPerc < 100 && (

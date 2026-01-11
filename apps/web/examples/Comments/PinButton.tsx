@@ -167,7 +167,7 @@ export default function PinButton({ usePDFSlickStore, refreshComments, selectedC
                 return createPortal(
                     <div
                         key={annotation.annotation_id}
-                        className="absolute"
+                        className="absolute z-[100002]"
                         style={{
                             top: `${y}%`,
                             left: `${x}%`,
