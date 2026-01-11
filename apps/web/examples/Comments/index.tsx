@@ -59,7 +59,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
         <div className="flex-1 flex relative">
           <Thumbsbar {...{ thumbsRef, usePDFSlickStore, isThumbsbarOpen }} />
 
-          <div className="flex-1 relative h-full">
+          <div className="flex- h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
           </div>
           <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={handleSelectComment} />

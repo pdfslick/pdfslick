@@ -128,7 +128,7 @@
   }
 
   .comments-panel {
-    @apply w-80 h-[calc(100%-5rem)] bg-slate-50 rounded shadow-[0px_2px_2px_0px_rgba(0,0,0,0.10)] border border-[#CAD5E2] my-4 mr-4;
+    @apply absolute right-1 w-98 h-[calc(100%-5rem)] p-5 overflow-y-auto bg-slate-50 rounded shadow-[0px_2px_2px_0px_rgba(0,0,0,0.10)] border border-[#CAD5E2] my-4 mr-4;
   }
 
   .comments-panel-close {

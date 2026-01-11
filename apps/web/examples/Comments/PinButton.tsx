@@ -5,7 +5,7 @@ import { AnnotationEditorType } from "pdfjs-dist";
 import Comment from "./Comment/Comment";
 import { VscTrash, VscComment } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
-import { VscTrash } from "react-icons/vsc";
+import { VscTrash, VscComment } from "react-icons/vsc";
 import { BsPinAngle } from "react-icons/bs";
 import { IoMdPin } from "react-icons/io";
 import { getAnnotations, getCommentsFromAnnotation, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
