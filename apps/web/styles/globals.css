@@ -95,6 +95,10 @@
     @apply flex items-center gap-3;
   }
 
+  .comment-author-sidebar {
+    @apply gap-1;
+  }
+
   .comment-author-avatar {
     @apply w-10 h-10 rounded-full;
   }

@@ -83,7 +83,7 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
             {comments.map((comment) => (
                 <div key={comment.comment_id} className={`bg-white rounded shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)] border-[1.50px] border-slate-300 p-3 mb-2 cursor-pointer hover:bg-gray-50 ${selectedCommentId === comment.comment_id ? "bg-gray-50" : "bg-white"}`} onClick={() => handleSelectComment(comment.comment_id)}>
                     <div className="comment-header">
-                        <div className="comment-author">
+                        <div className="comment-author comment-author-sidebar">
                             <div 
                                 className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3" 
                                 style={{ width: "40px", height: "40px" }}

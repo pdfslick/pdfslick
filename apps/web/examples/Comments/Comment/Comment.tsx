@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CgCloseO } from "react-icons/cg";
 import { Comment as CommentModel } from "../storage/models/Comment";
 
@@ -9,14 +9,30 @@ type CommentProps = {
     onSubmit: (newComment: CommentModel) => void;
 };
 
+const USER_NAME_KEY = "pdfslick_comment_user_name";
+
 export default function Comment({ isOpened, annotationId, onClose, onSubmit }: CommentProps) {
     const [userName, setUserName] = useState("");
     const [comment, setComment] = useState("");
 
+    useEffect(() => {
+        // Load saved user name from localStorage
+        const savedName = localStorage.getItem(USER_NAME_KEY);
+        if (savedName) {
+            setUserName(savedName);
+        }
+    }, []);
+
     function handleClose() {
         onClose();
         setComment("");
-        setUserName("");
+        // Don't reset userName since we want to remember it
+    }
+
+    function handleUserNameChange(value: string) {
+        setUserName(value);
+        // Save to localStorage whenever it changes
+        localStorage.setItem(USER_NAME_KEY, value);
     }
 
     function handleSubmit() {
@@ -46,7 +62,7 @@ export default function Comment({ isOpened, annotationId, onClose, onSubmit }: C
             className="comment-name-input mb-2" 
             type="text" 
             value={userName} 
-            onChange={(e) => setUserName(e.target.value)} 
+            onChange={(e) => handleUserNameChange(e.target.value)} 
             onKeyDown={(e) => {
                 if (e.key === " ") {
                     e.stopPropagation();
