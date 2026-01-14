@@ -3,7 +3,7 @@ import { usePDFSlick } from "@pdfslick/react";
 import Toolbar from "./Toolbar";
 import Thumbsbar from "./Thumbsbar";
 import CommentSidebar from "./Comment/CommentSidebar";
-import { getComments, deleteComment } from "./storage/localStorage";
+import { getComments } from "./storage/localStorage";
 import type { Comment as CommentModel } from "./storage/models/Comment";
 import { AnnotationEditorType } from "pdfjs-dist";
 import { getAnnotations, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
@@ -20,7 +20,6 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
   const [isThumbsbarOpen, setIsThumbsbarOpen] = useState(false);
   const [isCommentSidebarOpen, setIsCommentSidebarOpen] = useState(true);
   const [selectedCommentId, setSelectedCommentId] = useState<string | null>();
-  const [replyCommentId, setReplyCommentId] = useState<string | null>();
   const [loadedPerc, setLoadedPerc] = useState(0);
   const [comments, setComments] = useState<CommentModel[]>(getComments());
   const [pinColor, setPinColor] = useState("#ef4444");
@@ -28,15 +27,6 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
   const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
   const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
   const [replyCommentId, setReplyCommentId] = useState<string | null>()
-
-  const handleDeleteComment = useCallback((commentId: string) => {
-    deleteComment(commentId);
-    refreshComments();
-  }, [refreshComments]);
-
-  const handleReplyComment = useCallback((commentId: string) => {
-    setReplyCommentId(commentId);
-  }, []);
 
   const {
     isDocumentLoaded,
