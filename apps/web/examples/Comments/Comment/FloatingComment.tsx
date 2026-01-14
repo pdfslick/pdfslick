@@ -1,5 +1,6 @@
 import { Comment as CommentModel } from "../storage/models/Comment";
-import { VscClose, VscComment, VscTrash } from "react-icons/vsc";
+import { VscTrash } from "react-icons/vsc";
+import { CgCloseO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa";
 
 function getInitials(name: string) {
@@ -61,7 +62,7 @@ export default function FloatingComment({ comments, onClose, onDelete, onAddComm
                                 className="comment-icon text-xl cursor-pointer" 
                             />
                             {index === 0 && (
-                                <VscClose 
+                                <CgCloseO 
                                     onClick={(e) => { e.stopPropagation(); handleClose(); }} 
                                     className="comment-icon text-xl cursor-pointer" 
                                 />

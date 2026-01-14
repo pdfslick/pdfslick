@@ -1,6 +1,8 @@
 import type { Comment as CommentModel } from "../storage/models/Comment";
 import { useState } from "react";
-import { VscClose, VscChevronDown, VscTrash } from "react-icons/vsc";
+import { VscChevronDown, VscTrash } from "react-icons/vsc";
+import { CgCloseO } from "react-icons/cg";
+
 import { FaReply } from "react-icons/fa";
 
 type CommentSidebarProps = {
@@ -17,7 +19,7 @@ function getInitials(name: string) {
     if (!name) return "";
     const parts = name.split(" ");
     const initials = parts.map(part => part[0]?.toUpperCase()).join("");
-    return initials.slice(0, 2); 
+    return initials.slice(0, 2);
 }
 
 export default function CommentSidebar({ comments, isOpen, onSelectComment, onDeleteComment, onReplyComment }: CommentSidebarProps) {
@@ -64,12 +66,12 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
     return (
         <div className="comments-panel">
 
-            <VscClose className="comments-panel-close" />
+            <CgCloseO className="comments-panel-close" />
             <h1 className="w-32 h-7 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
-            
+
             <div className="mt-6 mb-4 flex items-center gap-2">
                 <div className="text-base" style={{ color: '#45556C' }}>Sort by:</div>
-                
+
                 {/* Dropdown menu */}
                 <div className="relative ml-2">
                     <button
@@ -112,8 +114,8 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
                     <div key={annotationId} className={`bg-white rounded p-3 mb-2 cursor-pointer hover:bg-gray-50 ${isSelected ? "bg-gray-50 border-[3px] shadow-sm" : "bg-white border-[1.50px] border-slate-300 shadow-[0px_3px_2px_0px_rgba(0,0,0,0.05)]"}`} style={isSelected ? { borderColor: '#C0CEDE' } : {}} onClick={() => handleSelectComment(firstComment.comment_id)}>
                         <div className="comment-header">
                             <div className="comment-author comment-author-sidebar">
-                                <div 
-                                    className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3" 
+                                <div
+                                    className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3"
                                     style={{ width: "40px", height: "40px" }}
                                 >
                                     {getInitials(firstComment.user_name)}
@@ -125,9 +127,9 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
                             </div>
                             {isSelected && (
                                 <div className="comment-actions">
-                                    <VscTrash 
-                                        onClick={(e) => { e.stopPropagation(); onDeleteComment(firstComment.comment_id); }} 
-                                        className="comment-icon" 
+                                    <VscTrash
+                                        onClick={(e) => { e.stopPropagation(); onDeleteComment(firstComment.comment_id); }}
+                                        className="comment-icon"
                                     />
                                 </div>
                             )}
@@ -141,8 +143,8 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
                                             <div className="my-4 -mx-4 w-[calc(100%+1.5rem)] border-t border-gray-300"></div>
                                             <div className="comment-header">
                                                 <div className="comment-author comment-author-sidebar">
-                                                    <div 
-                                                        className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3" 
+                                                    <div
+                                                        className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3"
                                                         style={{ width: "40px", height: "40px" }}
                                                     >
                                                         {getInitials(c.user_name)}
@@ -156,9 +158,9 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
                                                     </div>
                                                 </div>
                                                 <div className="comment-actions">
-                                                    <VscTrash 
-                                                        onClick={(e) => { e.stopPropagation(); onDeleteComment(c.comment_id); }} 
-                                                        className="comment-icon" 
+                                                    <VscTrash
+                                                        onClick={(e) => { e.stopPropagation(); onDeleteComment(c.comment_id); }}
+                                                        className="comment-icon"
                                                     />
                                                 </div>
                                             </div>
@@ -171,7 +173,7 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
                         </div>
                         {isSelected && (
                             <div className="comment-footer">
-                                <div 
+                                <div
                                     onClick={(e) => { e.stopPropagation(); onReplyComment(firstComment.comment_id); }}
                                     className="comment-btn-container"
                                 >
