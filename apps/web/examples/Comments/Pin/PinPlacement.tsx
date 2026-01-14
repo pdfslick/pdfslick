@@ -22,7 +22,7 @@ export default function PinPlacement({ annotation, isSelected, isCommentOpen, on
     
     return (
         <div
-            className="absolute"
+            className="absolute z-[100002]"
             style={{
                 top: `${y}%`,
                 left: `${x}%`,
@@ -42,7 +42,7 @@ export default function PinPlacement({ annotation, isSelected, isCommentOpen, on
             <div>
                 <Pin color={annotation.color} />
                 <div onClick={(e) => e.stopPropagation()}>
-                    <CommentForm isOpenend={isCommentOpen} annotationId={annotation.annotation_id} onClose={onCommentClose} onSubmit={onCommentSubmit} />
+                    <CommentForm isOpened={isCommentOpen} annotationId={annotation.annotation_id} onClose={onCommentClose} onSubmit={onCommentSubmit} />
                 </div>
             </div>
             {isSelected && (

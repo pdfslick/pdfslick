@@ -1,6 +1,6 @@
-import { VscPinnedDirty } from "react-icons/vsc";
 import PinMenu from "./Toolbar/PinMenu";
 import { TUsePDFSlickStore } from "@pdfslick/react";
+import { BsPinAngle } from "react-icons/bs";
 
 type PinButtonProps = {
     isActive: boolean;
@@ -17,7 +17,7 @@ export default function PinButton({ isActive, onToggle, usePDFSlickStore, setPin
                 className="enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all group relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent"
                 onClick={onToggle}
             >
-                <VscPinnedDirty className="h-4 w-4" />
+                <BsPinAngle className="h-4 w-4" />
             </button>
             <PinMenu usePDFSlickStore={usePDFSlickStore} setPinColor={setPinColor} />
         </div>
