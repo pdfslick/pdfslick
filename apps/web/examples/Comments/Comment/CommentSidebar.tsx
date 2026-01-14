@@ -8,6 +8,7 @@ import { FaReply } from "react-icons/fa";
 type CommentSidebarProps = {
     comments: CommentModel[];
     isOpen: boolean;
+    onClose: () => void;
     onSelectComment: (commentId: string | null) => void;
     onDeleteComment: (commentId: string) => void;
     onReplyComment: (commentId: string) => void;
@@ -22,7 +23,11 @@ function getInitials(name: string) {
     return initials.slice(0, 2);
 }
 
-export default function CommentSidebar({ comments, isOpen, onSelectComment, onDeleteComment, onReplyComment }: CommentSidebarProps) {
+export default function CommentSidebar({ comments, isOpen, onClose, onSelectComment, onDeleteComment, onReplyComment }: CommentSidebarProps) {
+    function handleClose() {
+        onClose(); 1
+    }
+
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
     // For dropdown menu
     const [sortBy, setSortBy] = useState<SortOption>("page");
@@ -66,7 +71,7 @@ export default function CommentSidebar({ comments, isOpen, onSelectComment, onDe
     return (
         <div className="comments-panel">
 
-            <CgCloseO className="comments-panel-close" />
+            <CgCloseO onClick={handleClose} className="comments-panel-close" />
             <h1 className="w-32 h-7 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
 
             <div className="mt-6 mb-4 flex items-center gap-2">

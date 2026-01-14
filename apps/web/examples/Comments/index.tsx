@@ -72,7 +72,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
           <div className="flex- h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
           </div>
-          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onSelectComment={handleSelectComment} onDeleteComment={handleDeleteComment} onReplyComment={handleReplyComment} />
+          <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onClose={() => setIsCommentSidebarOpen(false)} onSelectComment={handleSelectComment} onDeleteComment={handleDeleteComment} onReplyComment={handleReplyComment} />
         </div>
       </div>
       {loadedPerc < 100 && (
