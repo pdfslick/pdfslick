@@ -1,24 +1,25 @@
 import CommentOverlay from "../Comment/CommentOverlay";
 import PinDeleteButton from "./PinDeleteButton";
-import { Comment } from "../storage/models/Comment";
+import { useComments } from "../context/CommentsContext";
 
 type PinActionsProps = {
     handleClose: () => void;
     handleAddComment: () => void;
     handleDeletePin: () => void;
-    handleDeleteComment: (commentId: string) => void;
     annotationId: string;
-    comments: Comment[];
 };
 
-export default function PinActions({ handleClose, handleAddComment, handleDeletePin, handleDeleteComment, comments }: PinActionsProps) {
+export default function PinActions({ handleClose, handleAddComment, handleDeletePin, annotationId }: PinActionsProps) {
+    const { comments, onDeleteComment } = useComments();
+    const annotationComments = comments.filter(comment => comment.annotation_id === annotationId);
+
     return (
         <div>
             <PinDeleteButton onDelete={handleDeletePin} />
             <CommentOverlay 
-                comments={comments} 
+                comments={annotationComments} 
                 onClose={handleClose} 
-                onDelete={handleDeleteComment} 
+                onDelete={onDeleteComment} 
                 onAddComment={handleAddComment}
             />
         </div>

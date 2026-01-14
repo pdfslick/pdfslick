@@ -10,6 +10,7 @@ import { getAnnotations, storeAnnotation, storeComment, deleteComment, deleteAnn
 import { Annotation } from "./storage/models/Annotation";
 import PinLayer from "./Pin/PinLayer";
 import usePinPlacement from "./Pin/hooks/usePinPlacement";
+import { CommentsProvider } from "./context/CommentsContext";
 
 type CommentsProps = {
   pdfFilePath: string;
@@ -139,21 +140,21 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
 
           <div className="flex- h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
-            <PinLayer 
-            usePDFSlickStore={usePDFSlickStore}
-            annotations={annotations}
-            selectedPinId={selectedPinId}
-            openCommentPinId={openCommentPinId}
-            onPinSelect={(id) => { setSelectedPinId(id); setOpenCommentPinId(null); }}
-            onPinDeselect={() => setSelectedPinId(null)}
-            onPinRemove={(id) => setAnnotations(prev => prev.filter(a => a.annotation_id !== id))}
-            onCommentClose={() => setOpenCommentPinId(null)}
-            onCommentSubmit={(comment) => { storeComment(comment); refreshComments(); }}
-            onDeletePin={handleDeletePin}
-            onDeleteComment={handleDeleteComment}
-            onAddComment={handleAddComment}
-            comments={comments}
-            />
+            <CommentsProvider comments={comments} onDeleteComment={handleDeleteComment}>
+              <PinLayer 
+              usePDFSlickStore={usePDFSlickStore}
+              annotations={annotations}
+              selectedPinId={selectedPinId}
+              openCommentPinId={openCommentPinId}
+              onPinSelect={(id) => { setSelectedPinId(id); setOpenCommentPinId(null); }}
+              onPinDeselect={() => setSelectedPinId(null)}
+              onPinRemove={(id) => setAnnotations(prev => prev.filter(a => a.annotation_id !== id))}
+              onCommentClose={() => setOpenCommentPinId(null)}
+              onCommentSubmit={(comment) => { storeComment(comment); refreshComments(); }}
+              onDeletePin={handleDeletePin}
+              onAddComment={handleAddComment}
+              />
+            </CommentsProvider>
           </div>
           <CommentSidebar comments={comments} isOpen={isCommentSidebarOpen} onClose={() => setIsCommentSidebarOpen(false)} onSelectComment={handleSelectComment} onDeleteComment={handleDeleteComment} onReplyComment={handleReplyComment} />
         </div>

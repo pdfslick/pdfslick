@@ -14,12 +14,10 @@ type PinPlacementProps = {
     onCommentClose: () => void;
     onCommentSubmit: (comment: Comment) => void;
     onDeletePin: () => void;
-    onDeleteComment: (commentId: string) => void;
     onAddComment: () => void;
-    comments: Comment[];
 };
 
-export default function PinPlacement({ annotation, isSelected, isCommentOpen, onSelect, onDeselect, onRemove, onCommentClose, onCommentSubmit, onDeletePin, onDeleteComment, onAddComment, comments }: PinPlacementProps) {
+export default function PinPlacement({ annotation, isSelected, isCommentOpen, onSelect, onDeselect, onRemove, onCommentClose, onCommentSubmit, onDeletePin, onAddComment }: PinPlacementProps) {
     const [x, y] = annotation.coordinates.split(',').map(Number);
     
     return (
@@ -52,9 +50,7 @@ export default function PinPlacement({ annotation, isSelected, isCommentOpen, on
                     handleClose={onDeselect} 
                     handleAddComment={onAddComment} 
                     handleDeletePin={() => onDeletePin()} 
-                    handleDeleteComment={onDeleteComment} 
-                    annotationId={annotation.annotation_id} 
-                    comments={comments}
+                    annotationId={annotation.annotation_id}
                 />
             )}
         </div>
