@@ -130,7 +130,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
     <>
       <div className="absolute inset-0 bg-slate-200/70 flex flex-col pdfSlick">
         <Toolbar
-          {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, isPinModeActive: mode === AnnotationEditorType.STAMP, onPinToggle: () => { togglePinsMode(); setAnnotations(getAnnotations()); }, setPinColor: setPinColor }}
+          {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, isPinModeActive: mode === AnnotationEditorType.STAMP, onPinToggle: () => { togglePinsMode(); setAnnotations(getAnnotations()); }, setPinColor: setPinColor, onCommentSidebarToggle: () => setIsCommentSidebarOpen(!isCommentSidebarOpen) }}
         />
         <div className="flex-1 flex relative">
           <Thumbsbar {...{ thumbsRef, usePDFSlickStore, isThumbsbarOpen }} />

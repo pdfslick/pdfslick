@@ -14,6 +14,7 @@ import {
   VscDesktopDownload,
   VscDiffAdded,
   VscSearch,
+  VscComment,
 } from "react-icons/vsc";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 import ZoomSelector from "./ZoomSelector";
@@ -31,6 +32,7 @@ type TToolbarProps = {
   isPinModeActive: boolean;
   onPinToggle: () => void;
   setPinColor: (color: string) => void;
+  onCommentSidebarToggle: () => void;
 };
 
 const Toolbar = ({
@@ -39,6 +41,7 @@ const Toolbar = ({
   setIsThumbsbarOpen,
   isPinModeActive,
   onPinToggle,
+  onCommentSidebarToggle,
   setPinColor,
 }: TToolbarProps) => {
   const pageNumberRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -158,6 +161,13 @@ const Toolbar = ({
         </div>
 
         <div className="px-1 space-x-1 flex items-center justify-end">
+            <button
+              type="button"
+              className={`enabled:hover:text-black text-slate-600 p-1 disabled:text-slate-300 rounded-sm transition-all relative focus:border-blue-400 focus:ring-0 focus:shadow outline-none border border-transparent hover:bg-slate-200/50`}
+              onClick={onCommentSidebarToggle}
+            >
+              <VscComment className="h-4 w-4" />
+            </button>
           <PinButton 
               isActive={isPinModeActive}
               onToggle={onPinToggle}
