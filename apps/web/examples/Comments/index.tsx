@@ -27,14 +27,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [openCommentPinId, setOpenCommentPinId] = useState<string | null>(null);
   const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
-
-  const refreshComments = useCallback(() => {
-    setComments(getComments());
-  }, []);
-
-  const handleSelectComment = useCallback((commentId: string | null) => {
-    setSelectedCommentId(commentId);
-  }, []);
+  const [replyCommentId, setReplyCommentId] = useState<string | null>()
 
   const handleDeleteComment = useCallback((commentId: string) => {
     deleteComment(commentId);
@@ -68,22 +61,31 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
   const mode = usePDFSlickStore((s) => s.annotationEditorMode);
 
   usePinPlacement({
-      usePDFSlickStore,
-      pinColor,
-      isInteracting: !!(openCommentPinId || selectedPinId),
-      onPinPlaced: (annotation) => {
-          storeAnnotation(annotation);
-          setAnnotations(prev => [...prev, annotation]);
-          setOpenCommentPinId(annotation.annotation_id);
-      },
-      onBackgroundClick: () => {
-          if (openCommentPinId) {
-              setOpenCommentPinId(null);
-          } else if (selectedPinId) {
-              setSelectedPinId(null);
-          }
-      },
+    usePDFSlickStore,
+    pinColor,
+    isInteracting: !!(openCommentPinId || selectedPinId),
+    onPinPlaced: (annotation) => {
+      storeAnnotation(annotation);
+      setAnnotations(prev => [...prev, annotation]);
+      setOpenCommentPinId(annotation.annotation_id);
+    },
+    onBackgroundClick: () => {
+      if (openCommentPinId) {
+        setOpenCommentPinId(null);
+      } else if (selectedPinId) {
+        setSelectedPinId(null);
+      }
+    },
   });
+
+  const refreshComments = useCallback(() => {
+    setComments(getComments());
+  }, []);
+
+  const handleSelectComment = useCallback((commentId: string | null) => {
+    setSelectedCommentId(commentId);
+  }, []);
+
 
   function handleDeleteComment(commentId: string) {
     deleteComment(commentId);
@@ -91,24 +93,29 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
     refreshComments();
   }
 
-  function handleDeletePin(pinId: string) {
-      deleteAnnotation(pinId);
-      deleteCommentsFromAnnotation(pinId);
-      setSelectedPinId(null);
-      setAnnotations(getAnnotations());
-      refreshComments();
+  function handleAddComment() {
+    setOpenCommentPinId(selectedPinId ?? "");
+    setSelectedPinId(null);
   }
 
-  function handleAddComment() {
-      setOpenCommentPinId(selectedPinId ?? "");
-      setSelectedPinId(null);
+  const handleReplyComment = useCallback((commentId: string) => {
+    setReplyCommentId(commentId);
+  }, []);
+
+  function handleDeletePin(pinId: string) {
+    deleteAnnotation(pinId);
+    deleteCommentsFromAnnotation(pinId);
+    setSelectedPinId(null);
+    setAnnotations(getAnnotations());
+    refreshComments();
   }
+
 
   const togglePinsMode = () => {
-      if (!pdfSlick) return;
-      pdfSlick.setAnnotationEditorMode(
-          mode === AnnotationEditorType.STAMP ? AnnotationEditorType.NONE : AnnotationEditorType.STAMP
-      );
+    if (!pdfSlick) return;
+    pdfSlick.setAnnotationEditorMode(
+      mode === AnnotationEditorType.STAMP ? AnnotationEditorType.NONE : AnnotationEditorType.STAMP
+    );
   };
 
   useEffect(() => {
@@ -141,18 +148,18 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
           <div className="flex- h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
             <CommentsProvider comments={comments} onDeleteComment={handleDeleteComment}>
-              <PinLayer 
-              usePDFSlickStore={usePDFSlickStore}
-              annotations={annotations}
-              selectedPinId={selectedPinId}
-              openCommentPinId={openCommentPinId}
-              onPinSelect={(id) => { setSelectedPinId(id); setOpenCommentPinId(null); }}
-              onPinDeselect={() => setSelectedPinId(null)}
-              onPinRemove={(id) => setAnnotations(prev => prev.filter(a => a.annotation_id !== id))}
-              onCommentClose={() => setOpenCommentPinId(null)}
-              onCommentSubmit={(comment) => { storeComment(comment); refreshComments(); }}
-              onDeletePin={handleDeletePin}
-              onAddComment={handleAddComment}
+              <PinLayer
+                usePDFSlickStore={usePDFSlickStore}
+                annotations={annotations}
+                selectedPinId={selectedPinId}
+                openCommentPinId={openCommentPinId}
+                onPinSelect={(id) => { setSelectedPinId(id); setOpenCommentPinId(null); }}
+                onPinDeselect={() => setSelectedPinId(null)}
+                onPinRemove={(id) => setAnnotations(prev => prev.filter(a => a.annotation_id !== id))}
+                onCommentClose={() => setOpenCommentPinId(null)}
+                onCommentSubmit={(comment) => { storeComment(comment); refreshComments(); }}
+                onDeletePin={handleDeletePin}
+                onAddComment={handleAddComment}
               />
             </CommentsProvider>
           </div>
