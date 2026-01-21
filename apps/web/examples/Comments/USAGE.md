@@ -11,7 +11,7 @@ This document provides instructions for using the PDF annotation system. The sys
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Standard Workflow](#standard-workflow)
-4. [Annotation Mode](#annotation-mode)
+4. [Comment Sidebar Toggle](#comment-sidebar-toggle)
 5. [Pin Placing Mode](#pin-placing-mode)
 6. [Creating Comments](#creating-comments)
 7. [Replying to Comments](#replying-to-comments)
