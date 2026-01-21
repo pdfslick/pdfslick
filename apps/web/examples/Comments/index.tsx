@@ -132,7 +132,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
         <Toolbar
           {...{ usePDFSlickStore, setIsThumbsbarOpen, isThumbsbarOpen, isPinModeActive: mode === AnnotationEditorType.STAMP, onPinToggle: () => { togglePinsMode(); setAnnotations(getAnnotations()); }, setPinColor: setPinColor, onCommentSidebarToggle: () => setIsCommentSidebarOpen(!isCommentSidebarOpen) }}
         />
-        <div className="flex-1 flex relative">
+        <div className="flex-1 flex">
           <Thumbsbar {...{ thumbsRef, usePDFSlickStore, isThumbsbarOpen }} />
 
           <div className="flex- h-full">
