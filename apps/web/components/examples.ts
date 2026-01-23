@@ -1,5 +1,13 @@
 export const examples = [
   {
+    name: "Comments",
+    href: "/examples/comments",
+    imageSrc: "/assets/examples/PDFSlick_Comments.png",
+    short: "Comments in PDF",
+    description:
+      "Comments in PDF",
+  },
+  {
     name: "PDFSlick Full Viewer App",
     href: "/examples/pdf-viewer-app",
     imageSrc: "/assets/examples/PDFSlick_Full_Viewer_App_MK.png",
