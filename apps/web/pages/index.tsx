@@ -119,7 +119,7 @@ export default function Example() {
                     <iframe
                       title="PDFSlick Collab Demo"
                       className="pointer-events-auto border-0 absolute inset-0 w-full h-full rounded-md"
-                      src="https://pdfslick.com/_demo_pkg/50-years-of-solar-system-exploration_tagged.pdf"
+                      src="https://pdfslick.com/embed-iframe/50-years-of-solar-system-exploration_tagged.pdf"
                     ></iframe>
                     {!isCollabFullscreen && (
                       <div
