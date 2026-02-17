@@ -6,15 +6,12 @@ import Head from "next/head";
 import { examples } from "../components/examples";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Example() {
   const [rotation, setRotation] = useState(0);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [scale, setScale] = useState(1);
-  const [isCollabFullscreen, setCollabFullscreen] = useState(false);
-  const [isHoverCTABtn, setHoverCTABtn] = useState(false);
 
   const updateVals = () => {
     setRotation(~~(Math.random() * 45));
@@ -69,7 +66,7 @@ export default function Example() {
       <Header />
       <div className="relative pt-14">
         <div
-          className="absolute transition-all duration-[5000ms] ease-linear inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          className="absolute transition-all duration-5000 ease-linear inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           style={{
             transform: `rotate(${rotation}deg) scale(${scale}) translate(${x}px,${y}px)`,
           }}
@@ -77,7 +74,7 @@ export default function Example() {
         >
           <div
             className={clsx(
-              "relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]",
+              "relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75",
             )}
             style={{
               clipPath:
@@ -99,93 +96,15 @@ export default function Example() {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link
                   href="/docs"
-                  className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Get started
                 </Link>
               </div>
             </div>
 
-            <div className="mt-16 flow-root sm:mt-24 pointer-events-none">
-              <div className="-m-2 relative rounded-xl bg-gradient-to-tr from-zinc-400 to-sky-50 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4 aspect-[16/9] flex flex-col">
-                <div className="bg-slate-50 rounded-md shadow-2xl ring-1 w-full flex-1 ring-gray-900/10 relative">
-                  <div
-                    className={clsx({
-                      "bg-white": true,
-                      "fixed top-0 left-0 inset-0 z-50": isCollabFullscreen,
-                      "inset-0 rounded-md": !isCollabFullscreen,
-                    })}
-                  >
-                    <iframe
-                      title="PDFSlick Collab Demo"
-                      className="pointer-events-auto border-0 absolute inset-0 w-full h-full rounded-md"
-                      src="https://pdfslick.com/embed-iframe/50-years-of-solar-system-exploration_tagged.pdf"
-                    ></iframe>
-                    {!isCollabFullscreen && (
-                      <div
-                        className={clsx({
-                          "pointer-events-none absolute rounded-lg inset-0 transition-all duration-300": true,
-                          "bg-white/40 backdrop-blur-sm": !isHoverCTABtn,
-                          "bg-white/0 backdrop-blur-none": isHoverCTABtn,
-                        })}
-                      ></div>
-                    )}
-                    {isCollabFullscreen && (
-                      <div className="absolute bottom-2 left-2">
-                        <button
-                          type="button"
-                          className="rounded-full bg-zinc-900/80 p-1.5 text-gray-300 hover:bg-zinc-900 cursor-pointer pointer-events-auto"
-                          onClick={() => setCollabFullscreen(false)}
-                        >
-                          <span className="sr-only">Close menu</span>
-                          <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-16 sm:mt-20">
-                    <div
-                      className={clsx({
-                        "relative max-w-3xl px-4 sm:px-6 lg:px-8 mx-auto sm:text-center transition-opacity": true,
-                        "opacity-0": isHoverCTABtn,
-                        "opacity-100": !isHoverCTABtn
-                      })}
-                    >
-                      <h1 className="mt-6 text-[2.5rem] leading-none sm:text-6xl tracking-tight font-bold text-zinc-900">
-                        Annotate. Sketch. Sync.
-                      </h1>
-                      <p className="mt-4 text-lg text-zinc-800">
-                        Real-time PDF collaboration that feels like a shared
-                        whiteboard
-                      </p>
-                    </div>
-                    <div className="mx-auto overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8 flex flex-col justify-end relative">
-                      <div className="mt-10 flex items-center justify-center gap-x-6">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCollabFullscreen(true);
-                          }}
-                          onMouseEnter={() => {
-                            setHoverCTABtn(true);
-                          }}
-                          onMouseLeave={() => {
-                            setHoverCTABtn(false);
-                          }}
-                          className="pointer-events-auto rounded-md bg-red-500/0 border border-red-600 px-3.5 py-2.5 text-sm font-semibold text-red-500 hover:text-white shadow hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                          Try it out live
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div className="mt-16 flow-root sm:mt-24">
-              <div className="-m-2 relative rounded-xl bg-gradient-to-tr from-pink-50 to-violet-50 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4 aspect-[16/9] flex flex-col">
+              <div className="-m-2 relative rounded-xl bg-linear-to-tr from-pink-50 to-violet-50 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4 aspect-16/9 flex flex-col">
                 <div className="bg-slate-50 rounded-md shadow-2xl ring-1 w-full flex-1 ring-gray-900/10">
                   <div className="mt-16 sm:mt-20">
                     <div className="relative max-w-3xl px-4 sm:px-6 lg:px-8 mx-auto sm:text-center">
@@ -209,7 +128,7 @@ export default function Example() {
                             <div className="h-full rounded-lg p-3 ring-1 ring-inset ring-slate-200 bg-stone-100">
                               <div
                                 className={clsx(
-                                  "aspect-[16/9] w-full overflow-hidden rounded  group-hover:opacity-75 shadow-sm border border-slate-300",
+                                  "aspect-16/9 w-full overflow-hidden rounded  group-hover:opacity-75 shadow-sm border border-slate-300",
                                   "group-hover:shadow-md",
                                 )}
                               >
@@ -242,7 +161,7 @@ export default function Example() {
           aria-hidden="true"
         >
           <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+            className="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75"
             style={{
               clipPath:
                 "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",

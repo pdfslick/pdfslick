@@ -1,19 +1,19 @@
 export const examples = [
   {
-    name: "Comments",
-    href: "/examples/comments",
-    imageSrc: "/assets/examples/PDFSlick_Comments.png",
-    short: "Comments in PDF",
-    description:
-      "Comments in PDF",
-  },
-  {
     name: "PDFSlick Full Viewer App",
     href: "/examples/pdf-viewer-app",
     imageSrc: "/assets/examples/PDFSlick_Full_Viewer_App_MK.png",
     short: "Full-blown app with various PDF tools and functions",
     description:
       "Full Interactive App with page thumbnails, document outline and attachments in the sidebar, and a toolbar with a wide set of functions including zoom in/out, page navigation, rotation, drawing and adding text annotation etc.",
+  },
+  {
+    name: "Comments",
+    href: "/examples/comments",
+    imageSrc: "/assets/examples/PDFSlick_Comments.png",
+    short: "Comments in PDF",
+    description:
+      "Comments in PDF",
   },
   {
     name: "Multiple PDF Documents",

@@ -77,134 +77,147 @@ export function Header({ alwaysShowBorders = false }: HeaderProps) {
   }, [router.pathname]);
 
   return (
-    <header
-      className={clsx("sticky backdrop-blur-sm border-b top-0 z-30", {
-        "border-gray-200 bg-white/50 shadow-sm":
-          scrollY > 10 || alwaysShowBorders,
-        "border-gray-100/0": scrollY <= 10 && !alwaysShowBorders,
-      })}
-    >
-      <nav
-        className={clsx(
-          "flex items-center transition-all justify-between p-6 lg:p-2 lg:px-8",
-          {
-            // "py-4": scrollY > 10,
-          }
-        )}
-        aria-label="Global"
+    <>
+      <div className="flex items-center gap-x-6 bg-[#EF4141] px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+        <p className="text-sm/6 text-white">
+          <a href="https://pdfslick.com?src=dev">
+            🎉 Announcing{" "}
+            <strong className="font-semibold">PDFSlick Sync</strong>: Add
+            real-time collaboration to PDF documents in your app.&nbsp;
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </p>
+        <div className="flex flex-1 justify-end"></div>
+      </div>
+      <header
+        className={clsx("sticky backdrop-blur-sm border-b top-0 z-30", {
+          "border-gray-200 bg-white/50 shadow-sm":
+            scrollY > 10 || alwaysShowBorders,
+          "border-gray-100/0": scrollY <= 10 && !alwaysShowBorders,
+        })}
       >
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">PDFSlick</span>
-            <img
-              className={clsx(
-                "w-auto transition-all ease-in-out duration-150",
-                {
-                  "h-6": scrollY > 10,
-                  "h-8": scrollY <= 10,
-                }
-              )}
-              src="/symbol.svg"
-              alt="PDFSlick"
-            />
-          </Link>
-        </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="hidden lg:flex lg:gap-x-2">
-          {mainNavigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-700 hover:text-gray-900 rounded-lg px-4 py-2 hover:bg-gray-50"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </nav>
-      <Dialog
-        as="div"
-        className="lg:hidden"
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-      >
-        <div className="fixed inset-0 z-50" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
+        <nav
+          className={clsx(
+            "flex items-center transition-all justify-between p-6 lg:p-2 lg:px-8",
+            {
+              // "py-4": scrollY > 10,
+            },
+          )}
+          aria-label="Global"
+        >
+          <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">PDFSlick</span>
-              <img className="h-8 w-auto" src="/symbol.svg" alt="PDFSlick" />
+              <img
+                className={clsx(
+                  "w-auto transition-all ease-in-out duration-150",
+                  {
+                    "h-6": scrollY > 10,
+                    "h-8": scrollY <= 10,
+                  },
+                )}
+                src="/symbol.svg"
+                alt="PDFSlick"
+              />
             </Link>
+          </div>
+          <div className="flex lg:hidden">
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              onClick={() => setMobileMenuOpen(true)}
             >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <span className="sr-only">Open main menu</span>
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                {mainNavigation.map((item) => (
-                  <div key={item.name}>
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </Link>
-                    {item.href === "/docs" && (
-                      <nav className={clsx("text-base lg:text-sm pl-2")}>
-                        <ul role="list" className="space-y-2">
-                          {navigation.map((section) => (
-                            <li key={section.title}>
-                              <h2 className="font-display font-extralight text-xs tracking-widest text-slate-300 uppercase">
-                                {section.title}
-                              </h2>
-                              <ul
-                                role="list"
-                                className="mt-2 space-y-1 lg:mt-4 lg:space-y-4 lg:border-slate-200"
-                              >
-                                {section.links.map((link) => (
-                                  <li key={link.href} className="relative">
-                                    <Link
-                                      href={link.href}
-                                      className={clsx(
-                                        "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full",
-                                        link.href === router.pathname
-                                          ? "font-semibold text-rose-500 before:bg-rose-500"
-                                          : "text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-600 hover:before:block"
-                                      )}
-                                    >
-                                      {link.title}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </li>
-                          ))}
-                        </ul>
-                      </nav>
-                    )}
-                  </div>
-                ))}
+          <div className="hidden lg:flex lg:gap-x-2">
+            {mainNavigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-gray-700 hover:text-gray-900 rounded-lg px-4 py-2 hover:bg-gray-50"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </nav>
+        <Dialog
+          as="div"
+          className="lg:hidden"
+          open={mobileMenuOpen}
+          onClose={setMobileMenuOpen}
+        >
+          <div className="fixed inset-0 z-50" />
+          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="flex items-center justify-between">
+              <Link href="/" className="-m-1.5 p-1.5">
+                <span className="sr-only">PDFSlick</span>
+                <img className="h-8 w-auto" src="/symbol.svg" alt="PDFSlick" />
+              </Link>
+              <button
+                type="button"
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="sr-only">Close menu</span>
+                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+            <div className="mt-6 flow-root">
+              <div className="-my-6 divide-y divide-gray-500/10">
+                <div className="space-y-2 py-6">
+                  {mainNavigation.map((item) => (
+                    <div key={item.name}>
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >
+                        {item.name}
+                      </Link>
+                      {item.href === "/docs" && (
+                        <nav className={clsx("text-base lg:text-sm pl-2")}>
+                          <ul role="list" className="space-y-2">
+                            {navigation.map((section) => (
+                              <li key={section.title}>
+                                <h2 className="font-display font-extralight text-xs tracking-widest text-slate-300 uppercase">
+                                  {section.title}
+                                </h2>
+                                <ul
+                                  role="list"
+                                  className="mt-2 space-y-1 lg:mt-4 lg:space-y-4 lg:border-slate-200"
+                                >
+                                  {section.links.map((link) => (
+                                    <li key={link.href} className="relative">
+                                      <Link
+                                        href={link.href}
+                                        className={clsx(
+                                          "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full",
+                                          link.href === router.pathname
+                                            ? "font-semibold text-rose-500 before:bg-rose-500"
+                                            : "text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-600 hover:before:block",
+                                        )}
+                                      >
+                                        {link.title}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ))}
+                          </ul>
+                        </nav>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </Dialog.Panel>
-      </Dialog>
-    </header>
+          </Dialog.Panel>
+        </Dialog>
+      </header>
+    </>
   );
 }
