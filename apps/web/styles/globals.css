@@ -65,11 +65,11 @@
   }
 
   .comment-name-input {
-    @apply w-[calc(100%-20px)] h-5 bg-white rounded-sm border border-slate-300 text-sm px-2;
+    @apply w-[calc(100%-20px)] h-5 bg-white rounded-sm border border-slate-300 text-black text-sm px-2;
   }
 
   .comment-input {
-    @apply w-[calc(100%-20px)] min-h-14 bg-white rounded-sm border border-slate-300 text-sm resize-y px-2;
+    @apply w-[calc(100%-20px)] min-h-14 bg-white rounded-sm border border-slate-300 text-black text-sm resize-y px-2;
     field-sizing: content;
     word-wrap: break-word;
     overflow-wrap: break-word;
