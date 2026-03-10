@@ -42,9 +42,8 @@ export default function CommentOverlay({ comments, onClose, onDelete, onAddComme
                     <div className="comment-header">
                         <div className="comment-author">
                             {/* Avatar with initials */}
-                            <div 
-                                className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full" 
-                                style={{ width: "40px", height: "40px" }}
+                            <div
+                                className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full"
                             >
                                 {getInitials(comment.user_id)} {/* TODO: fix this to be the user id or name */}
                             </div>

@@ -5,7 +5,7 @@ import Thumbsbar from "./Thumbsbar";
 import CommentSidebar from "./Comment/CommentSidebar";
 import { getComments } from "./storage/localStorage";
 import type { Comment as CommentModel } from "./storage/models/Comment";
-import { AnnotationEditorType } from "pdfjs-dist";
+import { AnnotationEditorType, AnnotationMode } from "pdfjs-dist";
 import { getAnnotations, storeAnnotation, storeComment, deleteComment, deleteAnnotation, deleteCommentsFromAnnotation, getAnnotationFromComment } from "./storage/localStorage";
 import { Annotation } from "./storage/models/Annotation";
 import PinLayer from "./Pin/PinLayer";
@@ -35,6 +35,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
     usePDFSlickStore,
     PDFSlickViewer,
   } = usePDFSlick(pdfFilePath, {
+    annotationMode: AnnotationMode.DISABLE,
     getDocumentParams: {
       disableAutoFetch: false, /** pages need to be loaded for printing, otherwise we get `Expected print service to be initialized.` */
       disableFontFace: false,
@@ -135,7 +136,7 @@ export default function Comments({ pdfFilePath }: CommentsProps) {
         <div className="flex-1 flex">
           <Thumbsbar {...{ thumbsRef, usePDFSlickStore, isThumbsbarOpen }} />
 
-          <div className="flex- h-full">
+          <div className="flex-1 relative h-full">
             <PDFSlickViewer {...{ viewerRef, usePDFSlickStore }} />
             <CommentsProvider comments={comments} onDeleteComment={handleDeleteComment}>
               <PinLayer
