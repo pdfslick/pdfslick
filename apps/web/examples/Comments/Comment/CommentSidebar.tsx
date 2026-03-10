@@ -70,9 +70,9 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
   return (
     <div className="comments-panel">
       <CgCloseO onClick={handleClose} className="comments-panel-close" />
-      <h1 className="w-32 h-7 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
+      <h1 className="w-32 h-7 mb-4 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
 
-      <div className="mt-6 mb-4 flex items-center gap-2">
+      {/* <div className="mt-6 mb-4 flex items-center gap-2">
         <div className="text-base" style={{ color: '#45556C' }}>Sort by:</div>
         <div className="relative ml-2">
           <button
@@ -105,7 +105,7 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
       {sortedThreads.map(({ annotationId, comments: threadComments }) => {
         const sortedThreadComments = [...threadComments].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
@@ -117,7 +117,6 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
               <div className="comment-author comment-author-sidebar">
                 <div
                   className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3"
-                  style={{ width: "40px", height: "40px" }}
                 >
                   {/* user_id must be replaced with user_name after updating CommentForm!! */}
                   {getInitials(firstComment.user_id)}
@@ -147,7 +146,6 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
                         <div className="comment-author comment-author-sidebar">
                           <div
                             className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3"
-                            style={{ width: "40px", height: "40px" }}
                           >
                             {getInitials(c.user_id)}
                           </div>
