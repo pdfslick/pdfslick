@@ -70,42 +70,7 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
   return (
     <div className="comments-panel">
       <CgCloseO onClick={handleClose} className="comments-panel-close" />
-      <h1 className="w-32 h-7 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
-
-      <div className="mt-6 mb-4 flex items-center gap-2">
-        <div className="text-base" style={{ color: '#45556C' }}>Sort by:</div>
-        <div className="relative ml-2">
-          <button
-            className="w-40 h-8 bg-white rounded-sm border border-[#CAD5E2] flex items-center justify-between px-2 hover:bg-gray-50"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            <span className="text-sm font-light font-['Inter'] text-neutral-500 capitalize">{sortBy}</span>
-            <VscChevronDown className="w-3 h-3" style={{ color: '#696969' }} />
-          </button>
-          {isDropdownOpen && (
-            <div className="absolute top-full mt-1 w-40 bg-white rounded-sm border border-[#CAD5E2] shadow-lg z-10">
-              <button
-                className="w-full px-3 py-1 justify-start text-neutral-500 text-sm font-light font-['Inter'] text-left hover:bg-gray-100"
-                onClick={() => {
-                  setSortBy("date");
-                  setIsDropdownOpen(false);
-                }}
-              >
-                Date
-              </button>
-              <button
-                className="w-full px-3 py-1 justify-start text-neutral-500 text-sm font-light font-['Inter'] text-left hover:bg-gray-100"
-                onClick={() => {
-                  setSortBy("page");
-                  setIsDropdownOpen(false);
-                }}
-              >
-                Page
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+      <h1 className="w-32 h-7 mb-4 justify-start text-xl font-normal font-['Inter']" style={{ color: '#100F0F' }}>Comments</h1>
 
       {sortedThreads.map(({ annotationId, comments: threadComments }) => {
         const sortedThreadComments = [...threadComments].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
@@ -117,7 +82,6 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
               <div className="comment-author comment-author-sidebar">
                 <div
                   className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3"
-                  style={{ width: "40px", height: "40px" }}
                 >
                   {/* user_id must be replaced with user_name after updating CommentForm!! */}
                   {getInitials(firstComment.user_id)}
@@ -147,7 +111,6 @@ export default function CommentSidebar({ comments, isOpen, onClose, onSelectComm
                         <div className="comment-author comment-author-sidebar">
                           <div
                             className="comment-author-avatar flex items-center justify-center bg-gray-300 text-white font-bold rounded-full mr-3"
-                            style={{ width: "40px", height: "40px" }}
                           >
                             {getInitials(c.user_id)}
                           </div>
