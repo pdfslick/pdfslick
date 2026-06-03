@@ -25,7 +25,7 @@ import {
     PDFSinglePageViewer
 } from "pdfjs-dist/web/pdf_viewer.mjs";
 
-import { IL10n, PDFViewerOptions } from "pdfjs-dist/types/web/pdf_viewer";
+import { L10n, PDFViewerOptions } from "pdfjs-dist/types/web/pdf_viewer";
 import type {
     TEventBusEvent,
     PDFSlickInputArgs,
@@ -109,7 +109,7 @@ export class PDFSlick {
     // options
     #annotationMode: number;
     #annotationEditorMode: number;
-    l10n: IL10n;
+    l10n: L10n;
     singlePageViewer: boolean;
     removePageBorders: boolean;
     enablePrintAutoRotate: boolean;
@@ -213,7 +213,6 @@ export class PDFSlick {
             annotationEditorMode: this.#annotationEditorMode,
             removePageBorders: this.removePageBorders,
             imageResourcesPath: "/images/",
-            enableHWA: this.enableHWA,
             enableDetailCanvas: this.enableDetailCanvas,
             enableOptimizedPartialRendering: this.enableOptimizedPartialRendering,
             minDurationToUpdateCanvas: this.minDurationToUpdateCanvas,
@@ -282,7 +281,9 @@ export class PDFSlick {
         }
 
         try {
-            this.document?.destroy();
+            // `PDFDocumentProxy.destroy()` was removed in pdfjs-dist v6; tear
+            // down the previous document through its loading task instead.
+            this.document?.loadingTask.destroy();
             this.viewer?.cleanup();
 
             if (url instanceof URL) {
@@ -299,7 +300,7 @@ export class PDFSlick {
             const pdfDocumentLoader = getDocument({
                 ...this.getDocumentParams,
                 url: this.url,
-                isEvalSupported: false
+                enableHWA: this.enableHWA,
             });
 
             if (!!options?.onProgress) {
@@ -469,15 +470,23 @@ export class PDFSlick {
 
         const [{ width, height }, unit, name, orientation] = await Promise.all([
             _isNonMetricLocale ? sizeInches : sizeMillimeters,
+            // pdfjs-dist v6 `L10n.get(ids, args, fallback)` requires a fallback
+            // value, which is returned when the id isn't in the l10n bundle.
             this.l10n.get(
-                `document_properties_page_size_unit_${_isNonMetricLocale ? "inches" : "millimeters"}`, null
+                `document_properties_page_size_unit_${_isNonMetricLocale ? "inches" : "millimeters"}`,
+                null,
+                _isNonMetricLocale ? "in" : "mm"
             ),
             rawName &&
             this.l10n.get(
-                `document_properties_page_size_name_${rawName.toLowerCase()}`, null
+                `document_properties_page_size_name_${rawName.toLowerCase()}`,
+                null,
+                rawName
             ),
             this.l10n.get(
-                `document_properties_page_size_orientation_${isPortrait ? "portrait" : "landscape"}`, null
+                `document_properties_page_size_orientation_${isPortrait ? "portrait" : "landscape"}`,
+                null,
+                isPortrait ? "portrait" : "landscape"
             ),
         ]);
 
@@ -510,18 +519,18 @@ export class PDFSlick {
     async download() {
         const url = this.url;
         const { filename } = this;
+        let data: Uint8Array | undefined;
         try {
             // this._ensureDownloadComplete();
-
-            const data = (await this.document!.getData()).slice(0);
-            const blob = new Blob([data], { type: "application/pdf" });
-
-            await this.downloadManager?.download(blob, url, filename);
-        } catch (reason) {
+            data = (await this.document!.getData()).slice(0);
+        } catch {
             // When the PDF document isn't ready, or the PDF file is still
             // downloading, simply download using the URL.
-            await this.downloadManager?.download(null, url, filename);
         }
+        // As of pdfjs-dist v6, `download` takes the raw document data (a
+        // `Uint8Array`) and builds the blob internally; a falsy `data` makes
+        // it fall back to downloading directly from the URL.
+        await this.downloadManager?.download(data!, url as string, filename);
     }
 
     async save() {
@@ -535,9 +544,8 @@ export class PDFSlick {
             // this._ensureDownloadComplete();
 
             const data = (await this.document!.saveDocument()).slice(0);
-            const blob = new Blob([data], { type: "application/pdf" });
 
-            await this.downloadManager?.download(blob, url, filename);
+            await this.downloadManager?.download(data, url as string, filename);
         } catch (reason: any) {
             // When the PDF document isn't ready, or the PDF file is still
             // downloading, simply fallback to a "regular" download.
@@ -582,13 +590,13 @@ export class PDFSlick {
         const { signal } = this.#eventAbortController;
         const opts: any = { signal };
 
-        this.eventBus._on("pagesinit", this.#onDocumentReady.bind(this), opts);
-        this.eventBus._on("scalechanging", this.#onScaleChanging.bind(this), opts);
-        this.eventBus._on("pagechanging", this.#onPageChanging.bind(this), opts);
-        this.eventBus._on("pagerendered", this.#onPageRendered.bind(this), opts);
-        this.eventBus._on("rotationchanging", this.#onRotationChanging.bind(this), opts);
-        this.eventBus._on("switchspreadmode", this.#onSwitchSpreadMode.bind(this), opts);
-        this.eventBus._on("switchscrollmode", this.#onSwitchScrollMode.bind(this), opts);
+        this.eventBus.on("pagesinit", this.#onDocumentReady.bind(this), opts);
+        this.eventBus.on("scalechanging", this.#onScaleChanging.bind(this), opts);
+        this.eventBus.on("pagechanging", this.#onPageChanging.bind(this), opts);
+        this.eventBus.on("pagerendered", this.#onPageRendered.bind(this), opts);
+        this.eventBus.on("rotationchanging", this.#onRotationChanging.bind(this), opts);
+        this.eventBus.on("switchspreadmode", this.#onSwitchSpreadMode.bind(this), opts);
+        this.eventBus.on("switchscrollmode", this.#onSwitchScrollMode.bind(this), opts);
     }
 
     unbindEvents() {

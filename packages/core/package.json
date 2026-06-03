@@ -48,7 +48,7 @@
     "css-watch-js": "npm run css -- --watch"
   },
   "dependencies": {
-    "pdfjs-dist": "^5.4.394",
+    "pdfjs-dist": "^6.0.227",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
