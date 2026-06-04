@@ -17,7 +17,7 @@ import {
   AnnotationMode,
   PixelsPerInch,
   RenderingCancelledException,
-  getXfaPageViewport,
+  XfaLayer,
   PDFDocumentProxy,
   PDFPageProxy,
 } from "pdfjs-dist";
@@ -49,7 +49,7 @@ function getXfaHtmlForPrinting(
       linkService,
       xfaHtml: xfaPage,
     });
-    const viewport = getXfaPageViewport(xfaPage, { scale });
+    const viewport = XfaLayer.getPageViewport(xfaPage, { scale });
 
     builder.render({ viewport, intent: "print" });
     page.append(builder.div!);

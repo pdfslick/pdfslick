@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-/** @typedef {import("./interfaces").IRenderableView} IRenderableView */
+/** @typedef {import("./interfaces").RenderableView} RenderableView */
 /** @typedef {import("./pdf_viewer").PDFViewer} PDFViewer */
 /** @typedef {import("./pdf_thumbnail_viewer").PDFThumbnailViewer} PDFThumbnailViewer */
 
 import { RenderingCancelledException } from "pdfjs-dist";
-import { IRenderableView } from "pdfjs-dist/types/web/interfaces.js";
+import { RenderableView } from "pdfjs-dist/types/web/renderable_view";
 import { PDFThumbnailViewer } from "./pdf_thumbnail_viewer";
 
 import { PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
@@ -70,10 +70,10 @@ class PDFRenderingQueue {
   }
 
   /**
-   * @param {IRenderableView} view
+   * @param {RenderableView} view
    * @returns {boolean}
    */
-  isHighestPriority(view: IRenderableView) {
+  isHighestPriority(view: RenderableView) {
     return this.highestPriorityPage === view.renderingId;
   }
 
@@ -115,14 +115,14 @@ class PDFRenderingQueue {
    * @param {boolean} [preRenderExtra]
    */
   getHighestPriority<
-    T extends { div: HTMLElement; id: number; detailView?: IRenderableView } & IRenderableView
+    T extends { div: HTMLElement; id: number; detailView?: RenderableView } & RenderableView
   >(
     visible: ReturnType<typeof getVisibleElements<T>>,
     views: T[],
     scrolledDown: boolean,
     preRenderExtra = false,
     ignoreDetailViews = false
-  ): IRenderableView | null {
+  ): RenderableView | null {
     /**
      * The state has changed. Figure out which page has the highest priority to
      * render next (if any).
@@ -195,10 +195,10 @@ class PDFRenderingQueue {
   }
 
   /**
-   * @param {IRenderableView} view
+   * @param {RenderableView} view
    * @returns {boolean}
    */
-  isViewFinished(view: IRenderableView) {
+  isViewFinished(view: RenderableView) {
     return view.renderingState === RenderingStates.FINISHED;
   }
 
@@ -207,9 +207,9 @@ class PDFRenderingQueue {
    * based on the views state. If the view is already rendered it will return
    * `false`.
    *
-   * @param {IRenderableView} view
+   * @param {RenderableView} view
    */
-  renderView(view: IRenderableView) {
+  renderView(view: RenderableView) {
     switch (view.renderingState) {
       case RenderingStates.FINISHED:
         return false;

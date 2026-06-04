@@ -104,7 +104,11 @@ export class PDFSlickPrintService {
         // The beforePrint is a sync method and we need to know layout before
         // returning from this method. Ensure that we can get sizes of the pages.
         if (!this.slick.viewer.pageViewsReady) {
-            this.slick.l10n.get("printing_not_ready", null).then((msg) => {
+            this.slick.l10n.get(
+                "printing_not_ready",
+                null,
+                "Warning: The PDF is not fully loaded for printing."
+            ).then((msg) => {
                 // eslint-disable-next-line no-alert
                 window.alert(msg);
             });
@@ -145,8 +149,8 @@ export class PDFSlickPrintService {
         const { signal } = this.#eventAbortController;
         const opts: any = { signal };
 
-        this.eventBus._on("beforeprint", this.#beforePrint.bind(this), opts);
-        this.eventBus._on("afterprint", this.#afterPrint.bind(this), opts);
+        this.eventBus.on("beforeprint", this.#beforePrint.bind(this), opts);
+        this.eventBus.on("afterprint", this.#afterPrint.bind(this), opts);
 
         window.addEventListener(
             "beforeprint",
