@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { useMeasure, useDebounce } from "react-use";
+import { useMeasure, useDebounce } from "./hooks";
 import type { TUsePDFSlickStore } from "./";
 
 export type PDFSlickThumbProps = {
