@@ -1,4 +1,4 @@
-import { useMeasure, useDebounce } from "react-use";
+import { useMeasure, useDebounce } from "./hooks";
 import type { TUsePDFSlickStore } from "@pdfslick/react";
 
 export type PDFSlickViewerProps = {

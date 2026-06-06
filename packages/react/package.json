@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "@pdfslick/core": "^3.1.0",
-    "react-use": "^17.6.0",
     "use-sync-external-store": "^1.6.0"
   },
   "publishConfig": {
@@ -71,8 +70,7 @@
   "rollup": {
     "globals": {
       "zustand": "zustand",
-      "@pdfslick/core": "PDFSlickCore",
-      "react-use": "ReactUse"
+      "@pdfslick/core": "PDFSlickCore"
     },
     "name": "PDFSlickReact"
   }
