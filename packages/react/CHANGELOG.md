@@ -1,5 +1,17 @@
 # @pdfslick/react
 
+## 4.0.0
+
+### Major Changes
+
+- Update to pdfjs v6
+
+### Patch Changes
+
+- Remove the `react-use` runtime dependency. `useMeasure` and `useDebounce` are now implemented locally (`ResizeObserver` + `setTimeout`), eliminating the transitive `js-cookie` advisory (GHSA-qjx8-664m-686j) for consumers and dropping several transitive dependencies. No public API change.
+- Updated dependencies
+  - @pdfslick/core@4.0.0
+
 ## 3.1.0
 
 ### Minor Changes

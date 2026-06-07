@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -13,8 +13,8 @@
     "@heroicons/react": "^2.2.0",
     "@markdoc/markdoc": "^0.5.4",
     "@markdoc/next.js": "^0.5.0",
-    "@pdfslick/core": "^3.0.0",
-    "@pdfslick/react": "^3.0.0",
+    "@pdfslick/core": "^4.0.0",
+    "@pdfslick/react": "^4.0.0",
     "@radix-ui/react-popover": "^1.1.6",
     "@sindresorhus/slugify": "^2.2.1",
     "@tabler/icons-react": "^3.30.0",
