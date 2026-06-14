@@ -60,7 +60,9 @@
     "js-cookie": "^3.0.8",
     "cookie": "^0.7.2",
     "postcss": "^8.5.10",
-    "@types/node": "^22"
+    "@types/node": "^22",
+    "esbuild": "^0.28.1",
+    "shell-quote": "^1.8.4"
   },
   "publishConfig": {
     "provenance": true
