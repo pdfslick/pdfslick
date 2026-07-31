@@ -39,13 +39,14 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
-    "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"npm run css-watch\"",
-    "devdev": "rollup --config node:@pdfslick/rollup-config && npm run css",
-    "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && npm run css",
+    "dev": "concurrently \"rollup --config node:@pdfslick/rollup-config --watch\" \"npm run css-watch\" \"npm run copy-worker\"",
+    "devdev": "rollup --config node:@pdfslick/rollup-config && npm run css && npm run copy-worker",
+    "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && npm run css && npm run copy-worker",
     "css": "cat ../../node_modules/pdfjs-dist/web/pdf_viewer.css ./styles/pdf_viewer.css | postcss -o dist/pdf_viewer.css",
     "css-watch": "npm run css",
     "css-js": "node combine-css.js",
-    "css-watch-js": "npm run css -- --watch"
+    "css-watch-js": "npm run css -- --watch",
+    "copy-worker": "mkdir -p dist/esm/pdfjs-dist/build dist/umd/pdfjs-dist/build && cp ../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs dist/esm/pdfjs-dist/build/ && cp ../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs dist/umd/pdfjs-dist/build/"
   },
   "dependencies": {
     "pdfjs-dist": "^6.0.227",
