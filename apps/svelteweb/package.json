@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^4.0.0",
 		"@sveltejs/adapter-cloudflare": "^7.2.8",
-		"@sveltejs/kit": "^2.17.3",
+		"@sveltejs/kit": "^2.70.2",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@tailwindcss/vite": "^4.0.9",
 		"@typescript-eslint/eslint-plugin": "^8.25.0",
@@ -35,7 +35,7 @@
 		"tslib": "^2.8.1",
 		"typescript": "5.7.3",
 		"vite": "^6.2.0",
-		"wrangler": "^4.103.0"
+		"wrangler": "^4.118.0"
 	},
 	"dependencies": {
 		"@pdfslick/core": "^4.0.0",
