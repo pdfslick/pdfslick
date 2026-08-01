@@ -54,7 +54,7 @@
   "devDependencies": {
     "@pdfslick/rollup-config": "0.0.0",
     "autoprefixer": "^10.4.22",
-    "concurrently": "^9.2.1",
+    "concurrently": "^9.2.4",
     "eslint": "^9.39.1",
     "eslint-config-custom": "0.0.0",
     "postcss": "^8.5.6",

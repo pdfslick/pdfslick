@@ -44,7 +44,7 @@
     "build": "rollup --config node:@pdfslick/rollup-config --environment NODE_ENV:production && copyfiles -u 3 \"../core/dist/pdf_viewer.css\" ./dist"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1",
+    "concurrently": "^9.2.4",
     "copyfiles": "^2.4.1",
     "eslint": "^9.39.1",
     "eslint-config-custom": "0.0.0",
