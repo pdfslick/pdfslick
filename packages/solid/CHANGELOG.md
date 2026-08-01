@@ -1,5 +1,13 @@
 # @pdfslick/solid
 
+## 4.0.1
+
+### Patch Changes
+
+- Build a CommonJS bundle in addition to the ESM one. The package's `main` field points at `dist/cjs/index.js`, but only `dist/esm` was produced, so any CommonJS resolution — `require()`, older bundlers, SSR — failed to resolve the entry point. No public API change.
+- Updated dependencies
+  - @pdfslick/core@4.0.1
+
 ## 4.0.0
 
 ### Major Changes

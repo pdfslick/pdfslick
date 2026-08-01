@@ -1,5 +1,11 @@
 # @pdfslick/core
 
+## 4.0.1
+
+### Patch Changes
+
+- Emit pdf.js's `pdf.worker.min.mjs` as a Rollup asset alongside both the `esm` and `umd` bundles. `GlobalWorkerOptions.workerSrc` is resolved relative to the built module's own URL, but the worker file was never written to `dist`, so that URL pointed at a file that did not exist and documents failed to load unless consumers set `workerSrc` themselves. No public API change.
+
 ## 4.0.0
 
 ### Major Changes

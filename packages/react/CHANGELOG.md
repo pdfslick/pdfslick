@@ -1,5 +1,13 @@
 # @pdfslick/react
 
+## 4.0.1
+
+### Patch Changes
+
+- Release to pick up the `@pdfslick/core` fix that ships pdf.js's worker file next to the built bundles, and raise the `@pdfslick/core` dependency floor to `^4.0.1` so the fix reaches consumers whose lockfile has `@pdfslick/core@4.0.0` pinned. No public API change.
+- Updated dependencies
+  - @pdfslick/core@4.0.1
+
 ## 4.0.0
 
 ### Major Changes
