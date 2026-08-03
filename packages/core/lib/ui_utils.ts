@@ -93,8 +93,19 @@ const AutoPrintRegExp = /\bprint\s*\(/;
  * @param {boolean} [scrollMatches] - When scrolling search results into view,
  *   ignore elements that either: Contains marked content identifiers,
  *   or have the CSS-rule `overflow: hidden;` set. The default value is `false`.
+ * @param {HTMLElement} [boundary] - An ancestor element at which the
+ *   walk up the `offsetParent` chain must stop, even if that ancestor
+ *   doesn't itself overflow. Without this, `scrollIntoView` can walk past
+ *   a component's own scroll container into an unrelated scrollable
+ *   ancestor of the host page (e.g. a modal body) whenever the component's
+ *   own container has nothing to overflow.
  */
-function scrollIntoView(element: HTMLElement, spot: any, scrollMatches = false) {
+function scrollIntoView(
+  element: HTMLElement,
+  spot: any,
+  scrollMatches = false,
+  boundary?: HTMLElement
+) {
   // Assuming offsetParent is available (it's not available when viewer is in
   // hidden iframe or object). We have to scroll: if the offsetParent is not set
   // producing the error. See also animationStarted.
@@ -106,11 +117,12 @@ function scrollIntoView(element: HTMLElement, spot: any, scrollMatches = false) 
   let offsetY = element.offsetTop + element.clientTop;
   let offsetX = element.offsetLeft + element.clientLeft;
   while (
-    (parent.clientHeight === parent.scrollHeight &&
+    parent !== boundary &&
+    ((parent.clientHeight === parent.scrollHeight &&
       parent.clientWidth === parent.scrollWidth) ||
-    (scrollMatches &&
-      (parent.classList.contains("markedContent") ||
-        getComputedStyle(parent).overflow === "hidden"))
+      (scrollMatches &&
+        (parent.classList.contains("markedContent") ||
+          getComputedStyle(parent).overflow === "hidden")))
   ) {
     offsetY += parent.offsetTop;
     offsetX += parent.offsetLeft;
