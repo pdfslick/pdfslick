@@ -115,16 +115,31 @@ export class PDFSlickPrintService {
             return;
         }
 
-        this.#printContainer = createPrintContainer();
+        const printContainer = createPrintContainer();
 
-        this.#printService = PDFPrintServiceFactory.instance.createPrintService({
-            pdfDocument: this.slick.document!,
-            pagesOverview: this.slick.viewer.getPagesOverview(),
-            printContainer: this.#printContainer.element,
-            printResolution: this.slick.printResolution,
-            optionalContentConfigPromise: null,
-            printAnnotationStoragePromise: null, // this._printAnnotationStoragePromise,
-        });
+        // Every instance listens for window's beforeprint, so printing from one
+        // runs this on all of them, and the factory's active service is
+        // module-global — the instances that don't own the job throw here. Keep
+        // the container only once ownership is established: it is appended to
+        // the document on creation, and a leaked one renders as a blank page
+        // (`display: block; height: 100%` under `body[data-pdfjsprinting]`).
+        let printService: PDFPrintService;
+        try {
+            printService = PDFPrintServiceFactory.instance.createPrintService({
+                pdfDocument: this.slick.document!,
+                pagesOverview: this.slick.viewer.getPagesOverview(),
+                printContainer: printContainer.element,
+                printResolution: this.slick.printResolution,
+                optionalContentConfigPromise: null,
+                printAnnotationStoragePromise: null, // this._printAnnotationStoragePromise,
+            });
+        } catch {
+            printContainer.remove();
+            return;
+        }
+
+        this.#printContainer = printContainer;
+        this.#printService = printService;
 
         this.slick.forceRendering();
 
