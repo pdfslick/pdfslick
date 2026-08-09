@@ -19,6 +19,9 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
+      # Keep in sync with packageManager in package.json
+      - name: Update npm
+        run: npm install -g npm@12.0.2
       - name: Clean Install
         run: npm ci
       - name: Build
