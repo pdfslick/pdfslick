@@ -188,7 +188,12 @@ class PDFThumbnailViewer {
         }
       }
       if (shouldScroll) {
-        scrollIntoView(thumbnailView.div, { top: THUMBNAIL_SCROLL_MARGIN });
+        scrollIntoView(
+          thumbnailView.div,
+          { top: THUMBNAIL_SCROLL_MARGIN },
+          false,
+          this.container
+        );
       }
     }
 
