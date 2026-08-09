@@ -1,5 +1,15 @@
 # @pdfslick/solid
 
+## 4.0.2
+
+### Patch Changes
+
+- Stop a late-mounted thumbnails ref from reconstructing the PDFSlick instance. `usePDFSlick`'s effect auto-tracked the `thumbs` signal, so mounting the thumbnails panel after the document had loaded re-ran the whole effect: a second `PDFSlick` was constructed and `loadDocument()` called again with no cleanup of the first, producing two overlapping copies of every page, broken page tracking, and "offsetParent is not set" errors on navigation. `thumbs` is now read via `untrack`, matching the react hook's behavior of excluding it from the effect's dependencies.
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @pdfslick/core@4.0.2
+
 ## 4.0.1
 
 ### Patch Changes

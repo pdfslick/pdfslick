@@ -1,5 +1,13 @@
 # @pdfslick/core
 
+## 4.0.2
+
+### Patch Changes
+
+- Stop the bundled pdf.js CSS from declaring `color-scheme: light dark` on `:root`. That declaration comes from pdf.js's viewer stylesheet — correct for the standalone viewer page, but this file ships to apps embedding PDFSlick as a component, where it landed on the host document and made every native control, form field and scrollbar follow the OS color preference instead of the host app's own scheme (and was hard to override, being on `:root` and usually injected after the app's styles). The declaration is now stripped as the CSS passes through the build pipeline; the rest of the `:root` viewer variables are untouched, and the viewer itself already sets its own `color-scheme`.
+- Don't leak print containers from non-owning instances. Every PDFSlick instance listens for window's `beforeprint`, but only one can own a print job; instances that lost that race had already appended their print container to the document and never removed it, so apps with more than one live (or not-yet-unbound) instance accumulated one blank printed page per extra instance on every print. The print service is now created first and the container is only adopted once ownership is established, and discarded otherwise.
+- Stop the active-page thumbnail's `scrollIntoView` from scrolling past the thumbnail container. When the thumbnail panel didn't overflow, the helper walked up the `offsetParent` chain into whatever scrollable ancestor embedded the viewer (e.g. a modal body), scrolling the host app's UI instead. `scrollIntoView` now accepts an optional `boundary` element at which the walk-up always stops, and `PDFThumbnailViewer` passes its own container, so the thumbnail panel scrolls itself and never reaches into the host page's DOM.
+
 ## 4.0.1
 
 ### Patch Changes

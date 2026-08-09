@@ -1,5 +1,15 @@
 # @pdfslick/react
 
+## 4.0.2
+
+### Patch Changes
+
+- Version bump to keep `@pdfslick/react` in lockstep with `@pdfslick/core` 4.0.2 and raise its core dependency floor to `^4.0.2`, so this release's core fixes reach react consumers.
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @pdfslick/core@4.0.2
+
 ## 4.0.1
 
 ### Patch Changes
