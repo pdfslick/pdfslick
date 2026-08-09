@@ -35,7 +35,7 @@
 		"tslib": "^2.8.1",
 		"typescript": "5.7.3",
 		"vite": "^6.2.0",
-		"wrangler": "^4.118.0"
+		"wrangler": "^4.120.0"
 	},
 	"dependencies": {
 		"@pdfslick/core": "^4.0.0",
