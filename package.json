@@ -42,20 +42,25 @@
     "update-deps": "ncu -ws -i"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "concurrently": "^9.2.4",
     "eslint-config-custom": "0.0.0",
+    "fast-glob": "file:./config/eslint-glob",
     "npm-check-updates": "^17.1.15",
     "prettier": "latest",
     "turbo": "^2.4.4"
   },
   "engines": {
-    "node": ">=20"
+    "node": "^22.20.0 || ^24.15.0 || >=26",
+    "npm": ">=11.13.0"
   },
   "dependencies": {
-    "@changesets/cli": "^2.28.1",
     "rollup": "^4.34.8"
   },
   "overrides": {
+    "@next/eslint-plugin-next": {
+      "fast-glob": "$fast-glob"
+    },
     "serialize-javascript": "^7.0.5",
     "js-cookie": "^3.0.8",
     "cookie": "^0.7.2",

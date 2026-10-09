@@ -1,5 +1,15 @@
 # @pdfslick/react
 
+## 4.0.3
+
+### Patch Changes
+
+- Rebuild the packages with the updated, audited build toolchain, including PostCSS
+  CLI 12 and the removal of an unused Rollup copy plugin. The public library API is
+  unchanged.
+- Updated dependencies
+  - @pdfslick/core@4.0.3
+
 ## 4.0.2
 
 ### Patch Changes

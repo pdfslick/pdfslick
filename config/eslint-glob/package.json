@@ -1,0 +1,13 @@
+{
+  "name": "@pdfslick/eslint-glob",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "index.cjs",
+  "scripts": {
+    "test": "node --test test.cjs"
+  },
+  "dependencies": {
+    "tinyglobby": "^0.2.17"
+  }
+}

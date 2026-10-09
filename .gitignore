@@ -32,6 +32,9 @@ yarn-error.log*
 # turbo
 .turbo
 
+# Cloudflare local development state
+.wrangler/
+
 
 dist
 .rollup.cache
