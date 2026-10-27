@@ -1,11 +1,11 @@
-/** @jsxImportSource solid-js */
-import { createEffect, createSignal } from "solid-js";
+import { type Accessor, createEffect, createSignal } from "solid-js";
 import { createElementSize } from "@solid-primitives/resize-observer";
-import type { PDFSlickState } from "@pdfslick/core";
+import type { PDFSlick, PDFSlickState } from "@pdfslick/core";
 
 export type PDFSlickViewerProps = {
   viewerRef: (instance: HTMLElement) => void;
   store: PDFSlickState;
+  pdfSlick: Accessor<PDFSlick | null>
   class?: string;
 };
 
@@ -13,19 +13,25 @@ export default function PDFSlickViewer(props: PDFSlickViewerProps) {
   const [resizeRef, setResizeRef] = createSignal<HTMLElement>();
 
   const size = createElementSize(resizeRef);
-  createEffect(() => {
-    if (size.width && size.height) {
+  createEffect(
+    () => ({
+    	width: size.width,
+     	height: size.height,
+      scaleValue: props.store.scaleValue,
+      pdfSlick: props.pdfSlick(),
+    }),
+    ({ width, height, scaleValue, pdfSlick }) => {
+      if (!width || !height || !pdfSlick) return;
+
       if (
-        props.store.pdfSlick &&
-        (props.store.scaleValue === "auto" ||
-          props.store.scaleValue === "page-fit" ||
-          props.store.scaleValue === "page-width")
+        scaleValue === "auto" ||
+        scaleValue === "page-fit" ||
+        scaleValue === "page-width"
       ) {
-        props.store.pdfSlick.viewer.currentScaleValue = props.store.scaleValue;
+        pdfSlick.viewer.currentScaleValue = scaleValue;
       }
-      props.store.pdfSlick?.viewer.update();
-    }
-  });
+      pdfSlick.viewer.update();
+    });
 
   return (
     <div
