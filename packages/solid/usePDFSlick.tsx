@@ -1,6 +1,4 @@
-import { createStore, reconcile } from "solid-js/store";
-import { createEffect, createSignal, untrack, type Accessor } from "solid-js";
-import { onCleanup } from "solid-js";
+import { type Accessor , createStore, reconcile, createEffect, createSignal, onCleanup } from "solid-js";
 import { create, PDFSlick } from "@pdfslick/core";
 import type {
   PDFSlickOptions,
@@ -79,18 +77,13 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
     setThumbs(node);
   };
 
-  createEffect(() => {
-    if (url && areContainersMounted()) {
+	createEffect(
+		() => areContainersMounted(),
+		(areContainersMounted) => {
+    if (url && areContainersMounted) {
       const pdfSlick = new PDFSlick({
         container: container()! as HTMLDivElement,
-        // Read `thumbs()` untracked: this value is only needed at construction
-        // time. Tracking it would make the whole effect (including the
-        // `new PDFSlick(...)` + `loadDocument(...)` above) a dependent of the
-        // thumbnails ref, so mounting the thumbnails panel *after* the first
-        // run (e.g. once page count is known) would re-run this effect and
-        // construct a second, uncleaned-up PDFSlick instance over the same
-        // DOM. See https://github.com/pdfslick/pdfslick/issues/136.
-        thumbs: untrack(thumbs) as HTMLDivElement,
+        thumbs: thumbs() as HTMLDivElement,
         store: zustandStore,
         options,
         onError: (err) => setError(err),
@@ -102,7 +95,7 @@ export const usePDFSlick: TUsePDFSlick = (url, options) => {
         setIsDocumentLoaded(true);
       });
     }
-  });
+		});
 
   return {
     isDocumentLoaded,

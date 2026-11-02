@@ -1,7 +1,7 @@
-import { JSXElement, For, createSignal, createEffect } from "solid-js";
-import { Portal } from "solid-js/web";
+import { For, createSignal, createEffect, Accessor } from "solid-js";
+import { JSX, Portal } from "@solidjs/web";
 import { createElementSize } from "@solid-primitives/resize-observer";
-import type { PDFSlickState } from "@pdfslick/solid";
+import type { PDFSlick, PDFSlickState } from "@pdfslick/solid";
 
 export type PDFSlickThumbProps = {
   pageNumber: number;
@@ -24,9 +24,10 @@ export type PDFSlickThumbnailsContainerProps = {
     rotation,
     pageLabel,
     loaded,
-  }: PDFSlickThumbProps) => JSXElement;
+  }: PDFSlickThumbProps) => JSX.Element;
   thumbsRef: (instance: HTMLElement) => void;
   store: PDFSlickState;
+  pdfSlick: Accessor<PDFSlick | null>
   class?: string;
   classList?: Record<string, boolean>;
 };
@@ -35,11 +36,13 @@ export function PDFSlickThumbnails(props: PDFSlickThumbnailsContainerProps) {
   const [resizeRef, setResizeRef] = createSignal<HTMLElement>();
   const size = createElementSize(resizeRef);
 
-  createEffect(() => {
-    if (size.width && size.height) {
-      props.store.pdfSlick?.forceRendering();
-    }
-  });
+  createEffect(
+    () => ({ width: size.width, heigh: size.height }),
+    (width, height) => {
+      if (width && height) {
+        props.pdfSlick()?.forceRendering();
+      }
+    });
 
   return (
     <div
@@ -47,8 +50,7 @@ export function PDFSlickThumbnails(props: PDFSlickThumbnailsContainerProps) {
         props.thumbsRef(el);
         setResizeRef(el);
       }}
-      class={props.class ?? ""}
-      classList={props.classList ?? {}}
+      class={[props.class ?? "", props.classList ?? {}]}
       style={{
         position: "absolute",
         overflow: "auto",

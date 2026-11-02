@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "jsxImportSource": "solid-js",
+    "jsxImportSource": "@solidjs/web",
     "outDir": "dist",
     "target": "es6",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noEmit": false,
     "allowSyntheticDefaultImports": true,
-    "lib": ["ES2015"],
+    "lib": ["ES2022", "DOM"],
     "module": "ESNext",
     "jsx": "preserve"
   },
